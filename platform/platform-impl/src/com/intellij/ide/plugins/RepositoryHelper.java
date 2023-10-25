@@ -9,7 +9,6 @@ import com.intellij.openapi.application.impl.ApplicationInfoImpl;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.updateSettings.impl.PluginDownloader;
 import com.intellij.openapi.updateSettings.impl.UpdateSettings;
 import com.intellij.openapi.util.BuildNumber;
 import com.intellij.openapi.util.io.FileUtilRt;
@@ -84,7 +83,7 @@ public final class RepositoryHelper {
         LOG.error("Using deprecated API for getting plugins from Marketplace");
       }
       String base = ApplicationInfoImpl.getShadowInstance().getPluginsListUrl();
-      url = Urls.newFromEncoded(base).addParameters(Map.of("uuid", PluginDownloader.getMarketplaceDownloadsUUID()));  // NON-NLS
+      url = Urls.newFromEncoded(base);//.addParameters(Map.of("uuid", PluginDownloader.getMarketplaceDownloadsUUID()));  // NON-NLS
       pluginListFile = Paths.get(PathManager.getPluginsPath(), PLUGIN_LIST_FILE);
     }
     else {
@@ -188,8 +187,9 @@ public final class RepositoryHelper {
     for (PluginNode customPlugin : customPlugins) {
       PluginId pluginId = customPlugin.getPluginId();
       IdeaPluginDescriptor plugin = compatiblePluginMap.get(pluginId);
-      if (plugin == null && addMissing ||
-          plugin != null && PluginDownloader.compareVersionsSkipBrokenAndIncompatible(customPlugin.getVersion(), plugin) > 0) {
+      if (plugin == null && addMissing)
+//                  && PluginDownloader.compareVersionsSkipBrokenAndIncompatible(customPlugin.getVersion(), plugin) > 0)
+      {
         compatiblePluginMap.put(pluginId, customPlugin);
       }
     }

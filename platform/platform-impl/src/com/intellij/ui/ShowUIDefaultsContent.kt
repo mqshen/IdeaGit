@@ -13,7 +13,6 @@ import com.intellij.psi.codeStyle.NameUtil
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.*
-import com.intellij.ui.speedSearch.FilteringTableModel
 import com.intellij.ui.table.JBTable
 import java.awt.Color
 import javax.swing.UIManager
@@ -80,7 +79,7 @@ internal class ShowUIDefaultsContent(@JvmField val table: JBTable) {
             UIManager.put(trimmedKey, parseUiThemeValue(key = trimmedKey,
                                                         value = trimmedValue,
                                                         classLoader = LafManager.getInstance().currentUIThemeLookAndFeel.providerClassLoader))
-            table.setModel(ShowUIDefaultsAction.createFilteringModel())
+//            table.setModel(ShowUIDefaultsAction.createFilteringModel())
             updateFilter()
           }
         }.show()
@@ -88,22 +87,22 @@ internal class ShowUIDefaultsContent(@JvmField val table: JBTable) {
   }
 
   private fun updateFilter() {
-    val model = table.model as FilteringTableModel<*>
+//    val model = table.model as FilteringTableModel<*>
     if (StringUtil.isEmpty(searchField.getText()) && !colorsOnly.isSelected) {
-      model.setFilter(null)
+//      model.setFilter(null)
       return
     }
     val matcher = NameUtil.buildMatcher("*" + searchField.getText(), NameUtil.MatchingCaseSensitivity.NONE)
-    model.setFilter { pair ->
-      val obj = (pair as Pair<*, *>).second
-      var value = when (obj) {
-        null -> "null"
-        is Color -> ColorUtil.toHtmlColor(obj)
-        else -> obj.toString()
-      }
-      value = pair.first.toString() + " " + value
-      (!colorsOnly.isSelected || obj is Color) && matcher.matches(value)
-    }
+//    model.setFilter { pair ->
+//      val obj = (pair as Pair<*, *>).second
+//      var value = when (obj) {
+//        null -> "null"
+//        is Color -> ColorUtil.toHtmlColor(obj)
+//        else -> obj.toString()
+//      }
+//      value = pair.first.toString() + " " + value
+//      (!colorsOnly.isSelected || obj is Color) && matcher.matches(value)
+//    }
   }
 
   private fun restoreLastSelected() {

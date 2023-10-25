@@ -29,21 +29,130 @@
       <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/testSrc" isTestSource="true" />
     </content>
+    <orderEntry type="library" scope="PROVIDED" name="Mac" level="project" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Mac" level="project" />
-    <orderEntry type="library" name="caffeine" level="project" />
-    <orderEntry type="library" name="fastutil-min" level="project" />
-    <orderEntry type="library" name="kotlinx-coroutines-core" level="project" />
-    <orderEntry type="module" module-name="intellij.platform.collaborationTools.auth" />
-    <orderEntry type="module" module-name="intellij.platform.concurrency" />
+    <orderEntry type="module" module-name="intellij.platform.ide" exported="" />
+    <orderEntry type="library" name="commons-codec" level="project" />
+    <orderEntry type="library" name="OroMatcher" level="project" />
+    <orderEntry type="library" name="CGLIB" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.lang" />
+    <orderEntry type="library" name="jna" level="project" />
+    <orderEntry type="library" name="winp" level="project" />
+    <orderEntry type="library" name="swingx" level="project" />
     <orderEntry type="module" module-name="intellij.platform.core.impl" exported="" />
-    <orderEntry type="module" module-name="intellij.platform.diagnostic.telemetry.impl" />
-    <orderEntry type="module" module-name="intellij.platform.ide"/>
-    <orderEntry type="module" module-name="intellij.platform.ide.core" exported="" />
-    <orderEntry type="module" module-name="intellij.platform.ide.core.impl" exported="" />
-    <orderEntry type="module" module-name="intellij.platform.remote.core" />
-    <orderEntry type="module" module-name="intellij.platform.serviceContainer" />
+    <orderEntry type="library" name="miglayout-swing" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.indexing" />
+    <orderEntry type="module" module-name="intellij.platform.projectModel.impl" />
+    <orderEntry type="module" module-name="intellij.platform.workspace.jps" />
+    <orderEntry type="library" name="commons-imaging" level="project" />
+    <orderEntry type="library" name="Guava" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.jps.model.impl" />
+    <orderEntry type="module" module-name="intellij.platform.analysis.impl" exported="" />
+    <orderEntry type="module" module-name="intellij.platform.editor.ex" exported="" />
+    <orderEntry type="library" name="gson" level="project" />
+    <orderEntry type="library" name="http-client" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.diff" />
+    <orderEntry type="module" module-name="intellij.platform.util.diff" />
+    <orderEntry type="module" module-name="intellij.platform.builtInServer.impl" scope="RUNTIME" />
+    <orderEntry type="library" name="imgscalr" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.builtInServer" />
+    <orderEntry type="library" exported="" name="kotlin-stdlib" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Slf4j" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="slf4j-jdk14" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.configurationStore.impl" scope="RUNTIME" />
+    <orderEntry type="module" module-name="intellij.platform.credentialStore.ui" scope="RUNTIME" />
+    <orderEntry type="module" module-name="intellij.platform.dependenciesToolwindow" scope="RUNTIME" />
+    <orderEntry type="library" name="StreamEx" level="project" />
+    <orderEntry type="library" name="kotlinx-coroutines-core" level="project" />
+    <orderEntry type="library" name="netty-codec-http" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="error-prone-annotations" level="project" />
+    <orderEntry type="library" name="jackson" level="project" />
+    <orderEntry type="library" name="Java Compatibility" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="javax.activation" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="jaxb-api" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="jaxb-runtime" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="javax.annotation-api" level="project" />
+    <orderEntry type="library" name="kotlin-reflect" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.objectSerializer" scope="RUNTIME" />
+    <orderEntry type="library" name="jackson-databind" level="project" />
     <orderEntry type="module" module-name="intellij.platform.util.ui" exported="" />
+    <orderEntry type="module" module-name="intellij.platform.ide.util.io.impl" />
+    <orderEntry type="module" module-name="intellij.platform.util" />
+    <orderEntry type="module" module-name="intellij.platform.externalSystem.impl" scope="RUNTIME" />
+    <orderEntry type="module" module-name="intellij.platform.instanceContainer" />
+    <orderEntry type="module" module-name="intellij.platform.serviceContainer" />
+    <orderEntry type="library" name="jcef" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.statistics" />
+    <orderEntry type="module-library">
+      <library name="byte-buddy-agent" type="repository">
+        <properties include-transitive-deps="false" maven-id="net.bytebuddy:byte-buddy-agent:1.14.0">
+          <verification>
+            <artifact url="file://$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy-agent/1.14.0/byte-buddy-agent-1.14.0.jar">
+              <sha256sum>4b23cda64beade8b78ec80fd321e017a0cc2413e4d73f323d8e617222a0e5d2c</sha256sum>
+            </artifact>
+          </verification>
+        </properties>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy-agent/1.14.0/byte-buddy-agent-1.14.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy-agent/1.14.0/byte-buddy-agent-1.14.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="ASM" level="project" />
+    <orderEntry type="library" name="jsoup" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.rd.community" />
+    <orderEntry type="library" name="fastutil-min" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="org.codehaus.groovy:groovy-jsr223" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="org.codehaus.groovy:groovy-json" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="org.codehaus.groovy:groovy-templates" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="org.codehaus.groovy:groovy-xml" level="project" />
+    <orderEntry type="library" name="blockmap" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.util.classLoader" />
+    <orderEntry type="library" name="netty-buffer" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.concurrency" />
+    <orderEntry type="module" module-name="intellij.platform.core.ui" />
+    <orderEntry type="library" name="classgraph" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.elevation" scope="RUNTIME" />
+    <orderEntry type="library" name="caffeine" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.statistics.uploader" />
+    <orderEntry type="library" name="zip-signer" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.util.zip" />
+    <orderEntry type="module" module-name="intellij.platform.remote.core" exported="" />
+    <orderEntry type="library" name="icu4j" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.util.xmlDom" />
+    <orderEntry type="module" module-name="intellij.platform.ide.core.impl" exported="" />
+    <orderEntry type="library" scope="RUNTIME" name="netty-handler-proxy" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="rhino" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.ide.util.netty" />
+    <orderEntry type="module" module-name="intellij.remoteDev.util" scope="RUNTIME" />
+    <orderEntry type="module" module-name="intellij.platform.feedback" scope="RUNTIME" />
+    <orderEntry type="library" name="aalto-xml" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="jgoodies-common" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="jgoodies-forms" level="project" />
+    <orderEntry type="library" name="jbr-api" level="project" />
+    <orderEntry type="library" name="kotlinx-serialization-json" level="project" />
+    <orderEntry type="library" name="kotlinx-serialization-core" level="project" />
+    <orderEntry type="library" scope="TEST" name="assertJ" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.util.jdom" />
+    <orderEntry type="library" name="jvm-native-trusted-roots" level="project" />
+    <orderEntry type="library" name="opentelemetry" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.diagnostic.telemetry" />
+    <orderEntry type="library" name="opentelemetry-extension-kotlin" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.tips" scope="RUNTIME" />
+    <orderEntry type="library" name="HdrHistogram" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.codeStyle.impl" />
+    <orderEntry type="module" module-name="intellij.platform.util.text.matching" />
+    <orderEntry type="library" name="kotlinx-collections-immutable" level="project" />
+    <orderEntry type="library" name="hash4j" level="project" />
+    <orderEntry type="module" module-name="intellij.platform.util.ex" />
+    <orderEntry type="module" module-name="intellij.platform.backend.workspace" />
+    <orderEntry type="module" module-name="intellij.platform.diagnostic.startUpPerformanceReporter" />
+    <orderEntry type="module" module-name="intellij.platform.diagnostic.telemetry.impl" />
+    <orderEntry type="module" module-name="intellij.platform.diagnostic" />
+    <orderEntry type="library" exported="" name="rd-core" level="project" />
   </component>
 </module>

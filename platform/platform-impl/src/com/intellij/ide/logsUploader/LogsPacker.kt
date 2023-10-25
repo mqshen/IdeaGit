@@ -8,8 +8,6 @@ import com.google.gson.reflect.TypeToken
 import com.intellij.diagnostic.PerformanceWatcher.Companion.getInstance
 import com.intellij.ide.IdeBundle
 import com.intellij.ide.actions.CollectZippedLogsAction
-import com.intellij.ide.troubleshooting.CompositeGeneralTroubleInfoCollector
-import com.intellij.ide.troubleshooting.collectDimensionServiceDiagnosticsData
 import com.intellij.idea.LoggerFactory
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
@@ -21,12 +19,10 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.BufferExposingByteArrayOutputStream
 import com.intellij.platform.util.progress.indeterminateStep
 import com.intellij.platform.util.progress.withRawProgressReporter
-import com.intellij.troubleshooting.TroubleInfoCollector
 import com.intellij.util.SystemProperties
 import com.intellij.util.concurrency.annotations.RequiresBackgroundThread
 import com.intellij.util.io.Compressor
 import com.intellij.util.io.HttpRequests
-import com.intellij.util.io.jackson.obj
 import com.intellij.util.net.NetUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -83,16 +79,16 @@ object LogsPacker {
         ProgressManager.checkCanceled()
         if (project != null) {
           val settings = StringBuilder()
-          settings.append(CompositeGeneralTroubleInfoCollector().collectInfo(project))
-          for (troubleInfoCollector in TroubleInfoCollector.EP_SETTINGS.extensions) {
-            ProgressManager.checkCanceled()
-            settings.append(troubleInfoCollector.collectInfo(project)).append('\n')
-          }
-          zip.addFile("troubleshooting.txt", settings.toString().toByteArray(StandardCharsets.UTF_8))
-          zip.addFile(
-            "dimension.txt",
-            collectDimensionServiceDiagnosticsData(project).toByteArray(StandardCharsets.UTF_8)
-          )
+//          settings.append(CompositeGeneralTroubleInfoCollector().collectInfo(project))
+//          for (troubleInfoCollector in TroubleInfoCollector.EP_SETTINGS.extensions) {
+//            ProgressManager.checkCanceled()
+//            settings.append(troubleInfoCollector.collectInfo(project)).append('\n')
+//          }
+//          zip.addFile("troubleshooting.txt", settings.toString().toByteArray(StandardCharsets.UTF_8))
+//          zip.addFile(
+//            "dimension.txt",
+//            collectDimensionServiceDiagnosticsData(project).toByteArray(StandardCharsets.UTF_8)
+//          )
         }
         Files.newDirectoryStream(Path.of(SystemProperties.getUserHome())).use { paths ->
           for (path in paths) {
@@ -149,11 +145,11 @@ object LogsPacker {
       .connect { request ->
         val out = BufferExposingByteArrayOutputStream()
         JsonFactory().createGenerator(out).useDefaultPrettyPrinter().use { writer ->
-          writer.obj {
-            writer.writeStringField("filename", fileName)
-            writer.writeStringField("method", "put")
-            writer.writeStringField("contentType", "application/octet-stream")
-          }
+//          writer.obj {
+//            writer.writeStringField("filename", fileName)
+//            writer.writeStringField("method", "put")
+//            writer.writeStringField("contentType", "application/octet-stream")
+//          }
         }
         request.write(out.toByteArray())
         gson.fromJson(request.reader, object : TypeToken<Map<String, Any?>?>() {}.type)

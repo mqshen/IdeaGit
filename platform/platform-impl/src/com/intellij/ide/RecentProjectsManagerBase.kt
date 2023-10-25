@@ -370,7 +370,7 @@ open class RecentProjectsManagerBase(coroutineScope: CoroutineScope) :
 
   @Internal
   @VisibleForTesting
-  class MyProjectListener : ProjectCloseListener {
+  class MyProjectListener : ProjectCloseListener() {
     override fun projectClosingBeforeSave(project: Project) {
       val app = ApplicationManagerEx.getApplicationEx()
       if (app.isExitInProgress) {

@@ -2,7 +2,6 @@
 package com.intellij.ide.lightEdit;
 
 import com.intellij.ide.AppLifecycleListener;
-import com.intellij.ide.lightEdit.intentions.openInProject.LightEditOpenInProjectIntention;
 import com.intellij.ide.lightEdit.project.LightEditProjectManager;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ActionManager;
@@ -211,9 +210,9 @@ public final class LightEditServiceImpl implements LightEditService,
         case LightEditConfirmationDialog.PROCEED_TO_PROJECT -> myConfiguration.preferredMode = LightEditConfiguration.PreferredMode.Project;
       }
     }
-    if (dialog.getExitCode() == LightEditConfirmationDialog.PROCEED_TO_PROJECT) {
-      LightEditOpenInProjectIntention.performOn(getOrCreateProject(), file);
-    }
+//    if (dialog.getExitCode() == LightEditConfirmationDialog.PROCEED_TO_PROJECT) {
+//      LightEditOpenInProjectIntention.performOn(getOrCreateProject(), file);
+//    }
   }
 
   private void processNotOpenedFile(@NotNull VirtualFile file) {

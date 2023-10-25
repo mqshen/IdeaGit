@@ -2,11 +2,6 @@
 package com.intellij.ide.actions.project
 
 import com.intellij.CommonBundle
-import com.intellij.codeInsight.intention.IntentionManager
-import com.intellij.codeInspection.ex.InspectionProfileImpl
-import com.intellij.codeInspection.ex.InspectionProfileWrapper
-import com.intellij.codeInspection.ex.InspectionToolsSupplier
-import com.intellij.codeInspection.ex.LocalInspectionToolWrapper
 import com.intellij.configurationStore.runInAllowSaveMode
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -82,23 +77,23 @@ internal class ConvertModuleGroupsToQualifiedNamesDialog(val project: Project) :
 
   override fun show() {
     val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document)
-    InspectionProfileWrapper.runWithCustomInspectionWrapper(psiFile!!, { customize() }) {
-      super.show()
-    }
+//    InspectionProfileWrapper.runWithCustomInspectionWrapper(psiFile!!, { customize() }) {
+//      super.show()
+//    }
   }
 
   private fun setupHighlighting(editor: Editor) {
-    editor.putUserData(IntentionManager.SHOW_INTENTION_OPTIONS_KEY, false)
+//    editor.putUserData(IntentionManager.SHOW_INTENTION_OPTIONS_KEY, false)
   }
 
-  private fun customize(): InspectionProfileWrapper {
-    val inspections = InspectionToolsSupplier.Simple(listOf(LocalInspectionToolWrapper(ModuleNamesListInspection())))
-    val profile = InspectionProfileImpl("Module names", inspections, null)
-    for (spellCheckingToolName in SpellCheckingEditorCustomizationProvider.getInstance().spellCheckingToolNames) {
-      profile.getToolsOrNull(spellCheckingToolName, project)?.isEnabled = false
-    }
-    return InspectionProfileWrapper(profile)
-  }
+//  private fun customize(): InspectionProfileWrapper {
+//    val inspections = InspectionToolsSupplier.Simple(listOf(LocalInspectionToolWrapper(ModuleNamesListInspection())))
+//    val profile = InspectionProfileImpl("Module names", inspections, null)
+//    for (spellCheckingToolName in SpellCheckingEditorCustomizationProvider.getInstance().spellCheckingToolNames) {
+//      profile.getToolsOrNull(spellCheckingToolName, project)?.isEnabled = false
+//    }
+//    return InspectionProfileWrapper(profile)
+//  }
 
   override fun createCenterPanel(): JPanel {
     val text = XmlStringUtil.wrapInHtml(ProjectBundle.message("convert.module.groups.description.text"))
@@ -165,12 +160,12 @@ internal class ConvertModuleGroupsToQualifiedNamesDialog(val project: Project) :
   }
 
   override fun doOKAction() {
-    ModuleNamesListInspection.checkModuleNames(document.charsSequence.lines(), project) { line, message ->
-      Messages.showErrorDialog(project,
-                               ProjectBundle.message("convert.module.groups.error.at.text", line + 1, StringUtil.decapitalize(message)),
-                               CommonBundle.getErrorTitle())
-      return
-    }
+//    ModuleNamesListInspection.checkModuleNames(document.charsSequence.lines(), project) { line, message ->
+//      Messages.showErrorDialog(project,
+//                               ProjectBundle.message("convert.module.groups.error.at.text", line + 1, StringUtil.decapitalize(message)),
+//                               CommonBundle.getErrorTitle())
+//      return
+//    }
 
     val renamingScheme = getRenamingScheme()
     if (renamingScheme.isNotEmpty()) {

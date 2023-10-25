@@ -40,7 +40,7 @@
     <orderEntry type="library" name="OroMatcher" level="project" />
     <orderEntry type="module" module-name="intellij.platform.util.base" exported="" />
     <orderEntry type="module" module-name="intellij.platform.util.classLoader" />
-    <orderEntry type="module" module-name="intellij.platform.util.jdom" />
+    <orderEntry type="module" module-name="intellij.platform.util.jdom" exported="" />
     <orderEntry type="module" module-name="intellij.platform.util.rt" exported="" />
     <orderEntry type="module" module-name="intellij.platform.util.trove" />
     <orderEntry type="module" module-name="intellij.platform.util.xmlDom" />

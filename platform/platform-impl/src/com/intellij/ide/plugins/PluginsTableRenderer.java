@@ -16,8 +16,6 @@ import com.intellij.ui.Gray;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.SimpleColoredComponent;
 import com.intellij.ui.SimpleTextAttributes;
-import com.intellij.ui.speedSearch.SpeedSearchSupply;
-import com.intellij.ui.speedSearch.SpeedSearchUtil;
 import com.intellij.util.text.DateFormatUtil;
 import com.intellij.util.text.Matcher;
 import com.intellij.util.ui.JBUI;
@@ -99,8 +97,7 @@ public class PluginsTableRenderer extends DefaultTableCellRenderer {
       myName.setOpaque(false);
       myCategory.clear();
       myCategory.setOpaque(false);
-      SpeedSearchSupply speedSearch = SpeedSearchSupply.getSupply(table);
-      String query = speedSearch == null ? null : speedSearch.getEnteredPrefix();
+      String query = null;//speedSearch == null ? null : speedSearch.getEnteredPrefix();
       SimpleTextAttributes attr = new SimpleTextAttributes(UIUtil.getListBackground(isSelected, hasFocus),
                                                            UIUtil.getListForeground(isSelected, hasFocus),
                                                            JBColor.RED,
@@ -109,12 +106,12 @@ public class PluginsTableRenderer extends DefaultTableCellRenderer {
 
       String category = myPluginDescriptor.getDisplayCategory() == null ? null : StringUtil.toUpperCase(myPluginDescriptor.getDisplayCategory());
       if (category != null) {
-        if (query != null) {
-          SpeedSearchUtil.appendColoredFragmentForMatcher(category, myCategory, attr, matcher, UIUtil.getTableBackground(isSelected, hasFocus), true);
-        }
-        else {
+//        if (query != null) {
+//          SpeedSearchUtil.appendColoredFragmentForMatcher(category, myCategory, attr, matcher, UIUtil.getTableBackground(isSelected, hasFocus), true);
+//        }
+//        else {
           myCategory.append(category);
-        }
+//        }
       }
       else if (!myPluginsView) {
         myCategory.append(IdeBundle.message("plugin.info.not.available"));
@@ -194,7 +191,7 @@ public class PluginsTableRenderer extends DefaultTableCellRenderer {
         if (!Objects.equals(initialNameForeground, myName.getForeground())) {
           attr = attr.derive(attr.getStyle(), myName.getForeground(), attr.getBgColor(), attr.getWaveColor());
         }
-        SpeedSearchUtil.appendColoredFragmentForMatcher(pluginName, myName, attr, matcher, UIUtil.getTableBackground(isSelected, hasFocus), true);
+//        SpeedSearchUtil.appendColoredFragmentForMatcher(pluginName, myName, attr, matcher, UIUtil.getTableBackground(isSelected, hasFocus), true);
       }
       else {
         myName.append(pluginName);

@@ -4,7 +4,6 @@ package com.intellij.featureStatistics.fusCollectors;
 import com.intellij.diagnostic.VMOptions;
 import com.intellij.ide.GeneralSettings;
 import com.intellij.internal.DebugAttachDetector;
-import com.intellij.internal.statistic.collectors.fus.MethodNameRuleValidator;
 import com.intellij.internal.statistic.eventLog.EventLogGroup;
 import com.intellij.internal.statistic.eventLog.events.*;
 import com.intellij.internal.statistic.service.fus.collectors.CounterUsagesCollector;
@@ -63,8 +62,8 @@ public final class LifecycleUsageTriggerCollector extends CounterUsagesCollector
   private static final EventField<VMOptions.MemoryKind> memoryErrorKindField =
     EventFields.Enum("memory_error_kind", VMOptions.MemoryKind.class, (kind) -> StringUtil.toLowerCase(kind.name()));
   private static final EventField<Integer> errorHashField = EventFields.Int("error_hash");
-  private static final StringListEventField errorFramesField =
-    EventFields.StringListValidatedByCustomRule("error_frames", MethodNameRuleValidator.class);
+//  private static final StringListEventField errorFramesField =
+//    EventFields.StringListValidatedByCustomRule("error_frames", MethodNameRuleValidator.class);
   private static final EventField<Integer> errorSizeField = EventFields.Int("error_size");
   private static final EventField<Boolean> tooManyErrorsField = EventFields.Boolean("too_many_errors");
   private static final VarargEventId IDE_ERROR = LIFECYCLE.registerVarargEvent("ide.error",
@@ -72,7 +71,7 @@ public final class LifecycleUsageTriggerCollector extends CounterUsagesCollector
                                                                                errorField,
                                                                                memoryErrorKindField,
                                                                                errorHashField,
-                                                                               errorFramesField,
+//                                                                               errorFramesField,
                                                                                errorSizeField,
                                                                                tooManyErrorsField);
   private static final EventId IDE_CRASH_DETECTED = LIFECYCLE.registerEvent("ide.crash.detected");
@@ -172,7 +171,7 @@ public final class LifecycleUsageTriggerCollector extends CounterUsagesCollector
         data.add(errorHashField.with(framesHash));
 
         if (ourErrorIdentityThrottle.tryPass(framesHash, System.currentTimeMillis())) {
-          data.add(errorFramesField.with(frames));
+//          data.add(errorFramesField.with(frames));
           data.add(errorSizeField.with(description.getSize()));
         }
       }

@@ -5,6 +5,7 @@ import com.intellij.execution.ui.layout.ViewContext;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.IdeBundle;
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
 import com.intellij.openapi.fileEditor.impl.EditorWindow;
@@ -30,6 +31,13 @@ import java.util.Objects;
  * todo drop TW and EW, both are only for menu|Window tab/editor sub-menus.
  */
 public class PinActiveTabAction extends DumbAwareAction implements ActionRemoteBehaviorSpecification.Frontend {
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
+  }
+
   public abstract static class Handler {
     public final boolean isPinned;
     public final boolean isActiveTab;
@@ -160,6 +168,12 @@ public class PinActiveTabAction extends DumbAwareAction implements ActionRemoteB
     protected Content getContentFromEvent(@NotNull AnActionEvent e) {
       return getToolWindowContent(e);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class EW extends PinActiveTabAction {
@@ -172,8 +186,21 @@ public class PinActiveTabAction extends DumbAwareAction implements ActionRemoteB
     protected Content getContentFromEvent(@NotNull AnActionEvent e) {
       return null;
     }
+
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class Toggle extends PinActiveTabAction implements Toggleable {
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 }

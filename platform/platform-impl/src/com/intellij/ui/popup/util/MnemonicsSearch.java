@@ -32,7 +32,7 @@ public abstract class MnemonicsSearch<T> {
   public void processKeyEvent(@NotNull KeyEvent e) {
     if (e.isConsumed()) return;
     if (e.getID() != KeyEvent.KEY_TYPED) return;
-    if (!Strings.isEmptyOrSpaces(myPopup.getSpeedSearch().getFilter())) return;
+//    if (!Strings.isEmptyOrSpaces(myPopup.getSpeedSearch().getFilter())) return;
 
     if (Character.isLetterOrDigit(e.getKeyChar())) {
       final String s = Character.toString(e.getKeyChar());

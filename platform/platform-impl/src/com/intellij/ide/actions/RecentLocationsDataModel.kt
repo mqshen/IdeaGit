@@ -1,7 +1,6 @@
 // Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.ide.actions
 
-import com.intellij.codeInsight.breadcrumbs.FileBreadcrumbsCollector
 import com.intellij.ide.actions.RecentLocationsAction.getEmptyFileText
 import com.intellij.ide.ui.UISettings
 import com.intellij.openapi.editor.Document
@@ -63,18 +62,18 @@ internal class RecentLocationsDataModel(val project: Project,
       return fileName
     }
 
-    val collector = FileBreadcrumbsCollector.findBreadcrumbsCollector(project, placeInfo.file) ?: return fileName
-    val crumbs = collector.computeCrumbs(placeInfo.file, rangeMarker.document, rangeMarker.startOffset, true)
+//    val collector = FileBreadcrumbsCollector.findBreadcrumbsCollector(project, placeInfo.file) ?: return fileName
+//    val crumbs = collector.computeCrumbs(placeInfo.file, rangeMarker.document, rangeMarker.startOffset, true)
 
-    if (!crumbs.iterator().hasNext()) {
+//    if (!crumbs.iterator().hasNext()) {
       return fileName
-    }
+//    }
 
-    @NlsSafe
-    val separator = " > "
-    @NlsSafe
-    val result = crumbs.joinToString(separator) { it.text }
-    return result
+//    @NlsSafe
+//    val separator = " > "
+//    @NlsSafe
+//    val result = crumbs.joinToString(separator) { it.text }
+//    return result
   }
 
   private fun calculateItems(project: Project, changed: Boolean): SynchronizedClearableLazy<List<RecentLocationItem>> {

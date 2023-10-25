@@ -22,7 +22,6 @@ import com.intellij.ui.jcef.*;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.ide.BuiltInServerBundle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,12 +61,12 @@ public final class WebPreviewFileEditor extends UserDataHolderBase implements Fi
 
   private void showPreviewTooltip() {
     ApplicationManager.getApplication().invokeLater(() -> {
-      GotItTooltip gotItTooltip = new GotItTooltip(WEB_PREVIEW_RELOAD_TOOLTIP_ID, BuiltInServerBundle.message("reload.on.save.preview.got.it.content"), this);
+      GotItTooltip gotItTooltip = new GotItTooltip(WEB_PREVIEW_RELOAD_TOOLTIP_ID, "reload.on.save.preview.got.it.content", this);
       if (!gotItTooltip.canShow()) return;
 
       if (WebBrowserManager.PREVIEW_RELOAD_MODE_DEFAULT != ReloadMode.RELOAD_ON_SAVE) {
         Logger.getInstance(WebPreviewFileEditor.class).error(
-          "Default value for " + BuiltInServerBundle.message("reload.on.save.preview.got.it.title") + " has changed, tooltip is outdated.");
+          "Default value for " + "reload.on.save.preview.got.it.title" + " has changed, tooltip is outdated.");
         return;
       }
       if (WebBrowserManager.getInstance().getWebPreviewReloadMode() != ReloadMode.RELOAD_ON_SAVE) {
@@ -76,7 +75,7 @@ public final class WebPreviewFileEditor extends UserDataHolderBase implements Fi
       }
 
       gotItTooltip
-        .withHeader(BuiltInServerBundle.message("reload.on.save.preview.got.it.title"))
+        .withHeader("reload.on.save.preview.got.it.title")
         .withPosition(Balloon.Position.above)
         .withLink(CommonBundle.message("action.text.configure.ellipsis"), () -> {
           ShowSettingsUtil.getInstance().showSettingsDialog( null, (it) ->

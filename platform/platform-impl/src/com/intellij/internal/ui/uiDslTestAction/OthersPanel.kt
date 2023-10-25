@@ -3,12 +3,10 @@ package com.intellij.internal.ui.uiDslTestAction
 
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.Messages
-import com.intellij.ui.dsl.builder.COLUMNS_LARGE
-import com.intellij.ui.dsl.builder.columns
-import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.builder.text
+import com.intellij.ui.dsl.builder.*
 import org.jetbrains.annotations.ApiStatus
 import javax.swing.JEditorPane
+import javax.swing.event.HyperlinkEvent
 
 @Suppress("DialogTitleCapitalization")
 @ApiStatus.Internal
@@ -19,10 +17,11 @@ internal class OthersPanel {
       lateinit var dslText: JEditorPane
 
       row {
-        dslText = text("Initial text with a <a href='link'>link</a>", action = {
-          Messages.showMessageDialog("Link '${it.description}' is clicked", "Message", null)
-        })
-          .component
+        dslText = text("Initial text with a <a href='link'>link</a>", action = object: HyperlinkEventAction {
+          override fun hyperlinkActivated(e: HyperlinkEvent) {
+            Messages.showMessageDialog("Link '${e.description}' is clicked", "Message", null)
+          }
+        }).component
       }
       row {
         val textField = textField()

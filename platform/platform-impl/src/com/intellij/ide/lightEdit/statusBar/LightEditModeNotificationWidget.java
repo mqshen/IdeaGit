@@ -37,7 +37,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Supplier;
 
-public final class LightEditModeNotificationWidget implements CustomStatusBarWidget {
+public final class LightEditModeNotificationWidget extends CustomStatusBarWidget {
   private final PopupState<JPopupMenu> myPopupState = PopupState.forPopupMenu();
 
   public LightEditModeNotificationWidget() {

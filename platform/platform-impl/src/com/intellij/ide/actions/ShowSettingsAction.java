@@ -8,6 +8,7 @@ import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.ShowSettingsUtil;
@@ -59,5 +60,11 @@ public final class ShowSettingsAction extends AnAction implements DumbAware, Lig
     }
 
     ShowSettingsUtil.getInstance().showSettingsDialog(project, ShowSettingsUtilImpl.getConfigurableGroups(project, true));
+  }
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

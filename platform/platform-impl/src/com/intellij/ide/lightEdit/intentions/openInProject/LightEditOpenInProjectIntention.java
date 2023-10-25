@@ -1,13 +1,9 @@
 // Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.ide.lightEdit.intentions.openInProject;
 
-import com.intellij.codeInsight.intention.IntentionAction;
-import com.intellij.codeInspection.util.IntentionFamilyName;
-import com.intellij.codeInspection.util.IntentionName;
 import com.intellij.ide.actions.OpenFileAction;
 import com.intellij.ide.impl.OpenProjectTask;
 import com.intellij.ide.lightEdit.*;
-import com.intellij.openapi.application.ApplicationBundle;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
@@ -22,25 +18,15 @@ import org.jetbrains.annotations.Nullable;
 
 import static com.intellij.ide.lightEdit.LightEditFeatureUsagesUtil.ProjectStatus.Open;
 
-public final class LightEditOpenInProjectIntention implements IntentionAction, LightEditCompatible, DumbAware {
-  @Override
-  public @IntentionName @NotNull String getText() {
-    return ApplicationBundle.message("light.edit.open.in.project.intention");
-  }
+public final class LightEditOpenInProjectIntention implements LightEditCompatible, DumbAware {
 
-  @Override
-  public @IntentionFamilyName @NotNull String getFamilyName() {
-    return getText();
-  }
 
-  @Override
   public boolean isAvailable(@NotNull Project project,
                              Editor editor,
                              PsiFile file) {
     return LightEdit.owns(project);
   }
 
-  @Override
   public void invoke(@NotNull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
     performOn(project, file.getVirtualFile());
   }
@@ -76,7 +62,6 @@ public final class LightEditOpenInProjectIntention implements IntentionAction, L
     return null;
   }
 
-  @Override
   public boolean startInWriteAction() {
     return false;
   }

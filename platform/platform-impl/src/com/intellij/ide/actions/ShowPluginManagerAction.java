@@ -12,6 +12,7 @@ import com.intellij.ide.plugins.UIComponentVirtualFile;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.options.ShowSettingsUtil;
@@ -73,5 +74,12 @@ final class ShowPluginManagerAction extends AnAction implements DumbAware, Actio
     public @Nullable JComponent getPreferredFocusedComponent(@NotNull JComponent component) {
       return configurable.getPreferredFocusedComponent();
     }
+  }
+
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

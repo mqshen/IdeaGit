@@ -16,10 +16,6 @@
 package com.intellij.diagnostic.hprof.action
 
 import com.intellij.diagnostic.DiagnosticBundle
-import com.intellij.diagnostic.HeapDumpAnalysisSupport
-import com.intellij.diagnostic.hprof.analysis.LiveInstanceStats
-import com.intellij.diagnostic.hprof.util.HeapDumpAnalysisNotificationGroup
-import com.intellij.diagnostic.hprofDatabase
 import com.intellij.diagnostic.report.HeapReportProperties
 import com.intellij.diagnostic.report.MemoryReportReason
 import com.intellij.ide.actions.RevealFileAction
@@ -111,32 +107,32 @@ internal class HeapDumpSnapshotRunnable(
       }
     }
 
-    if (analysisOption == AnalysisOption.SCHEDULE_ON_NEXT_START) {
-      if (HeapDumpAnalysisSupport.getInstance().checkPendingSnapshot()) return
-    }
+//    if (analysisOption == AnalysisOption.SCHEDULE_ON_NEXT_START) {
+//      if (HeapDumpAnalysisSupport.getInstance().checkPendingSnapshot()) return
+//    }
+//
+//    val hprofPath = hprofDatabase.createHprofTemporaryFilePath()
 
-    val hprofPath = hprofDatabase.createHprofTemporaryFilePath()
-
-    val spaceInMB = Files.getFileStore(hprofPath.parent).usableSpace / 1_000_000
+//    val spaceInMB = Files.getFileStore(hprofPath.parent).usableSpace / 1_000_000
     val estimatedRequiredMB = estimateRequiredFreeSpaceInMB()
 
     // Check if there is enough space
-    if (spaceInMB < estimatedRequiredMB) {
-      LOG.info("Not enough space for heap dump: $spaceInMB MB < $estimatedRequiredMB MB")
-      // If invoked by the user action, show a message why a heap dump cannot be captured.
-      if (userInvoked) {
-        val message = DiagnosticBundle.message("heap.dump.snapshot.no.space", hprofPath.parent.toString(),
-                                            estimatedRequiredMB, spaceInMB)
-        Messages.showErrorDialog(message, DiagnosticBundle.message("heap.dump.snapshot.title"))
-      }
-      return
-    }
+//    if (spaceInMB < estimatedRequiredMB) {
+//      LOG.info("Not enough space for heap dump: $spaceInMB MB < $estimatedRequiredMB MB")
+//      // If invoked by the user action, show a message why a heap dump cannot be captured.
+//      if (userInvoked) {
+//        val message = DiagnosticBundle.message("heap.dump.snapshot.no.space", hprofPath.parent.toString(),
+//                                            estimatedRequiredMB, spaceInMB)
+//        Messages.showErrorDialog(message, DiagnosticBundle.message("heap.dump.snapshot.title"))
+//      }
+//      return
+//    }
 
     LOG.info("Capturing heap dump.")
 
     // Start heap capture as a modal task.
     // Offer restart only if explicitly invoked by user action.
-    CaptureHeapDumpTask(hprofPath, reason, analysisOption, userInvoked).queue()
+//    CaptureHeapDumpTask(hprofPath, reason, analysisOption, userInvoked).queue()
   }
 
   private fun estimateRequiredFreeSpaceInMB(): Long {
@@ -159,9 +155,9 @@ internal class HeapDumpSnapshotRunnable(
 
     override fun onThrowable(error: Throwable) {
       LOG.error(error)
-      val notification = HeapDumpAnalysisNotificationGroup.GROUP.createNotification(
-        DiagnosticBundle.message("heap.dump.snapshot.exception"), NotificationType.ERROR)
-      notification.notify(null)
+//      val notification = HeapDumpAnalysisNotificationGroup.GROUP.createNotification(
+//        DiagnosticBundle.message("heap.dump.snapshot.exception"), NotificationType.ERROR)
+//      notification.notify(null)
     }
 
     private fun confirmRestart() {
@@ -190,64 +186,64 @@ internal class HeapDumpSnapshotRunnable(
       Thread.sleep(500)
 
       // Freezes JVM (and whole UI) while heap dump is created.
-      captureSnapshot()
+//      captureSnapshot()
 
       var liveStats = ""
-      ApplicationManager.getApplication().invokeAndWait {
-        liveStats = try {
-          LiveInstanceStats().createReport()
-        }
-        catch (e: Error) {
-          "Error while gathering live statistics: ${ExceptionUtil.getThrowableText(e)}\n"
-        }
-      }
+//      ApplicationManager.getApplication().invokeAndWait {
+//        liveStats = try {
+//          LiveInstanceStats().createReport()
+//        }
+//        catch (e: Error) {
+//          "Error while gathering live statistics: ${ExceptionUtil.getThrowableText(e)}\n"
+//        }
+//      }
       val reportProperties = HeapReportProperties(reason, liveStats)
 
-      when (analysisOption) {
-        AnalysisOption.SCHEDULE_ON_NEXT_START -> {
-          HeapDumpAnalysisSupport.getInstance().saveSnapshotForAnalysis(hprofPath, reportProperties)
-          ApplicationManager.getApplication().invokeLater {
-            val notification = HeapDumpAnalysisNotificationGroup.GROUP.createNotification(
-              DiagnosticBundle.message("heap.dump.analysis.notification.title"),
-              DiagnosticBundle.message("heap.dump.snapshot.created", hprofPath.toString(), productName),
-              NotificationType.INFORMATION)
-            if (ApplicationManager.getApplication().isInternal) {
-              notification.addAction(NotificationAction.createSimpleExpiring(RevealFileAction.getActionName()) {
-                RevealFileAction.openFile(hprofPath.toFile())
-              })
-            }
-            notification.notify(null)
-          }
-        }
-        AnalysisOption.IMMEDIATE -> {
-          ApplicationManager.getApplication().invokeLater(AnalysisRunnable(hprofPath, reportProperties,true))
-        }
-        AnalysisOption.NO_ANALYSIS -> {
-          val notification = HeapDumpAnalysisNotificationGroup.GROUP.createNotification(
-            DiagnosticBundle.message("heap.dump.analysis.notification.title"),
-            DiagnosticBundle.message("heap.dump.snapshot.created.no.analysis", hprofPath.toString()),
-            NotificationType.INFORMATION)
-          notification.addAction(NotificationAction.createSimpleExpiring(RevealFileAction.getActionName()) {
-            RevealFileAction.openFile(hprofPath.toFile())
-          })
-          notification.notify(null)
-        }
+//      when (analysisOption) {
+//        AnalysisOption.SCHEDULE_ON_NEXT_START -> {
+//          HeapDumpAnalysisSupport.getInstance().saveSnapshotForAnalysis(hprofPath, reportProperties)
+//          ApplicationManager.getApplication().invokeLater {
+//            val notification = HeapDumpAnalysisNotificationGroup.GROUP.createNotification(
+//              DiagnosticBundle.message("heap.dump.analysis.notification.title"),
+//              DiagnosticBundle.message("heap.dump.snapshot.created", hprofPath.toString(), productName),
+//              NotificationType.INFORMATION)
+//            if (ApplicationManager.getApplication().isInternal) {
+//              notification.addAction(NotificationAction.createSimpleExpiring(RevealFileAction.getActionName()) {
+//                RevealFileAction.openFile(hprofPath.toFile())
+//              })
+//            }
+//            notification.notify(null)
+//          }
+//        }
+//        AnalysisOption.IMMEDIATE -> {
+//          ApplicationManager.getApplication().invokeLater(AnalysisRunnable(hprofPath, reportProperties,true))
+//        }
+//        AnalysisOption.NO_ANALYSIS -> {
+//          val notification = HeapDumpAnalysisNotificationGroup.GROUP.createNotification(
+//            DiagnosticBundle.message("heap.dump.analysis.notification.title"),
+//            DiagnosticBundle.message("heap.dump.snapshot.created.no.analysis", hprofPath.toString()),
+//            NotificationType.INFORMATION)
+//          notification.addAction(NotificationAction.createSimpleExpiring(RevealFileAction.getActionName()) {
+//            RevealFileAction.openFile(hprofPath.toFile())
+//          })
+//          notification.notify(null)
+//        }
       }
     }
 
     private fun captureSnapshot() {
-      if (hprofPath.exists()) {
-        // While unlikely, don't overwrite existing files.
-        throw FileAlreadyExistsException(hprofPath.toFile())
-      }
-      try {
-        MemoryDumpHelper.captureMemoryDump(hprofPath.toString())
-      }
-      catch (t: Throwable) {
-        // Delete the hprof file if exception was raised.
-        Files.deleteIfExists(hprofPath)
-        throw t
-      }
-    }
+//      if (hprofPath.exists()) {
+//        // While unlikely, don't overwrite existing files.
+//        throw FileAlreadyExistsException(hprofPath.toFile())
+//      }
+//      try {
+//        MemoryDumpHelper.captureMemoryDump(hprofPath.toString())
+//      }
+//      catch (t: Throwable) {
+//        // Delete the hprof file if exception was raised.
+//        Files.deleteIfExists(hprofPath)
+//        throw t
+//      }
+//    }
   }
 }

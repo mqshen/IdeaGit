@@ -1,8 +1,6 @@
 // Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.ide.actions;
 
-import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
-import com.intellij.codeInsight.daemon.DaemonCodeAnalyzerSettings;
 import com.intellij.ide.lightEdit.LightEditCompatible;
 import com.intellij.ide.ui.LafManager;
 import com.intellij.ide.ui.ToolbarSettings;
@@ -12,6 +10,7 @@ import com.intellij.idea.ActionsBundle;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.ex.EditorSettingsExternalizable;
@@ -71,7 +70,7 @@ public class ToggleDistractionFreeModeAction extends DumbAwareAction implements 
                  UISettings.getInstance(),
                  ToolbarSettings.getInstance(),
                  EditorSettingsExternalizable.getInstance().getOptions(),
-                 DaemonCodeAnalyzerSettings.getInstance(),
+//                 DaemonCodeAnalyzerSettings.getInstance(),
                  enter ? DistractionFreeModeController.BEFORE : DistractionFreeModeController.AFTER,
                  enter ? DistractionFreeModeController.AFTER : DistractionFreeModeController.BEFORE,
                  !enter);
@@ -83,7 +82,7 @@ public class ToggleDistractionFreeModeAction extends DumbAwareAction implements 
     uiSettings.fireUISettingsChanged();
     LafManager.getInstance().updateUI();
     EditorUtil.reinitSettings();
-    DaemonCodeAnalyzer.getInstance(project).settingsChanged();
+//    DaemonCodeAnalyzer.getInstance(project).settingsChanged();
     EditorFactory.getInstance().refreshAllEditors();
     if (!enter) {
       TogglePresentationModeAction.restoreToolWindows(project, false);
@@ -94,7 +93,7 @@ public class ToggleDistractionFreeModeAction extends DumbAwareAction implements 
                                    @NotNull UISettings uiSettings,
                                    @NotNull ToolbarSettings toolbarSettings,
                                    @NotNull EditorSettingsExternalizable.OptionSet eo,
-                                   @NotNull DaemonCodeAnalyzerSettings ds,
+//                                   @NotNull DaemonCodeAnalyzerSettings ds,
                                    String before, String after, boolean value) {
     var ui = uiSettings.getState();
     // @formatter:off
@@ -113,7 +112,7 @@ public class ToggleDistractionFreeModeAction extends DumbAwareAction implements 
     p.setValue(before + "IS_INDENT_GUIDES_SHOWN",   String.valueOf(eo.IS_INDENT_GUIDES_SHOWN));    eo.IS_INDENT_GUIDES_SHOWN   = p.getBoolean(after + "IS_INDENT_GUIDES_SHOWN", value);
     p.setValue(before + "SHOW_BREADCRUMBS",         String.valueOf(eo.SHOW_BREADCRUMBS));          eo.SHOW_BREADCRUMBS         = p.getBoolean(after + "SHOW_BREADCRUMBS", value);
 
-    p.setValue(before + "SHOW_METHOD_SEPARATORS",   String.valueOf(ds.SHOW_METHOD_SEPARATORS));    ds.SHOW_METHOD_SEPARATORS   = p.getBoolean(after + "SHOW_METHOD_SEPARATORS", value);
+//    p.setValue(before + "SHOW_METHOD_SEPARATORS",   String.valueOf(ds.SHOW_METHOD_SEPARATORS));    ds.SHOW_METHOD_SEPARATORS   = p.getBoolean(after + "SHOW_METHOD_SEPARATORS", value);
 
     p.setValue(before + "HIDE_TOOL_STRIPES",        String.valueOf(ui.getHideToolStripes()));         ui.setHideToolStripes(p.getBoolean(after + "HIDE_TOOL_STRIPES", !value));
     p.setValue(before + "EDITOR_TAB_PLACEMENT",     String.valueOf(ui.getEditorTabPlacement()));      ui.setEditorTabPlacement(p.getInt(after + "EDITOR_TAB_PLACEMENT", value ? SwingConstants.TOP : UISettings.TABS_NONE));
@@ -142,5 +141,11 @@ public class ToggleDistractionFreeModeAction extends DumbAwareAction implements 
   @Deprecated
   public static boolean isDistractionFreeModeEnabled() {
     return DistractionFreeModeController.isDistractionFreeModeEnabled();
+  }
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

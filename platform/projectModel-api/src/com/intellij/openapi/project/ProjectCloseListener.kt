@@ -5,7 +5,7 @@ import com.intellij.util.messages.Topic
 import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Experimental
-interface ProjectCloseListener {
+abstract class ProjectCloseListener {
   companion object {
     @Topic.AppLevel
     @JvmField
@@ -16,12 +16,12 @@ interface ProjectCloseListener {
    * Invoked on project close. Works only if subscribed to an application message bus,
    * because, at this point, project-level bus connections are disconnected.
    */
-  fun projectClosed(project: Project) {}
+  open fun projectClosed(project: Project) {}
 
   /**
    * Invoked on project close before any closing activities.
    */
-  fun projectClosing(project: Project) {}
+  open fun projectClosing(project: Project) {}
 
-  fun projectClosingBeforeSave(project: Project) {}
+  open fun projectClosingBeforeSave(project: Project) {}
 }

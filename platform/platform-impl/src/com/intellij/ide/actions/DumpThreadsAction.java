@@ -10,6 +10,7 @@ import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.DumbAware;
@@ -49,5 +50,12 @@ public final class DumpThreadsAction extends AnAction implements DumbAware, Acti
   @Override
   public @NotNull ActionUpdateThread getActionUpdateThread() {
     return ActionUpdateThread.BGT;
+  }
+
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

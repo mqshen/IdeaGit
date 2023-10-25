@@ -7,9 +7,6 @@ import com.intellij.configurationStore.runInAutoSaveDisabledMode
 import com.intellij.configurationStore.saveProjectsAndApp
 import com.intellij.diagnostic.MessagePool
 import com.intellij.diagnostic.PerformanceWatcher
-import com.intellij.diagnostic.hprof.action.SystemTempFilenameSupplier
-import com.intellij.diagnostic.hprof.analysis.AnalyzeClassloaderReferencesGraph
-import com.intellij.diagnostic.hprof.analysis.HProfAnalysis
 import com.intellij.ide.DataManager
 import com.intellij.ide.IdeBundle
 import com.intellij.ide.IdeEventQueue
@@ -58,7 +55,6 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
 import com.intellij.openapi.project.impl.ProjectManagerImpl
-import com.intellij.openapi.updateSettings.impl.UpdateChecker
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.util.NlsContexts
@@ -689,11 +685,11 @@ object DynamicPlugins {
   }
 
   internal fun notify(@NlsContexts.NotificationContent text: String, notificationType: NotificationType, vararg actions: AnAction) {
-    val notification = UpdateChecker.getNotificationGroupForPluginUpdateResults().createNotification(text, notificationType)
-    for (action in actions) {
-      notification.addAction(action)
-    }
-    notification.notify(null)
+//    val notification = UpdateChecker.getNotificationGroupForPluginUpdateResults().createNotification(text, notificationType)
+//    for (action in actions) {
+//      notification.addAction(action)
+//    }
+//    notification.notify(null)
   }
 
   // PluginId cannot be used to unload related resources because one plugin descriptor may consist of several sub descriptors,
@@ -1088,13 +1084,14 @@ private fun loadModules(
 
 private fun analyzeSnapshot(hprofPath: String, pluginId: PluginId): String {
   FileChannel.open(Paths.get(hprofPath), StandardOpenOption.READ).use { channel ->
-    val analysis = HProfAnalysis(channel, SystemTempFilenameSupplier()) { analysisContext, listProvider, progressIndicator ->
-      AnalyzeClassloaderReferencesGraph(analysisContext, listProvider, pluginId.idString).analyze(progressIndicator).mainReport.toString()
-    }
-    analysis.onlyStrongReferences = true
-    analysis.includeClassesAsRoots = false
-    analysis.setIncludeMetaInfo(false)
-    return analysis.analyze(ProgressManager.getGlobalProgressIndicator() ?: EmptyProgressIndicator())
+//    val analysis = HProfAnalysis(channel, SystemTempFilenameSupplier()) { analysisContext, listProvider, progressIndicator ->
+//      AnalyzeClassloaderReferencesGraph(analysisContext, listProvider, pluginId.idString).analyze(progressIndicator).mainReport.toString()
+//    }
+//    analysis.onlyStrongReferences = true
+//    analysis.includeClassesAsRoots = false
+//    analysis.setIncludeMetaInfo(false)
+//    return analysis.analyze(ProgressManager.getGlobalProgressIndicator() ?: EmptyProgressIndicator())
+    return ""
   }
 }
 

@@ -2,6 +2,7 @@
 package com.intellij.ide.actions;
 
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.ArrayUtil;
@@ -36,5 +37,12 @@ public final class QuickChangeViewModeAction extends QuickSwitchSchemeAction imp
     }
 
     return ContainerUtil.filter(actions, not(instanceOf(Separator.class))).toArray(AnAction.EMPTY_ARRAY);
+  }
+
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

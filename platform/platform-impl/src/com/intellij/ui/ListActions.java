@@ -2,9 +2,10 @@
 package com.intellij.ui;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
-import com.intellij.ui.speedSearch.SpeedSearchSupply;
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
   @Override
   protected @Nullable JList<?> getComponent(AnActionEvent event) {
     var component = super.getComponent(event);
-    return component instanceof JList<?> list && SpeedSearchSupply.getSupply(component) == null ? list : null;
+    return (JList<?>) component;
   }
 
   public static final class Home extends ListActions {
@@ -25,6 +26,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
 
     public Home() {
       super(ID);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -34,6 +41,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
     public ShiftHome() {
       super(ID);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class End extends ListActions {
@@ -41,6 +54,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
 
     public End() {
       super(ID);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -50,6 +69,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
     public ShiftEnd() {
       super(ID);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class Up extends ListActions {
@@ -57,6 +82,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
 
     public Up() {
       super(ID);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -66,6 +97,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
     public ShiftUp() {
       super(ID);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class Down extends ListActions {
@@ -73,6 +110,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
 
     public Down() {
       super(ID);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -82,6 +125,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
     public ShiftDown() {
       super(ID);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class Left extends ListActions {
@@ -89,6 +138,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
 
     public Left() {
       super(ID);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -98,6 +153,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
     public ShiftLeft() {
       super(ID);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class Right extends ListActions {
@@ -105,6 +166,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
 
     public Right() {
       super(ID);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -114,6 +181,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
     public ShiftRight() {
       super(ID);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class PageUp extends ListActions {
@@ -121,6 +194,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
 
     public PageUp() {
       super(ID);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -130,6 +209,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
     public ShiftPageUp() {
       super(ID);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class PageDown extends ListActions {
@@ -138,6 +223,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
     public PageDown() {
       super(ID);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class ShiftPageDown extends ListActions {
@@ -145,6 +236,12 @@ public abstract class ListActions extends SwingActionDelegate implements ActionR
 
     public ShiftPageDown() {
       super(ID);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 }

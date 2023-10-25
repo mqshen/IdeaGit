@@ -3,7 +3,6 @@ package com.intellij.ui.tree;
 
 import com.intellij.ide.util.treeView.AbstractTreeStructure;
 import com.intellij.openapi.Disposable;
-import com.intellij.ui.speedSearch.ElementFilter;
 import com.intellij.ui.treeStructure.filtered.FilteringTreeStructure;
 import com.intellij.util.concurrency.Invoker;
 import com.intellij.util.ui.tree.TreeUtil;
@@ -17,13 +16,13 @@ import java.util.Set;
 
 public final class FilteringTreeModel extends StructureTreeModel<FilteringTreeStructure> {
 
-  public static FilteringTreeModel createModel(AbstractTreeStructure structure, @NotNull ElementFilter<?> filter, @NotNull Invoker invoker, @NotNull Disposable parent) {
-    FilteringTreeStructure filteringTreeStructure = new FilteringTreeStructure(filter, structure);
+  public static FilteringTreeModel createModel(AbstractTreeStructure structure,  @NotNull Invoker invoker, @NotNull Disposable parent) {
+    FilteringTreeStructure filteringTreeStructure = new FilteringTreeStructure(structure);
     return new FilteringTreeModel(filteringTreeStructure, invoker, parent);
   }
 
-  public static FilteringTreeModel createModel(AbstractTreeStructure structure, @NotNull ElementFilter<?> filter, @NotNull Disposable parent) {
-    FilteringTreeStructure filteringTreeStructure = new FilteringTreeStructure(filter, structure);
+  public static FilteringTreeModel createModel(AbstractTreeStructure structure, @NotNull Disposable parent) {
+    FilteringTreeStructure filteringTreeStructure = new FilteringTreeStructure(structure);
     return new FilteringTreeModel(filteringTreeStructure, Invoker.forBackgroundThreadWithReadAction(parent), parent);
   }
 

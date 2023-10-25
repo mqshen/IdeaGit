@@ -5,8 +5,6 @@ import com.intellij.ide.customize.transferSettings.models.BaseIdeVersion
 import com.intellij.ide.customize.transferSettings.models.FailedIdeVersion
 import com.intellij.ide.customize.transferSettings.models.IdeVersion
 import com.intellij.ide.customize.transferSettings.models.Settings
-import com.intellij.ide.customize.transferSettings.providers.DefaultImportPerformer
-import com.intellij.ide.customize.transferSettings.providers.ImportPerformer
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.project.Project
 import java.util.*
@@ -20,7 +18,6 @@ interface TransferSettingsController {
 
   fun addListener(listener: TransferSettingsListener)
 
-  fun getImportPerformer(): ImportPerformer
 }
 
 interface TransferSettingsListener : EventListener {

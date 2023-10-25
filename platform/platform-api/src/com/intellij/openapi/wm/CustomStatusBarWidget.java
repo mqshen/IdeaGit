@@ -13,6 +13,6 @@ import javax.swing.*;
  *   property.
  * </p>
  */
-public interface CustomStatusBarWidget extends StatusBarWidget {
-  JComponent getComponent();
+public abstract class CustomStatusBarWidget extends StatusBarWidget {
+  abstract public JComponent getComponent();
 }

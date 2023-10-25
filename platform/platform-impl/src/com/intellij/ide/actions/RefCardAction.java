@@ -4,6 +4,7 @@ package com.intellij.ide.actions;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.project.DumbAwareAction;
@@ -44,5 +45,11 @@ public final class RefCardAction extends DumbAwareAction implements ActionRemote
         BrowserUtil.browse(url.toExternalForm());
       }
     }
+  }
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

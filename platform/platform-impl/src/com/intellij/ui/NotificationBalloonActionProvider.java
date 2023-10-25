@@ -6,7 +6,6 @@ import com.intellij.ide.DataManager;
 import com.intellij.ide.IdeBundle;
 import com.intellij.notification.Notification;
 import com.intellij.notification.impl.NotificationCollector;
-import com.intellij.notification.impl.NotificationsConfigurable;
 import com.intellij.notification.impl.NotificationsConfigurationImpl;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
@@ -161,13 +160,13 @@ public final class NotificationBalloonActionProvider implements BalloonImpl.Acti
   private void doShowSettings() {
     NotificationCollector.getInstance()
       .logNotificationSettingsClicked(myNotification.id, myNotification.getDisplayId(), myNotification.getGroupId());
-    final NotificationsConfigurable configurable = new NotificationsConfigurable();
-    ShowSettingsUtil.getInstance().editConfigurable(myLayoutData.project, configurable, () -> {
-      Runnable runnable = configurable.enableSearch(myNotification.getGroupId());
-      if (runnable != null) {
-        runnable.run();
-      }
-    });
+//    final NotificationsConfigurable configurable = new NotificationsConfigurable();
+//    ShowSettingsUtil.getInstance().editConfigurable(myLayoutData.project, configurable, () -> {
+//      Runnable runnable = configurable.enableSearch(myNotification.getGroupId());
+//      if (runnable != null) {
+//        runnable.run();
+//      }
+//    });
   }
 
   private void handleDoNotAsk(boolean forProject) {

@@ -38,6 +38,7 @@ import com.intellij.ui.tabs.impl.*;
 import com.intellij.ui.tabs.impl.singleRow.SingleRowLayout;
 import com.intellij.ui.tabs.impl.singleRow.WindowTabsLayout;
 import com.intellij.ui.tabs.impl.themes.DefaultTabTheme;
+import com.intellij.ui.tabs.impl.themes.TabTheme;
 import com.intellij.util.ui.GraphicsUtil;
 import com.intellij.util.ui.JBFont;
 import com.intellij.util.ui.JBUI;
@@ -243,6 +244,12 @@ public final class WindowTabsComponent extends JBTabsImpl {
   @Override
   protected @NotNull TabPainterAdapter createTabPainterAdapter() {
     return new TabPainterAdapter() {
+      @NotNull
+      @Override
+      public TabTheme getTabTheme() {
+        return myTabPainter.getTabTheme();
+      }
+
       private final JBTabPainter myTabPainter = new JBDefaultTabPainter(new DefaultTabTheme() {
         @Override
         public int getTopBorderThickness() {

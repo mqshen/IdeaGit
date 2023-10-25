@@ -1,7 +1,6 @@
 // Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.ide.actions;
 
-import com.intellij.codeInsight.daemon.impl.DaemonCodeAnalyzerEx;
 import com.intellij.codeInsight.hint.HintUtil;
 import com.intellij.ide.ui.UISettings;
 import com.intellij.lang.annotation.HighlightSeverity;
@@ -16,7 +15,6 @@ import com.intellij.openapi.editor.ex.MarkupModelEx;
 import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory;
 import com.intellij.openapi.editor.highlighter.HighlighterIterator;
-import com.intellij.openapi.editor.highlighter.LightHighlighterClient;
 import com.intellij.openapi.editor.markup.HighlighterLayer;
 import com.intellij.openapi.editor.markup.HighlighterTargetArea;
 import com.intellij.openapi.editor.markup.TextAttributes;
@@ -32,8 +30,6 @@ import com.intellij.openapi.util.registry.Registry;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.*;
 import com.intellij.ui.components.JBCheckBox;
-import com.intellij.ui.speedSearch.SpeedSearchSupply;
-import com.intellij.ui.speedSearch.SpeedSearchUtil;
 import com.intellij.util.FontUtil;
 import com.intellij.util.IconUtil;
 import com.intellij.util.concurrency.AppExecutorUtil;
@@ -123,7 +119,7 @@ final class RecentLocationsRenderer extends EditorTextFieldCellRenderer.SimpleWi
   }
 
   private static @NotNull Color getBackgroundColor(@NotNull EditorColorsScheme colorsScheme, boolean selected) {
-    return selected ? HintUtil.getRecentLocationsSelectionColor(colorsScheme) : colorsScheme.getDefaultBackground();
+    return colorsScheme.getDefaultBackground();
   }
 
   private static @NotNull Color getSeparatorLineColor(@NotNull EditorColorsScheme colorsScheme) {
@@ -137,8 +133,8 @@ final class RecentLocationsRenderer extends EditorTextFieldCellRenderer.SimpleWi
     JList<?> component = Objects.requireNonNull(UIUtil.getParentOfType(JList.class, this));
     scheduleHighlightingIfNeeded(component);
     applyEditorHighlighting(myCurrentValueForPainting);
-    applyEditorSpeedSearchHighlighting(SpeedSearchSupply.getSupply(component));
-    SpeedSearchUtil.applySpeedSearchHighlighting(component, myTitle, true, myCurrentSelectedForPainting);
+//    applyEditorSpeedSearchHighlighting(SpeedSearchSupply.getSupply(component));
+//    SpeedSearchUtil.applySpeedSearchHighlighting(component, myTitle, true, myCurrentSelectedForPainting);
     super.paintComponent(g);
   }
 
@@ -207,18 +203,6 @@ final class RecentLocationsRenderer extends EditorTextFieldCellRenderer.SimpleWi
     }
   }
 
-  private void applyEditorSpeedSearchHighlighting(@Nullable SpeedSearchSupply speedSearch) {
-    String text = getEditor().getDocument().getText();
-    Iterable<TextRange> ranges = speedSearch == null ? null : speedSearch.matchingFragments(text);
-    if (ranges != null) {
-      selectSearchResultsInEditor(getEditor(), ranges.iterator());
-    }
-    if (RecentLocationsAction.getEmptyFileText().equals(text)) {
-      getEditor().getMarkupModel().addRangeHighlighter(
-        0, RecentLocationsAction.getEmptyFileText().length(), HighlighterLayer.SYNTAX,
-        SimpleTextAttributes.GRAYED_ATTRIBUTES.toTextAttributes(), HighlighterTargetArea.EXACT_RANGE);
-    }
-  }
 
   private static void selectSearchResultsInEditor(@NotNull Editor editor, @NotNull Iterator<? extends TextRange> resultIterator) {
     if (!editor.getCaretModel().supportsMultipleCarets()) {
@@ -287,7 +271,7 @@ final class RecentLocationsRenderer extends EditorTextFieldCellRenderer.SimpleWi
     if (lexerHighlights) {
       EditorHighlighter editorHighlighter = EditorHighlighterFactory.getInstance().createEditorHighlighter(
         info.getFile(), colorsScheme, myProject);
-      editorHighlighter.setEditor(new LightHighlighterClient(fileDocument, myProject));
+//      editorHighlighter.setEditor(new LightHighlighterClient(fileDocument, myProject));
       editorHighlighter.setText(fileDocument.getText());
       int rangeIdx = 0;
       int rangeOffset = 0;
@@ -312,24 +296,7 @@ final class RecentLocationsRenderer extends EditorTextFieldCellRenderer.SimpleWi
     else {
       int totalStartOffset = ranges[0].getStartOffset();
       int totalEndOffset = ranges[ranges.length - 1].getEndOffset();
-      DaemonCodeAnalyzerEx.processHighlights(fileDocument, myProject, null, totalStartOffset, totalEndOffset, o -> {
-          if (o.getSeverity() != HighlightSeverity.INFORMATION ||
-              o.getEndOffset() <= totalStartOffset ||
-              o.getStartOffset() >= totalEndOffset) {
-            return true;
-          }
-          for (int rangeIdx = 0, rangeOffset = 0; rangeIdx < ranges.length; rangeOffset += ranges[rangeIdx].getLength() + 1, rangeIdx++) {
-            TextRange range = ranges[rangeIdx];
-            if (range.intersects(o.getStartOffset(), o.getEndOffset())) {
-              TextAttributes textAttributes = o.forcedTextAttributes != null ? o.forcedTextAttributes :
-                                              colorsScheme.getAttributes(o.forcedTextAttributesKey);
-              result.add(new Highlight(Math.max(o.getActualStartOffset(), range.getStartOffset()) - range.getStartOffset() + rangeOffset,
-                                       Math.min(o.getActualEndOffset(), range.getEndOffset()) - range.getStartOffset() + rangeOffset,
-                                       textAttributes));
-            }
-          }
-          return true;
-        });
+
     }
     return result.toArray(Highlight.EMPTY_ARRAY);
   }

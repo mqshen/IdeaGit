@@ -5,13 +5,12 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.troubleshooting.ui.CollectTroubleshootingInformationDialog;
 import org.jetbrains.annotations.NotNull;
 
 public final class CollectTroubleshootingInformationAction extends AnAction {
   @Override
   public void actionPerformed(@NotNull AnActionEvent e) {
-    new CollectTroubleshootingInformationDialog(e.getRequiredData(CommonDataKeys.PROJECT)).show();
+//    new CollectTroubleshootingInformationDialog(e.getRequiredData(CommonDataKeys.PROJECT)).show();
   }
 
   @Override

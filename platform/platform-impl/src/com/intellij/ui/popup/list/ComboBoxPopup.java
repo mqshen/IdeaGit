@@ -163,9 +163,9 @@ public class ComboBoxPopup<T> extends ListPopupImpl {
     final var renderer = ((MyBasePopupState<?>)myStep).myGetRenderer.get();
     if (isRendererWithInsets(renderer)) {
       list.setBorder(JBUI.Borders.empty(PopupUtil.getListInsets(false, false)));
-      mySpeedSearch.addChangeListener(x -> {
-        list.setBorder(JBUI.Borders.empty(PopupUtil.getListInsets(!mySpeedSearch.getFilter().isBlank(), false)));
-      });
+//      mySpeedSearch.addChangeListener(x -> {
+//        list.setBorder(JBUI.Borders.empty(PopupUtil.getListInsets(!mySpeedSearch.getFilter().isBlank(), false)));
+//      });
     } else {
       Border border = UIManager.getBorder("ComboPopup.border");
       if (border != null) {

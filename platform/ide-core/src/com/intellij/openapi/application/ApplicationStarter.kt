@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus.Internal
 
 @Internal
 @Experimental
-abstract class ModernApplicationStarter : ApplicationStarter {
+abstract class ModernApplicationStarter : ApplicationStarter() {
   final override val requiredModality: Int
     get() = ApplicationStarter.NOT_IN_EDT
 
@@ -28,7 +28,7 @@ abstract class ModernApplicationStarter : ApplicationStarter {
  * or externally (the application has detected a running instance and passed a command to it). In the former case, the platform
  * invokes [.premain] and [.main] methods, in the latter - [.processExternalCommandLineAsync].
  */
-interface ApplicationStarter {
+abstract class ApplicationStarter {
   companion object {
     const val NON_MODAL: Int = 1
     const val ANY_MODALITY: Int = 2
@@ -44,7 +44,7 @@ interface ApplicationStarter {
    * may ignore the flag and process a command as [NON_MODAL]).
    */
   @get:MagicConstant(intValues = [NON_MODAL.toLong(), ANY_MODALITY.toLong(), NOT_IN_EDT.toLong()])
-  val requiredModality: Int
+  open val requiredModality: Int
     get() = NON_MODAL
 
   /**
@@ -52,7 +52,7 @@ interface ApplicationStarter {
    * For example, return `"inspect"` if you would like to start an app with `"idea.exe inspect ..."` command.
    */
   @Deprecated("Specify it as `id` for extension definition in a plugin descriptor")
-  val commandName: String?
+  open val commandName: String?
     get() = null
 
   /**
@@ -60,7 +60,7 @@ interface ApplicationStarter {
    *
    * @param args program arguments (including the command)
    */
-  fun premain(args: List<String>) {}
+  open fun premain(args: List<String>) {}
 
   /**
    *
@@ -70,22 +70,22 @@ interface ApplicationStarter {
    *
    * @param args program arguments (including the selector)
    */
-  fun main(args: List<String>) {}
+  open fun main(args: List<String>) {}
 
   /**
    * Applications that are incapable of working in a headless mode should override the method and return `false`.
    */
-  val isHeadless: Boolean
+  open val isHeadless: Boolean
     get() = true
 
   /**
    * Applications that are capable of processing command-line arguments within a running IDE instance
    * should return `true` from this method and implement [processExternalCommandLine].
    */
-  fun canProcessExternalCommandLine(): Boolean = false
+  open fun canProcessExternalCommandLine(): Boolean = false
 
   /** @see [canProcessExternalCommandLine] */
-  suspend fun processExternalCommandLine(args: List<String>, currentDirectory: String?): CliResult {
+  open suspend fun processExternalCommandLine(args: List<String>, currentDirectory: String?): CliResult {
     throw UnsupportedOperationException("Class ${javaClass.name} must implement `processExternalCommandLineAsync()`")
   }
 }

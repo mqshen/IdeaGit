@@ -14,7 +14,7 @@ import com.intellij.util.io.URLUtil
 import java.nio.file.Path
 import kotlin.system.exitProcess
 
-internal class HeadlessPluginsInstaller : ApplicationStarter {
+internal class HeadlessPluginsInstaller : ApplicationStarter() {
   @Suppress("SSBasedInspection")
   private val LOG = logger<HeadlessPluginsInstaller>()
 

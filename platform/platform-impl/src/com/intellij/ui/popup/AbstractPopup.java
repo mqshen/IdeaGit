@@ -46,8 +46,6 @@ import com.intellij.ui.components.JBTextField;
 import com.intellij.ui.mac.touchbar.TouchbarSupport;
 import com.intellij.ui.popup.util.PopupImplUtil;
 import com.intellij.ui.scale.JBUIScale;
-import com.intellij.ui.speedSearch.ListWithFilter;
-import com.intellij.ui.speedSearch.SpeedSearch;
 import com.intellij.util.*;
 import com.intellij.util.concurrency.ThreadingAssertions;
 import com.intellij.util.containers.ContainerUtil;
@@ -94,7 +92,6 @@ public class AbstractPopup implements JBPopup, ScreenAreaConsumer, AlignedPopup 
   private JPanel myHeaderPanel;
   private CaptionPanel myCaption;
   private JComponent myComponent;
-  private SpeedSearch mySpeedSearchFoundInRootComponent;
   private String myDimensionServiceKey;
   private Computable<Boolean> myCallBack;
   private Object[] modalEntitiesWhenShown;
@@ -149,31 +146,6 @@ public class AbstractPopup implements JBPopup, ScreenAreaConsumer, AlignedPopup 
   private static final WeakList<JBPopup> all = new WeakList<>();
 
   private boolean mySpeedSearchAlwaysShown;
-  protected final SpeedSearch mySpeedSearch = new SpeedSearch() {
-    boolean searchFieldShown;
-
-    @Override
-    public void update() {
-      updateSpeedSearchColors(false);
-      onSpeedSearchPatternChanged();
-      mySpeedSearchPatternField.setText(getFilter());
-      if (!mySpeedSearchAlwaysShown) {
-        if (isHoldingFilter() && !searchFieldShown) {
-          setHeaderComponent(mySpeedSearchPatternField);
-          searchFieldShown = true;
-        }
-        else if (!isHoldingFilter() && searchFieldShown) {
-          setHeaderComponent(null);
-          searchFieldShown = false;
-        }
-      }
-    }
-
-    @Override
-    public void noHits() {
-      updateSpeedSearchColors(true);
-    }
-  };
 
   protected void updateSpeedSearchColors(boolean error) {
     JBTextField textEditor = mySpeedSearchPatternField.getTextEditor();
@@ -268,8 +240,6 @@ public class AbstractPopup implements JBPopup, ScreenAreaConsumer, AlignedPopup 
     myActivityKey = new UiActivity.Focus("Popup:" + this);
     myProject = project;
     myComponent = component;
-    mySpeedSearchFoundInRootComponent =
-      findInComponentHierarchy(component, it -> it instanceof ListWithFilter ? ((ListWithFilter<?>)it).getSpeedSearch() : null);
     myPopupBorder = showBorder ? borderColor != null ? PopupBorder.Factory.createColored(borderColor) :
                                  PopupBorder.Factory.create(true, showShadow) :
                                  PopupBorder.Factory.createEmpty();
@@ -423,12 +393,12 @@ public class AbstractPopup implements JBPopup, ScreenAreaConsumer, AlignedPopup 
   @Override
   public void setAdText(@NotNull @NlsContexts.PopupAdvertisement String s, int alignment) {
     JLabel label;
-    if (myAdComponent == null || !(myAdComponent instanceof JLabel)) {
-      label = HintUtil.createAdComponent(s, JBUI.CurrentTheme.Advertiser.border(), alignment);
-      setFooterComponent(label);
-    } else {
+//    if (myAdComponent == null || !(myAdComponent instanceof JLabel)) {
+//      label = HintUtil.createAdComponent(s, JBUI.CurrentTheme.Advertiser.border(), alignment);
+//      setFooterComponent(label);
+//    } else {
       label = (JLabel)myAdComponent;
-    }
+//    }
 
     Dimension prefSize = label.isVisible() ? myAdComponent.getPreferredSize() : JBUI.emptySize();
     boolean keepSize = BasicHTML.isHTMLString(s);
@@ -1447,7 +1417,7 @@ public class AbstractPopup implements JBPopup, ScreenAreaConsumer, AlignedPopup 
     myContent.addMouseListener(mouseAdapter);
     Disposer.register(this, () -> myContent.removeMouseListener(mouseAdapter));
 
-    myContent.addKeyListener(mySpeedSearch);
+//    myContent.addKeyListener(mySpeedSearch);
 
     if (myCancelOnMouseOutCallback != null || myCancelOnWindow) {
       installMouseOutCanceller();
@@ -1469,7 +1439,7 @@ public class AbstractPopup implements JBPopup, ScreenAreaConsumer, AlignedPopup 
     mySpeedSearchPatternField = new SearchTextField(false) {
       @Override
       protected void onFieldCleared() {
-        mySpeedSearch.reset();
+//        mySpeedSearch.reset();
       }
     };
     mySpeedSearchPatternField.getTextEditor().setFocusable(mySpeedSearchAlwaysShown);
@@ -1713,12 +1683,12 @@ public class AbstractPopup implements JBPopup, ScreenAreaConsumer, AlignedPopup 
       Container parent = myContent.getParent();
       if (parent != null) parent.remove(myContent);
       myContent.removeAll();
-      myContent.removeKeyListener(mySpeedSearch);
+//      myContent.removeKeyListener(mySpeedSearch);
     }
     myContent = null;
     myPreferredFocusedComponent = null;
     myComponent = null;
-    mySpeedSearchFoundInRootComponent = null;
+//    mySpeedSearchFoundInRootComponent = null;
     myCallBack = null;
     myListeners.clear();
 
@@ -2360,15 +2330,15 @@ public class AbstractPopup implements JBPopup, ScreenAreaConsumer, AlignedPopup 
     if (handler != null && handler.fun(e)) {
       return true;
     }
-    if (isCloseRequest(e) && myCancelKeyEnabled && !mySpeedSearch.isHoldingFilter()) {
-      if (mySpeedSearchFoundInRootComponent != null && mySpeedSearchFoundInRootComponent.isHoldingFilter()) {
-        mySpeedSearchFoundInRootComponent.reset();
-      }
-      else {
-        cancel(e);
-      }
-      return true;
-    }
+//    if (isCloseRequest(e) && myCancelKeyEnabled && !mySpeedSearch.isHoldingFilter()) {
+//      if (mySpeedSearchFoundInRootComponent != null && mySpeedSearchFoundInRootComponent.isHoldingFilter()) {
+//        mySpeedSearchFoundInRootComponent.reset();
+//      }
+//      else {
+//        cancel(e);
+//      }
+//      return true;
+//    }
     return false;
   }
 

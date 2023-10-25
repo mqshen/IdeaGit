@@ -3,6 +3,7 @@ package com.intellij.ui;
 
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.project.DumbAwareAction;
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +52,12 @@ public abstract class ExpandableActions extends DumbAwareAction implements Actio
       Expandable expandable = getExpandable(event);
       event.getPresentation().setEnabled(expandable != null && !expandable.isExpanded());
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class Collapse extends ExpandableActions {
@@ -62,6 +69,13 @@ public abstract class ExpandableActions extends DumbAwareAction implements Actio
     public void update(@NotNull AnActionEvent event) {
       Expandable expandable = getExpandable(event);
       event.getPresentation().setEnabled(expandable != null && expandable.isExpanded());
+    }
+
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 }

@@ -20,7 +20,6 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.updateSettings.impl.ExternalUpdateManager;
 import com.intellij.openapi.util.NlsSafe;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.text.StringUtil;
@@ -43,7 +42,7 @@ public final class CreateDesktopEntryAction extends DumbAwareAction {
   private static final Logger LOG = Logger.getInstance(CreateDesktopEntryAction.class);
 
   public static boolean isAvailable() {
-    return SystemInfo.isXWindow && !ExternalUpdateManager.isCreatingDesktopEntries() && SystemInfo.hasXdgOpen();
+    return SystemInfo.isXWindow && SystemInfo.hasXdgOpen();
   }
 
   @Override

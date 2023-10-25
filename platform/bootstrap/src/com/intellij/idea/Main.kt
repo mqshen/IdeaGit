@@ -106,11 +106,17 @@ private suspend fun startApp(args: List<String>, mainScope: CoroutineScope, busy
             }
         }
 
-        startApplication(args = args,
-            mainClassLoaderDeferred = mainClassLoaderDeferred,
-            appStarterDeferred = appStarterDeferred,
-            mainScope = mainScope,
-            busyThread = busyThread)
+        try {
+            startApplication(
+                args = args,
+                mainClassLoaderDeferred = mainClassLoaderDeferred,
+                appStarterDeferred = appStarterDeferred,
+                mainScope = mainScope,
+                busyThread = busyThread
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
 

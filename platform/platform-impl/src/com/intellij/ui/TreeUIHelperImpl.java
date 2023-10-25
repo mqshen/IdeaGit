@@ -26,22 +26,22 @@ final class TreeUIHelperImpl extends TreeUIHelper {
 
   @Override
   public void installTreeSpeedSearch(final JTree tree) {
-    TreeSpeedSearch.installOn(tree);
+//    TreeSpeedSearch.installOn(tree);
   }
 
   @Override
   public void installTreeSpeedSearch(JTree tree, Convertor<? super TreePath, String> convertor, boolean canExpand) {
-    TreeSpeedSearch.installOn(tree, canExpand, convertor);
+//    TreeSpeedSearch.installOn(tree, canExpand, convertor);
   }
 
   @Override
   public void installListSpeedSearch(JList<?> list) {
-    ListSpeedSearch.installOn(list);
+//    ListSpeedSearch.installOn(list);
   }
 
   @Override
   public <T> void installListSpeedSearch(JList<T> list, Convertor<? super T, String> convertor) {
-    ListSpeedSearch.installOn(list, convertor::convert);
+//    ListSpeedSearch.installOn(list, convertor::convert);
   }
 
   @Override

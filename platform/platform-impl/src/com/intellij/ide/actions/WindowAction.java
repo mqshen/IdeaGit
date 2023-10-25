@@ -2,6 +2,7 @@
 package com.intellij.ide.actions;
 
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.DumbAware;
@@ -96,6 +97,11 @@ public abstract class WindowAction extends AnAction implements ActionRemoteBehav
     public void actionPerformed(@NotNull AnActionEvent e) {
       performSizeAction(e, true, true);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class DecrementWidth extends WindowAction {
@@ -104,12 +110,22 @@ public abstract class WindowAction extends AnAction implements ActionRemoteBehav
     public void actionPerformed(@NotNull AnActionEvent e) {
       performSizeAction(e, true, false);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class IncrementHeight extends WindowAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
       performSizeAction(e, false, true);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -118,5 +134,11 @@ public abstract class WindowAction extends AnAction implements ActionRemoteBehav
     public void actionPerformed(@NotNull AnActionEvent e) {
       performSizeAction(e, false, false);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
+
 }

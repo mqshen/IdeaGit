@@ -15,6 +15,7 @@ import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.IdeUICustomization
 import com.intellij.ui.dsl.builder.*
 import com.intellij.util.PlatformUtils
+import javax.swing.event.HyperlinkEvent
 
 private val model: GeneralSettings
   get() = GeneralSettings.getInstance()
@@ -124,9 +125,11 @@ private class GeneralSettingsConfigurable: BoundCompositeSearchableConfigurable<
           checkBox(myChkSyncOnFrameActivation)
         }
         row {
-          comment(IdeBundle.message("label.autosave.comment")) {
-            HelpManager.getInstance().invokeHelp("autosave")
-          }
+          comment(IdeBundle.message("label.autosave.comment"), action = object: HyperlinkEventAction {
+            override fun hyperlinkActivated(e: HyperlinkEvent) {
+              HelpManager.getInstance().invokeHelp("autosave")
+            }
+          })
         }.topGap(TopGap.SMALL)
       }
 

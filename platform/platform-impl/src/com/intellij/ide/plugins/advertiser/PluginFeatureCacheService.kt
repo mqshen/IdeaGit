@@ -20,7 +20,7 @@ class PluginFeatureCacheService : SerializablePersistentStateComponent<PluginFea
     fun getInstance(): PluginFeatureCacheService = service()
   }
 
-  @Serializable
+//  @Serializable
   data class MyState(
     val extensions: PluginFeatureMap? = null,
     val dependencies: PluginFeatureMap? = null

@@ -6,7 +6,6 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.Project
-import com.intellij.projectImport.ProjectAttachProcessor
 import com.intellij.ui.IdeUICustomization
 
 class CloseProjectAction : CloseProjectsActionBase() {
@@ -23,13 +22,13 @@ class CloseProjectAction : CloseProjectsActionBase() {
   override fun update(e: AnActionEvent) {
     super.update(e)
 
-    if (ProjectAttachProcessor.canAttachToProject() && e.project != null && ModuleManager.getInstance(e.project!!).modules.size > 1) {
-      e.presentation.setText(IdeBundle.messagePointer("action.close.projects.in.current.window"))
-    }
-    else {
+//    if (ProjectAttachProcessor.canAttachToProject() && e.project != null && ModuleManager.getInstance(e.project!!).modules.size > 1) {
+//      e.presentation.setText(IdeBundle.messagePointer("action.close.projects.in.current.window"))
+//    }
+//    else {
       e.presentation.setTextWithMnemonic(templatePresentation.textWithPossibleMnemonic)
       e.presentation.description = templatePresentation.description
-    }
+//    }
   }
 
   override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT

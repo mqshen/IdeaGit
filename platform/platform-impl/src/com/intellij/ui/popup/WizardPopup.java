@@ -16,8 +16,6 @@ import com.intellij.ui.popup.list.ComboBoxPopup;
 import com.intellij.ui.popup.list.ListPopupImpl;
 import com.intellij.ui.popup.tree.TreePopupImpl;
 import com.intellij.ui.popup.util.MnemonicsSearch;
-import com.intellij.ui.speedSearch.ElementFilter;
-import com.intellij.ui.speedSearch.SpeedSearch;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.TimerUtil;
 import org.intellij.lang.annotations.JdkConstants;
@@ -30,7 +28,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Collections;
 
-public abstract class WizardPopup extends AbstractPopup implements ActionListener, ElementFilter {
+public abstract class WizardPopup extends AbstractPopup implements ActionListener{
   private static final Logger LOG = Logger.getInstance(WizardPopup.class);
 
   private static final Dimension MAX_SIZE = new Dimension(Integer.MAX_VALUE, 600);
@@ -72,7 +70,7 @@ public abstract class WizardPopup extends AbstractPopup implements ActionListene
     myParent = (WizardPopup) aParent;
     myStep = aStep;
 
-    mySpeedSearch.setEnabled(myStep.isSpeedSearchEnabled());
+//    mySpeedSearch.setEnabled(myStep.isSpeedSearchEnabled());
 
     final JComponent content = createContent();
     content.putClientProperty(KEY, this);
@@ -86,12 +84,12 @@ public abstract class WizardPopup extends AbstractPopup implements ActionListene
     registerAction("disposeAll", KeyEvent.VK_ESCAPE, InputEvent.SHIFT_MASK, new AbstractAction() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (mySpeedSearch.isHoldingFilter()) {
-          mySpeedSearch.reset();
-        }
-        else {
+//        if (mySpeedSearch.isHoldingFilter()) {
+//          mySpeedSearch.reset();
+//        }
+//        else {
           disposeAll();
-        }
+//        }
       }
     });
 
@@ -139,10 +137,10 @@ public abstract class WizardPopup extends AbstractPopup implements ActionListene
   }
 
   public void goBack() {
-    if (mySpeedSearch.isHoldingFilter()) {
-      mySpeedSearch.reset();
-      return;
-    }
+//    if (mySpeedSearch.isHoldingFilter()) {
+//      mySpeedSearch.reset();
+//      return;
+//    }
 
     if (myParent != null) {
       myParent.disposeChildren();
@@ -261,7 +259,8 @@ public abstract class WizardPopup extends AbstractPopup implements ActionListene
 
   @Override
   public boolean isCancelKeyEnabled() {
-    return super.isCancelKeyEnabled() && !mySpeedSearch.isHoldingFilter();
+    return super.isCancelKeyEnabled();
+    //&& !mySpeedSearch.isHoldingFilter();
   }
 
   protected void disposeAllParents(InputEvent e) {
@@ -388,7 +387,7 @@ public abstract class WizardPopup extends AbstractPopup implements ActionListene
   }
 
   protected void processKeyEvent(@NotNull KeyEvent e) {
-    mySpeedSearch.processKeyEvent(e);
+//    mySpeedSearch.processKeyEvent(e);
   }
 
   private boolean proceedKeyEvent(KeyEvent event, KeyStroke stroke) {
@@ -449,20 +448,20 @@ public abstract class WizardPopup extends AbstractPopup implements ActionListene
 
   }
 
-  @Override
-  public boolean shouldBeShowing(Object value) {
-    if (!myStep.isSpeedSearchEnabled()) return true;
-    SpeedSearchFilter<Object> filter = myStep.getSpeedSearchFilter();
-    if (filter == null) return true;
-    if (!filter.canBeHidden(value)) return true;
-    if (!mySpeedSearch.isHoldingFilter()) return true;
-    String text = filter.getIndexedString(value);
-    return mySpeedSearch.shouldBeShowing(text);
-  }
-
-  public SpeedSearch getSpeedSearch() {
-    return mySpeedSearch;
-  }
+//  @Override
+//  public boolean shouldBeShowing(Object value) {
+//    if (!myStep.isSpeedSearchEnabled()) return true;
+//    SpeedSearchFilter<Object> filter = myStep.getSpeedSearchFilter();
+//    if (filter == null) return true;
+//    if (!filter.canBeHidden(value)) return true;
+//    if (!mySpeedSearch.isHoldingFilter()) return true;
+//    String text = filter.getIndexedString(value);
+//    return mySpeedSearch.shouldBeShowing(text);
+//  }
+//
+//  public SpeedSearch getSpeedSearch() {
+//    return mySpeedSearch;
+//  }
 
 
   protected void onSelectByMnemonic(Object value) {

@@ -52,7 +52,7 @@ internal class BrowseIconsComboBox(private val customActionsSchema: CustomAction
     setEditor(createEditor())
     setRenderer(createRenderer())
     installSelectedIconValidator()
-    ComboboxSpeedSearch.installSpeedSearch(this) { info: ActionIconInfo -> info.text }
+//    ComboboxSpeedSearch.installSpeedSearch(this) { info: ActionIconInfo -> info.text }
   }
 
   private fun loadIconsAsync(withNoneItem: Boolean): CompletableFuture<Boolean> {

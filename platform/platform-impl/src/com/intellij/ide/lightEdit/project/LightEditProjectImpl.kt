@@ -59,10 +59,10 @@ internal class LightEditProjectImpl private constructor(projectPath: Path) :
                     implementation = LightEditProjectFileIndex::class.java,
                     pluginDescriptor = pluginDescriptor,
                     override = true)
-    registerService(serviceInterface = FileIndexFacade::class.java,
-                    implementation = LightEditFileIndexFacade::class.java,
-                    pluginDescriptor = pluginDescriptor,
-                    override = true)
+//    registerService(serviceInterface = FileIndexFacade::class.java,
+//                    implementation = LightEditFileIndexFacade::class.java,
+//                    pluginDescriptor = pluginDescriptor,
+//                    override = true)
     registerService(serviceInterface = DumbService::class.java,
                     implementation = LightEditDumbService::class.java,
                     pluginDescriptor = pluginDescriptor,

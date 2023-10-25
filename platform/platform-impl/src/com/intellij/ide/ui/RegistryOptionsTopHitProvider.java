@@ -8,7 +8,6 @@ import com.intellij.openapi.application.Experiments;
 import com.intellij.openapi.extensions.ExtensionNotApplicableException;
 import com.intellij.openapi.util.NlsSafe;
 import com.intellij.openapi.util.registry.RegistryManager;
-import com.intellij.openapi.util.registry.RegistryManagerImpl;
 import com.intellij.openapi.util.registry.RegistryValue;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,21 +28,21 @@ final class RegistryOptionsTopHitProvider implements OptionsTopHitProvider.Appli
   @Override
   public @NotNull Collection<OptionDescription> getOptions() {
     List<OptionDescription> result = new ArrayList<>();
-    for (RegistryValue value : ((RegistryManagerImpl)RegistryManager.getInstance()).getAll()) {
-      if (value.isBoolean()) {
-        String key = value.getKey();
-        RegistryBooleanOptionDescriptor optionDescriptor = new RegistryBooleanOptionDescriptor(key, key);
-        if (value.isChangedFromDefault()) {
-          result.add(0, optionDescriptor);
-        }
-        else {
-          result.add(optionDescriptor);
-        }
-      }
-      else {
-        result.add(new RegistryTextOptionDescriptor(value));
-      }
-    }
+//    for (RegistryValue value : ((RegistryManagerImpl)RegistryManager.getInstance()).getAll()) {
+//      if (value.isBoolean()) {
+//        String key = value.getKey();
+//        RegistryBooleanOptionDescriptor optionDescriptor = new RegistryBooleanOptionDescriptor(key, key);
+//        if (value.isChangedFromDefault()) {
+//          result.add(0, optionDescriptor);
+//        }
+//        else {
+//          result.add(optionDescriptor);
+//        }
+//      }
+//      else {
+//        result.add(new RegistryTextOptionDescriptor(value));
+//      }
+//    }
     List<ExperimentalFeature> experimentalFeatureList = Experiments.EP_NAME.getExtensionList();
     if (!experimentalFeatureList.isEmpty()) {
       Experiments experiments = Experiments.getInstance();

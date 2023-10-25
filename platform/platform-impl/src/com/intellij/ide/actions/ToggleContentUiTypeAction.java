@@ -2,8 +2,10 @@
 package com.intellij.ide.actions;
 
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowContentUiType;
+import org.jetbrains.annotations.NotNull;
 
 final class ToggleContentUiTypeAction extends BaseToolWindowToggleAction {
   @Override
@@ -19,5 +21,11 @@ final class ToggleContentUiTypeAction extends BaseToolWindowToggleAction {
   @Override
   protected void update(ToolWindow window, Presentation presentation) {
     presentation.setEnabled(window.getContentManager().getContentCount() > 1);
+  }
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

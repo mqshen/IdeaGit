@@ -198,20 +198,20 @@ internal object ITNProxy {
     var message = error.event.message?.trim { it <= ' ' } ?: ""
     val stacktrace = error.event.throwableText
     var redacted = false
-    if (error.event is IdeaReportingEvent) {
-      val originalMessage = error.event.originalMessage?.trim { it <= ' ' } ?: ""
-      val originalStacktrace = error.event.originalThrowableText
-      val messagesDiffer = message != originalMessage
-      val tracesDiffer = stacktrace != originalStacktrace
-      if (messagesDiffer || tracesDiffer) {
-        var summary = ""
-        if (messagesDiffer) summary += "*** message was redacted (" + diff(originalMessage, message) + ")\n"
-        if (tracesDiffer) summary += "*** stacktrace was redacted (" + diff(originalStacktrace, stacktrace) + ")\n"
-        message = if (!message.isEmpty()) "$summary\n$message"
-        else summary.trim { it <= ' ' }
-        redacted = true
-      }
-    }
+//    if (error.event is IdeaReportingEvent) {
+//      val originalMessage = error.event.originalMessage?.trim { it <= ' ' } ?: ""
+//      val originalStacktrace = error.event.originalThrowableText
+//      val messagesDiffer = message != originalMessage
+//      val tracesDiffer = stacktrace != originalStacktrace
+//      if (messagesDiffer || tracesDiffer) {
+//        var summary = ""
+//        if (messagesDiffer) summary += "*** message was redacted (" + diff(originalMessage, message) + ")\n"
+//        if (tracesDiffer) summary += "*** stacktrace was redacted (" + diff(originalStacktrace, stacktrace) + ")\n"
+//        message = if (!message.isEmpty()) "$summary\n$message"
+//        else summary.trim { it <= ' ' }
+//        redacted = true
+//      }
+//    }
     append(builder, "error.message", message)
     append(builder, "error.stacktrace", stacktrace)
     append(builder, "error.description", error.comment)

@@ -37,8 +37,8 @@ private val cdShowMembersInNavigationBar
 private val cdUseSmallTabLabels
   get() = CheckboxDescriptor(message("small.labels.in.editor.tabs"), settings::useSmallLabelsOnTabs, groupName = windowOptionGroupName)
 private val cdShowEditorPreview
-  get() = CheckboxDescriptor(OptionsTopHitProvider.messageIde("checkbox.show.editor.preview.popup"), settings::showEditorToolTip,
-                             groupName = windowOptionGroupName)
+  get() = null //CheckboxDescriptor(OptionsTopHitProvider.messageIde("checkbox.show.editor.preview.popup"), settings::showEditorToolTip,
+//                             groupName = windowOptionGroupName)
 private val cdShowBalloons
   get() = CheckboxDescriptor(message("display.balloon.notifications"), notificationSettings::SHOW_BALLOONS, groupName = uiOptionGroupName)
 
@@ -54,7 +54,7 @@ internal class AppearanceOptionsTopHitProvider : OptionsSearchTopHitProvider.App
     if (!ExperimentalUI.isNewUI()) {
       list += cdUseSmallTabLabels
     }
-    list += cdShowEditorPreview
+//    list += cdShowEditorPreview
     list += cdShowBalloons
     val allOptions = getAppearanceOptionDescriptors() + list.map(CheckboxDescriptor::asUiOptionDescriptor)
     return allOptions.toList()

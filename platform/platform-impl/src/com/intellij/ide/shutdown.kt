@@ -7,7 +7,7 @@ import com.intellij.openapi.application.impl.ApplicationImpl
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.progress.ModalTaskOwner
 import com.intellij.openapi.progress.TaskCancellation
-import com.intellij.openapi.progress.impl.pumpEventsForHierarchy
+//import com.intellij.openapi.progress.impl.pumpEventsForHierarchy
 import com.intellij.openapi.progress.runWithModalProgressBlocking
 import com.intellij.openapi.project.impl.ProjectImpl
 import com.intellij.openapi.util.EmptyRunnable
@@ -32,9 +32,9 @@ internal fun cancelAndJoinExistingContainerCoroutines(application: ApplicationIm
       // Unblock `getNextEvent()` in case it's blocked.
       SwingUtilities.invokeLater(EmptyRunnable.INSTANCE)
     }
-    IdeEventQueue.getInstance().pumpEventsForHierarchy {
-      joiner.isCompleted
-    }
+//    IdeEventQueue.getInstance().pumpEventsForHierarchy {
+//      joiner.isCompleted
+//    }
   }
 }
 
@@ -79,19 +79,19 @@ internal fun cancelAndJoinBlocking(application: ApplicationImpl) {
       // Unblock `getNextEvent()` in case it's blocked.
       SwingUtilities.invokeLater(EmptyRunnable.INSTANCE)
     }
-    IdeEventQueue.getInstance().pumpEventsForHierarchy {
-      containerJob.isCompleted
-      // This means container job is still not completed,
-      // delayUntilCoroutineDump has passed and dump was already logged
-      // => nothing we can do here, just exit the application and don't freeze forever.
-      //
-      // After returning from blocking, the app is disposed.
-      // Returning here means some coroutines leak beyond the scope, i.e. they may continue running.
-      // Running coroutines may result is various exceptions,
-      // e.g. NPEs once `ApplicationManager.setApplication(null)` is completed.
-      // The coroutine dump is logged and should be investigated before considering exceptions from leaked coroutines.
-      || dumpJob.isCompleted
-    }
+//    IdeEventQueue.getInstance().pumpEventsForHierarchy {
+//      containerJob.isCompleted
+//      // This means container job is still not completed,
+//      // delayUntilCoroutineDump has passed and dump was already logged
+//      // => nothing we can do here, just exit the application and don't freeze forever.
+//      //
+//      // After returning from blocking, the app is disposed.
+//      // Returning here means some coroutines leak beyond the scope, i.e. they may continue running.
+//      // Running coroutines may result is various exceptions,
+//      // e.g. NPEs once `ApplicationManager.setApplication(null)` is completed.
+//      // The coroutine dump is logged and should be investigated before considering exceptions from leaked coroutines.
+//      || dumpJob.isCompleted
+//    }
   }
 }
 

@@ -4,6 +4,7 @@ package com.intellij.ui;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.util.Key;
@@ -99,5 +100,12 @@ public class SwingActionDelegate extends AnAction implements ActionRemoteBehavio
   @ApiStatus.Experimental
   public static void disableFor(@NotNull JComponent component) {
     configureMapping(component, action -> null);
+  }
+
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

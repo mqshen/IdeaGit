@@ -25,7 +25,6 @@ import com.intellij.psi.PsiElement;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBPanelWithEmptyText;
 import com.intellij.ui.scale.JBUIScale;
-import com.intellij.ui.speedSearch.ListWithFilter;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.concurrency.AppExecutorUtil;
 import com.intellij.util.containers.ContainerUtil;
@@ -212,7 +211,7 @@ public abstract class FinderRecursivePanel<T> extends OnePixelSplitter implement
       ScrollPaneFactory.createScrollPane(myList,
                                          ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                                          ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    return ListWithFilter.wrap(myList, pane, o -> getItemText(o));
+    return pane;//ListWithFilter.wrap(myList, pane, o -> getItemText(o));
   }
 
   protected JBList<T> createList() {
@@ -340,8 +339,8 @@ public abstract class FinderRecursivePanel<T> extends OnePixelSplitter implement
   }
 
   private void installSpeedSearch(JBList<T> list) {
-    final ListSpeedSearch<T> search = ListSpeedSearch.installOn(list, o -> getItemText(o));
-    search.setComparator(new SpeedSearchComparator(false));
+//    final ListSpeedSearch<T> search = ListSpeedSearch.installOn(list, o -> getItemText(o));
+//    search.setComparator(new SpeedSearchComparator(false));
   }
 
   private void installEditOnDoubleClick(JBList<T> list) {

@@ -3,6 +3,7 @@ package com.intellij.ide.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformCoreDataKeys;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.ui.ComponentUtil;
 import com.intellij.ui.ScreenUtil;
 import org.jetbrains.annotations.NotNull;
@@ -59,5 +60,12 @@ public final class MaximizeActiveDialogAction extends WindowAction {
       dialog.setBounds(bounds);
       rootPane.putClientProperty(NORMAL_BOUNDS, null);
     }
+  }
+
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

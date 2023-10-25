@@ -2,12 +2,13 @@
 package com.intellij.ui;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-import static com.intellij.ui.speedSearch.SpeedSearchSupply.getSupply;
 
 public abstract class TreeActions extends SwingActionDelegate {
   private TreeActions(String actionId) {
@@ -17,7 +18,7 @@ public abstract class TreeActions extends SwingActionDelegate {
   @Override
   protected @Nullable JTree getComponent(AnActionEvent event) {
     var component = super.getComponent(event);
-    return component instanceof JTree tree && getSupply(component) == null ? tree : null;
+    return (JTree) component;
   }
 
   public static final class Home extends TreeActions {
@@ -25,6 +26,12 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public Home() {
       super(ID);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -34,6 +41,12 @@ public abstract class TreeActions extends SwingActionDelegate {
     public ShiftHome() {
       super(ID);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class End extends TreeActions {
@@ -41,6 +54,11 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public End() {
       super(ID);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -50,6 +68,11 @@ public abstract class TreeActions extends SwingActionDelegate {
     public ShiftEnd() {
       super(ID);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class Up extends TreeActions {
@@ -57,6 +80,11 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public Up() {
       super(ID);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -66,6 +94,11 @@ public abstract class TreeActions extends SwingActionDelegate {
     public ShiftUp() {
       super(ID);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class Down extends TreeActions {
@@ -73,6 +106,11 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public Down() {
       super(ID);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -82,6 +120,11 @@ public abstract class TreeActions extends SwingActionDelegate {
     public ShiftDown() {
       super(ID);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class SelectParent extends TreeActions {
@@ -89,6 +132,11 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public SelectParent() {
       super(ID);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -98,6 +146,11 @@ public abstract class TreeActions extends SwingActionDelegate {
     public Left() {
       super(ID);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class ShiftLeft extends TreeActions {
@@ -105,6 +158,11 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public ShiftLeft() {
       super(ID);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -114,6 +172,11 @@ public abstract class TreeActions extends SwingActionDelegate {
     public Right() {
       super(ID);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class ShiftRight extends TreeActions {
@@ -121,6 +184,11 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public ShiftRight() {
       super(ID);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -130,6 +198,11 @@ public abstract class TreeActions extends SwingActionDelegate {
     public PageUp() {
       super(ID);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class ShiftPageUp extends TreeActions {
@@ -137,6 +210,11 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public ShiftPageUp() {
       super(ID);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -146,6 +224,11 @@ public abstract class TreeActions extends SwingActionDelegate {
     public PageDown() {
       super(ID);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class ShiftPageDown extends TreeActions {
@@ -153,6 +236,11 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public ShiftPageDown() {
       super(ID);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -162,6 +250,11 @@ public abstract class TreeActions extends SwingActionDelegate {
     public NextSibling() {
       super(ID);
     }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class PreviousSibling extends TreeActions {
@@ -169,6 +262,11 @@ public abstract class TreeActions extends SwingActionDelegate {
 
     public PreviousSibling() {
       super(ID);
+    }
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 }

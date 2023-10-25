@@ -7,6 +7,7 @@ import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.application.WriteAction;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -78,5 +79,11 @@ public final class ToggleReadOnlyAttributeAction extends AnAction implements Dum
   private static VirtualFile[] getFiles(DataContext context) {
     VirtualFile[] files = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(context);
     return files == null ? VirtualFile.EMPTY_ARRAY : Stream.of(files).filter(VirtualFile::isInLocalFileSystem).toArray(VirtualFile[]::new);
+  }
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

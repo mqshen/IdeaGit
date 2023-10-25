@@ -29,10 +29,6 @@ import com.intellij.ui.*;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.scale.JBUIScale;
-import com.intellij.ui.speedSearch.ListWithFilter;
-import com.intellij.ui.speedSearch.NameFilteringListModel;
-import com.intellij.ui.speedSearch.SpeedSearch;
-import com.intellij.ui.speedSearch.SpeedSearchSupply;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
@@ -114,48 +110,63 @@ public final class RecentLocationsAction extends DumbAwareAction implements Ligh
     };
     titleUpdater.run();
 
-    JComponent listWithFilter = ListWithFilter.wrap(list, scrollPane, renderer::getSpeedSearchText, true);
+//    JComponent listWithFilter = ListWithFilter.wrap(list, scrollPane, renderer::getSpeedSearchText, true);
     //noinspection unchecked
-    ((ListWithFilter<Object>)listWithFilter).setAutoPackHeight(false);
-    listWithFilter.setBorder(BorderFactory.createEmptyBorder());
+//    ((ListWithFilter<Object>)listWithFilter).setAutoPackHeight(false);
+//    listWithFilter.setBorder(BorderFactory.createEmptyBorder());
 
     JPanel topPanel = createHeaderPanel(title, checkBox);
-    JPanel mainPanel = createMainPanel(listWithFilter, topPanel);
+//    JPanel mainPanel = createMainPanel(listWithFilter, topPanel);
 
     Color borderColor = SystemInfo.isMac && LafManager.getInstance().getCurrentUIThemeLookAndFeel().isDark()
                         ? topPanel.getBackground()
                         : null;
 
-    JBPopup popup = JBPopupFactory.getInstance().createComponentPopupBuilder(mainPanel, list)
-      .setProject(project)
-      .setCancelOnClickOutside(true)
-      .setRequestFocus(true)
-      .setResizable(true)
-      .setMovable(true)
-      .setBorderColor(borderColor)
-      .setDimensionServiceKey(project, LOCATION_SETTINGS_KEY, true)
-      .setMinSize(new Dimension(getMinimumWidth(), getMinimumHeight()))
-      .setLocateWithinScreenBounds(false)
-      .createPopup();
-    Disposer.register(popup, renderer);
+//    JBPopup popup = JBPopupFactory.getInstance().createComponentPopupBuilder(mainPanel, list)
+//      .setProject(project)
+//      .setCancelOnClickOutside(true)
+//      .setRequestFocus(true)
+//      .setResizable(true)
+//      .setMovable(true)
+//      .setBorderColor(borderColor)
+//      .setDimensionServiceKey(project, LOCATION_SETTINGS_KEY, true)
+//      .setMinSize(new Dimension(getMinimumWidth(), getMinimumHeight()))
+//      .setLocateWithinScreenBounds(false)
+//      .createPopup();
+//    Disposer.register(popup, renderer);
+//
+//    LightEditActionFactory.create(event -> {
+//      checkBox.setSelected(!checkBox.isSelected());
+//      updateItems(model, list, checkBox, popup);
+//      titleUpdater.run();
+//    }).registerCustomShortcutSet(showChangedOnlyShortcutSet, list, popup);
 
-    LightEditActionFactory.create(event -> {
-      checkBox.setSelected(!checkBox.isSelected());
-      updateItems(model, list, checkBox, popup);
-      titleUpdater.run();
-    }).registerCustomShortcutSet(showChangedOnlyShortcutSet, list, popup);
+//    checkBox.addActionListener(new ActionListener() {
+//      @Override
+//      public void actionPerformed(ActionEvent e) {
+//        updateItems(model, list, checkBox, popup);
+//        titleUpdater.run();
+//      }
+//    });
 
-    checkBox.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        updateItems(model, list, checkBox, popup);
-        titleUpdater.run();
-      }
-    });
+//    if (DimensionService.getInstance().getSize(LOCATION_SETTINGS_KEY, project) == null) {
+//      popup.setSize(new Dimension(getDefaultWidth(), getDefaultHeight()));
+//    }
 
-    if (DimensionService.getInstance().getSize(LOCATION_SETTINGS_KEY, project) == null) {
-      popup.setSize(new Dimension(getDefaultWidth(), getDefaultHeight()));
-    }
+//    list.addMouseListener(new MouseAdapter() {
+//      @Override
+//      public void mouseClicked(MouseEvent event) {
+//        int clickCount = event.getClickCount();
+//        if (clickCount > 1 && clickCount % 2 == 0) {
+//          event.consume();
+//          final int i = list.locationToIndex(event.getPoint());
+//          if (i != -1) {
+//            list.setSelectedIndex(i);
+//            navigateToSelected(project, list, popup);
+//          }
+//        }
+//      }
+//    });
 
     list.addMouseListener(new MouseAdapter() {
       @Override
@@ -163,34 +174,19 @@ public final class RecentLocationsAction extends DumbAwareAction implements Ligh
         int clickCount = event.getClickCount();
         if (clickCount > 1 && clickCount % 2 == 0) {
           event.consume();
-          final int i = list.locationToIndex(event.getPoint());
-          if (i != -1) {
-            list.setSelectedIndex(i);
-            navigateToSelected(project, list, popup);
-          }
+//          navigateToSelected(project, list, popup);
         }
       }
     });
 
-    list.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent event) {
-        int clickCount = event.getClickCount();
-        if (clickCount > 1 && clickCount % 2 == 0) {
-          event.consume();
-          navigateToSelected(project, list, popup);
-        }
-      }
-    });
+//    LightEditActionFactory.create(e -> navigateToSelected(project, list, popup))
+//      .registerCustomShortcutSet(CustomShortcutSet.fromString("ENTER"), list, popup);
 
-    LightEditActionFactory.create(e -> navigateToSelected(project, list, popup))
-      .registerCustomShortcutSet(CustomShortcutSet.fromString("ENTER"), list, popup);
-
-    LightEditActionFactory.create(e -> {
-        removeItems(project, list, model, checkBox.isSelected());
-        titleUpdater.run();
-      })
-      .registerCustomShortcutSet(CustomShortcutSet.fromString("DELETE", "BACK_SPACE"), list, popup);
+//    LightEditActionFactory.create(e -> {
+//        removeItems(project, list, model, checkBox.isSelected());
+//        titleUpdater.run();
+//      })
+//      .registerCustomShortcutSet(CustomShortcutSet.fromString("DELETE", "BACK_SPACE"), list, popup);
 
     IdeEventQueue.getInstance().getPopupManager().closeAllPopups(false);
 
@@ -198,12 +194,12 @@ public final class RecentLocationsAction extends DumbAwareAction implements Ligh
       @Override
       public void focusLost(FocusEvent e) {
         if (!(e.getOppositeComponent() instanceof JCheckBox)) {
-          popup.cancel();
+//          popup.cancel();
         }
       }
     });
 
-    showPopup(project, popup);
+//    showPopup(project, popup);
   }
 
   private static void updateItems(@NotNull RecentLocationsDataModel data,
@@ -254,15 +250,15 @@ public final class RecentLocationsAction extends DumbAwareAction implements Ligh
   private static void updateModel(@NotNull JBList<RecentLocationItem> list,
                                   @NotNull RecentLocationsDataModel data,
                                   boolean changed) {
-    NameFilteringListModel<RecentLocationItem> model = (NameFilteringListModel<RecentLocationItem>)list.getModel();
-    DefaultListModel<RecentLocationItem> originalModel = (DefaultListModel<RecentLocationItem>)model.getOriginalModel();
-
-    originalModel.removeAllElements();
-    originalModel.addAll(data.getPlaces(changed));
-    if (list.getModel().getSize() > 0) list.setSelectedIndex(0);
-
-    SpeedSearchSupply speedSearch = SpeedSearchSupply.getSupply(list);
-    if (speedSearch instanceof SpeedSearch) ((SpeedSearch)speedSearch).reset();
+//    NameFilteringListModel<RecentLocationItem> model = (NameFilteringListModel<RecentLocationItem>)list.getModel();
+//    DefaultListModel<RecentLocationItem> originalModel = (DefaultListModel<RecentLocationItem>)model.getOriginalModel();
+//
+//    originalModel.removeAllElements();
+//    originalModel.addAll(data.getPlaces(changed));
+//    if (list.getModel().getSize() > 0) list.setSelectedIndex(0);
+//
+//    SpeedSearchSupply speedSearch = SpeedSearchSupply.getSupply(list);
+//    if (speedSearch instanceof SpeedSearch) ((SpeedSearch)speedSearch).reset();
   }
 
   private static @NotNull JPanel createMainPanel(@NotNull JComponent listPanel, @NotNull JPanel topPanel) {

@@ -15,6 +15,8 @@
  */
 package com.intellij.idea;
 
+import com.intellij.ide.IdeTooltipManager;
+import com.intellij.ide.TooltipEvent;
 import com.intellij.openapi.editor.ex.EditorSettingsExternalizable;
 import com.intellij.openapi.ui.popup.Balloon;
 import com.intellij.openapi.util.registry.Registry;
@@ -126,7 +128,7 @@ public class IdeTooltip extends ComparableObject.Impl {
   }
 
   public void hide() {
-    IdeTooltipManager.getInstance().hide(this);
+    IdeTooltipManager.getInstance().hide(null);
   }
 
   public boolean canBeDismissedOnTimeout() {

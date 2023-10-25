@@ -8,6 +8,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.impl.Utils;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
@@ -156,5 +157,13 @@ public final class ShowFilePathAction extends DumbAwareAction implements ActionR
   public static @Nullable VirtualFile findLocalFile(@Nullable VirtualFile file) {
     return RevealFileAction.findLocalFile(file);
   }
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.Disabled;
+  }
   //</editor-fold>
+
+
 }

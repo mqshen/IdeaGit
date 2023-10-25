@@ -15,10 +15,20 @@
  */
 package com.intellij.ide.actions;
 
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 
 public final class SplitVerticallyAction extends SplitAction{
   public SplitVerticallyAction() {
     super(SwingConstants.VERTICAL);
+  }
+
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

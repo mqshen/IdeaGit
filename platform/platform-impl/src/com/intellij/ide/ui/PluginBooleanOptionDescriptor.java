@@ -16,7 +16,6 @@ import com.intellij.openapi.application.ex.ApplicationInfoEx;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.ui.popup.Balloon;
-import com.intellij.openapi.updateSettings.impl.UpdateChecker;
 import com.intellij.openapi.util.Condition;
 import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.Nls;
@@ -86,22 +85,22 @@ public final class PluginBooleanOptionDescriptor extends BooleanOptionDescriptio
                                                  @NotNull @Nls String content,
                                                  boolean enabled) {
     String title = IdeBundle.message(enabled ? "plugins.auto.enabled.notification.title" : "plugins.auto.disabled.notification.title");
-    Notification switchNotification = UpdateChecker.getNotificationGroupForPluginUpdateResults()
-      .createNotification(content, NotificationType.INFORMATION)
-      .setDisplayId("plugin.auto.switch")
-      .setTitle(title)
-      .addAction(new NotificationAction(IdeBundle.message("plugins.auto.switch.action.name")) {
-        @Override
-        public void actionPerformed(@NotNull AnActionEvent e,
-                                    @NotNull Notification notification) {
-          boolean appliedWithoutRestart = enabled ?
-                                          pluginEnabler.disable(descriptors) :
-                                          pluginEnabler.enable(descriptors);
-          notification.expire();
-
-          notifyIfRestartRequired(!appliedWithoutRestart);
-        }
-      });
+//    Notification switchNotification = UpdateChecker.getNotificationGroupForPluginUpdateResults()
+//      .createNotification(content, NotificationType.INFORMATION)
+//      .setDisplayId("plugin.auto.switch")
+//      .setTitle(title)
+//      .addAction(new NotificationAction(IdeBundle.message("plugins.auto.switch.action.name")) {
+//        @Override
+//        public void actionPerformed(@NotNull AnActionEvent e,
+//                                    @NotNull Notification notification) {
+//          boolean appliedWithoutRestart = enabled ?
+//                                          pluginEnabler.disable(descriptors) :
+//                                          pluginEnabler.enable(descriptors);
+//          notification.expire();
+//
+//          notifyIfRestartRequired(!appliedWithoutRestart);
+//        }
+//      });
 
     Set<PluginId> pluginIds = IdeaPluginDescriptorImplKt.toPluginIdSet(descriptors);
 
@@ -112,19 +111,19 @@ public final class PluginBooleanOptionDescriptor extends BooleanOptionDescriptio
         boolean notificationValid = enabled ?
                                     !ContainerUtil.exists(pluginIds, condition) :
                                     ContainerUtil.and(pluginIds, condition);
-        if (!notificationValid) {
-          switchNotification.expire();
-        }
+//        if (!notificationValid) {
+//          switchNotification.expire();
+//        }
 
-        Balloon balloon = switchNotification.getBalloon();
-        if (balloon == null || balloon.isDisposed()) {
+//        Balloon balloon = false;//switchNotification.getBalloon();
+//        if (balloon == null || balloon.isDisposed()) {
           ApplicationManager.getApplication().invokeLater(() -> {
             DisabledPluginsState.Companion.removeDisablePluginListener(this);
           });
-        }
+//        }
       }
     });
-    switchNotification.notify(null);
+//    switchNotification.notify(null);
   }
 
   private static @NotNull Collection<? extends IdeaPluginDescriptor> getDependenciesToEnable(@NotNull Collection<? extends IdeaPluginDescriptor> descriptors,
@@ -176,21 +175,21 @@ public final class PluginBooleanOptionDescriptor extends BooleanOptionDescriptio
       }
     }
 
-    Notification newNotification = UpdateChecker.getNotificationGroupForIdeUpdateResults()
-      .createNotification(
-        IdeBundle.message("plugins.changed.notification.content", ApplicationNamesInfo.getInstance().getFullProductName()),
-        NotificationType.INFORMATION)
-      .setTitle(IdeBundle.message("plugins.changed.notification.title"))
-      .setDisplayId("plugins.updated.restart.required")
-      .addAction(new DumbAwareAction(IdeBundle.message("ide.restart.action")) {
-        @Override
-        public void actionPerformed(@NotNull AnActionEvent e) {
-          ApplicationManager.getApplication().restart();
-        }
-      });
+//    Notification newNotification = UpdateChecker.getNotificationGroupForIdeUpdateResults()
+//      .createNotification(
+//        IdeBundle.message("plugins.changed.notification.content", ApplicationNamesInfo.getInstance().getFullProductName()),
+//        NotificationType.INFORMATION)
+//      .setTitle(IdeBundle.message("plugins.changed.notification.title"))
+//      .setDisplayId("plugins.updated.restart.required")
+//      .addAction(new DumbAwareAction(IdeBundle.message("ide.restart.action")) {
+//        @Override
+//        public void actionPerformed(@NotNull AnActionEvent e) {
+//          ApplicationManager.getApplication().restart();
+//        }
+//      });
 
-    if (ourPreviousNotification.compareAndSet(notification, newNotification)) {
-      newNotification.notify(null);
-    }
+//    if (ourPreviousNotification.compareAndSet(notification, newNotification)) {
+//      newNotification.notify(null);
+//    }
   }
 }

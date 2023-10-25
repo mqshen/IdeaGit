@@ -19,8 +19,6 @@ import com.intellij.openapi.ui.popup.util.PopupUtil;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.statistics.StatisticsInfo;
-import com.intellij.psi.statistics.StatisticsManager;
 import com.intellij.ui.*;
 import com.intellij.ui.awt.RelativePoint;
 import com.intellij.ui.components.JBList;
@@ -185,28 +183,28 @@ public class ListPopupImpl extends WizardPopup implements ListPopup, NextStepHan
   }
 
   private boolean autoSelectUsingStatistics() {
-    String filter = getSpeedSearch().getFilter();
-    if (!StringUtil.isEmpty(filter)) {
-      int maxUseCount = -1;
-      int mostUsedValue = -1;
-      int elementsCount = myListModel.getSize();
-      for (int i = 0; i < elementsCount; i++) {
-        Object value = myListModel.getElementAt(i);
-        if (!isSelectable(value)) continue;
-        String text = getListStep().getTextFor(value);
-        int count =
-            StatisticsManager.getInstance().getUseCount(new StatisticsInfo("#list_popup:" + myStep.getTitle() + "#" + filter, text));
-        if (count > maxUseCount) {
-          maxUseCount = count;
-          mostUsedValue = i;
-        }
-      }
-
-      if (mostUsedValue > 0) {
-        ScrollingUtil.selectItem(myList, mostUsedValue);
-        return true;
-      }
-    }
+//    String filter = getSpeedSearch().getFilter();
+//    if (!StringUtil.isEmpty(filter)) {
+//      int maxUseCount = -1;
+//      int mostUsedValue = -1;
+//      int elementsCount = myListModel.getSize();
+//      for (int i = 0; i < elementsCount; i++) {
+//        Object value = myListModel.getElementAt(i);
+//        if (!isSelectable(value)) continue;
+//        String text = getListStep().getTextFor(value);
+//        int count =
+//            StatisticsManager.getInstance().getUseCount(new StatisticsInfo("#list_popup:" + myStep.getTitle() + "#" + filter, text));
+//        if (count > maxUseCount) {
+//          maxUseCount = count;
+//          mostUsedValue = i;
+//        }
+//      }
+//
+//      if (mostUsedValue > 0) {
+//        ScrollingUtil.selectItem(myList, mostUsedValue);
+//        return true;
+//      }
+//    }
 
     return false;
   }
@@ -265,7 +263,7 @@ public class ListPopupImpl extends WizardPopup implements ListPopup, NextStepHan
     myMouseListener = new MyMouseListener();
 
     ListPopupStep<Object> step = getListStep();
-    myListModel = new ListPopupModel(this, getSpeedSearch(), step);
+    myListModel = new ListPopupModel(step);
     myList = new MyList();
     myList.setVisibleRowCount(DEFAULT_MAX_ROW_COUNT);
     if (myStep.getTitle() != null) {
@@ -452,7 +450,7 @@ public class ListPopupImpl extends WizardPopup implements ListPopup, NextStepHan
   private boolean _handleSelect(boolean handleFinalChoices, @Nullable InputEvent e) {
     if (myList.getSelectedIndex() == -1) return false;
 
-    if (getSpeedSearch().isHoldingFilter() && myList.getModel().getSize() == 0) return false;
+//    if (getSpeedSearch().isHoldingFilter() && myList.getModel().getSize() == 0) return false;
 
     Object[] selectedValues = myList.getSelectedValues();
     if (selectedValues.length == 0) return false;
@@ -520,15 +518,15 @@ public class ListPopupImpl extends WizardPopup implements ListPopup, NextStepHan
   }
 
   private void valuesSelected(Object[] values) {
-    if (shouldUseStatistics()) {
-      String filter = getSpeedSearch().getFilter();
-      if (!StringUtil.isEmpty(filter)) {
-        for (Object value : values) {
-          String text = getListStep().getTextFor(value);
-          StatisticsManager.getInstance().incUseCount(new StatisticsInfo("#list_popup:" + getListStep().getTitle() + "#" + filter, text));
-        }
-      }
-    }
+//    if (shouldUseStatistics()) {
+//      String filter = getSpeedSearch().getFilter();
+//      if (!StringUtil.isEmpty(filter)) {
+//        for (Object value : values) {
+//          String text = getListStep().getTextFor(value);
+//          StatisticsManager.getInstance().incUseCount(new StatisticsInfo("#list_popup:" + getListStep().getTitle() + "#" + filter, text));
+//        }
+//      }
+//    }
   }
 
   @Override
@@ -894,9 +892,9 @@ public class ListPopupImpl extends WizardPopup implements ListPopup, NextStepHan
   @Override
   protected void onSpeedSearchPatternChanged() {
     ListPopupStep<?> step = getListStep();
-    if (step instanceof FilterableListPopupStep<?>) {
-      ((FilterableListPopupStep<?>)step).updateFilter(mySpeedSearch.getFilter());
-    }
+//    if (step instanceof FilterableListPopupStep<?>) {
+//      ((FilterableListPopupStep<?>)step).updateFilter(mySpeedSearch.getFilter());
+//    }
     myListModel.refilter();
     if (myListModel.getSize() > 0) {
       if (!(shouldUseStatistics() && autoSelectUsingStatistics())) {
@@ -993,8 +991,8 @@ public class ListPopupImpl extends WizardPopup implements ListPopup, NextStepHan
       getList().getActionMap().put(TransferHandler.getPasteAction().getValue(Action.NAME), new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          getSpeedSearch().type(CopyPasteManager.getInstance().getContents(DataFlavor.stringFlavor));
-          getSpeedSearch().update();
+//          getSpeedSearch().type(CopyPasteManager.getInstance().getContents(DataFlavor.stringFlavor));
+//          getSpeedSearch().update();
         }
       });
     }

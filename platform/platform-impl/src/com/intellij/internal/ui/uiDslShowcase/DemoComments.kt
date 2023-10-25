@@ -3,9 +3,11 @@ package com.intellij.internal.ui.uiDslShowcase
 
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.Messages
+import com.intellij.ui.dsl.builder.HyperlinkEventAction
 import com.intellij.ui.dsl.builder.MAX_LINE_LENGTH_NO_WRAP
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.text
+import javax.swing.event.HyperlinkEvent
 
 @Demo(title = "Comments",
       description = "Comment is a gray (depends on color scheme) text which can be assigned to cell (placed under cell), rows or placed in any cell directly")
@@ -28,9 +30,12 @@ fun demoComments(): DialogPanel {
 
     row("Row3:") {
       comment(
-        "Comments can be an html text with some clickable <a href='link'>link</a> and even <a href='several links'>several links</a>.<br><icon src='AllIcons.General.Information'>&nbsp;It's possible to use line breaks and bundled icons") {
-        Messages.showMessageDialog("Link '${it.description}' is clicked", "Message", null)
-      }
+        "Comments can be an html text with some clickable <a href='link'>link</a> and even <a href='several links'>several links</a>.<br><icon src='AllIcons.General.Information'>&nbsp;It's possible to use line breaks and bundled icons",
+        action = object: HyperlinkEventAction {
+          override fun hyperlinkActivated(e: HyperlinkEvent) {
+          Messages.showMessageDialog("Link '${e.description}' is clicked", "Message", null)
+        }
+      })
     }
 
     val longString = (1..8).joinToString { "A very long string" }

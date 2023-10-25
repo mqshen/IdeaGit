@@ -5,7 +5,6 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.intellij.ide.IdeBundle;
 import com.intellij.ide.nls.NlsMessages;
-import com.intellij.ide.plugins.marketplace.MarketplacePluginDownloadService;
 import com.intellij.ide.plugins.marketplace.MarketplaceRequests;
 import com.intellij.ide.plugins.marketplace.statistics.PluginManagerUsageCollector;
 import com.intellij.ide.plugins.marketplace.statistics.enums.InstallationSourceEnum;
@@ -21,7 +20,6 @@ import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.ui.MessageDialogBuilder;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.updateSettings.impl.PluginDownloader;
 import com.intellij.openapi.util.ActionCallback;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.util.registry.Registry;
@@ -56,7 +54,6 @@ public final class PluginInstallOperation {
   private final List<PendingDynamicPluginInstall> myPendingDynamicPluginInstalls = new ArrayList<>();
   private boolean myRestartRequired = false;
   private boolean myShownErrors;
-  private MarketplacePluginDownloadService myDownloadService;
 
   public PluginInstallOperation(@NotNull List<PluginNode> pluginsToInstall,
                                 @NotNull Collection<PluginNode> customReposPlugins,
@@ -105,10 +102,6 @@ public final class PluginInstallOperation {
     ActionCallback callback = new ActionCallback();
     ourInstallCallbacks.put(id, callback);
     myLocalInstallCallbacks.put(id, callback);
-  }
-
-  public void setDownloadService(MarketplacePluginDownloadService downloadService) {
-    myDownloadService = downloadService;
   }
 
   public void setAllowInstallWithoutRestart(boolean allowInstallWithoutRestart) {
@@ -236,81 +229,42 @@ public final class PluginInstallOperation {
 
     myShownErrors = false;
 
-    PluginDownloader downloader = PluginDownloader.createDownloader(pluginNode, pluginNode.getRepositoryName(), null);
 
     IdeaPluginDescriptor previousDescriptor = PluginManagerCore.getPlugin(pluginNode.getPluginId());
     String previousVersion = (previousDescriptor == null) ? null : previousDescriptor.getVersion();
     PluginManagerUsageCollector.pluginInstallationStarted(
       pluginNode,
-      downloader.isFromMarketplace() ? InstallationSourceEnum.MARKETPLACE : InstallationSourceEnum.CUSTOM_REPOSITORY,
+      InstallationSourceEnum.CUSTOM_REPOSITORY,
       previousVersion
     );
 
-    boolean prepared = downloader.prepareToInstall(myIndicator);
-    if (prepared) {
-      IdeaPluginDescriptorImpl descriptor = (IdeaPluginDescriptorImpl)downloader.getDescriptor();
-
-      if (pluginNode.getDependencies().isEmpty() && !descriptor.getDependencies().isEmpty()) {  // installing from custom plugins repo
-        if (!checkMissingDependencies(descriptor, pluginIds)) return false;
-      }
-
-      boolean allowNoRestart = myAllowInstallWithoutRestart &&
-                               DynamicPlugins.allowLoadUnloadWithoutRestart(descriptor);
-      if (allowNoRestart) {
-        myPendingDynamicPluginInstalls.add(new PendingDynamicPluginInstall(downloader.getFilePath(), descriptor));
-        InstalledPluginsState state = InstalledPluginsState.getInstanceIfLoaded();
-        if (state != null) {
-          state.onPluginInstall(downloader.getDescriptor(), false, false);
-        }
-      }
-      else {
-        myRestartRequired = true;
-        synchronized (PluginInstaller.ourLock) {
-          downloader.install();
-        }
-      }
-      myDependant.add(new PluginInstallCallbackData(downloader.getFilePath(), descriptor, !allowNoRestart));
-      pluginNode.setStatus(PluginNode.Status.DOWNLOADED);
-      if (toDisable != null) {
-        myPluginEnabler.disable(Set.of(toDisable));
-      }
-
-      return true;
-    }
-    else {
-      myShownErrors = downloader.isShownErrors();
-      return false;
-    }
+    return false;
   }
 
   @Nullable IdeaPluginDescriptor checkDependenciesAndReplacements(@NotNull IdeaPluginDescriptor pluginNode) {
-    PluginReplacement pluginReplacement = ContainerUtil.find(PluginReplacement.EP_NAME.getExtensions(),
-                                                             r -> r.getNewPluginId().equals(pluginNode.getPluginId().getIdString()));
-    if (pluginReplacement == null) {
       return null;
-    }
 
-    PluginId oldPluginId = pluginReplacement.getOldPluginDescriptor().getPluginId();
-    IdeaPluginDescriptor oldPlugin = PluginManagerCore.getPlugin(oldPluginId);
-    if (oldPlugin == null) {
-      LOG.warn("Plugin with id '" + oldPluginId + "' not found");
-      return null;
-    }
-
-    if (myPluginEnabler.isDisabled(oldPlugin.getPluginId())) {
-      return null;
-    }
-
-    AtomicBoolean toDisable = new AtomicBoolean();
-    ApplicationManager.getApplication().invokeAndWait(() -> {
-      boolean choice = MessageDialogBuilder.yesNo(pluginReplacement.getReplacementMessage(oldPlugin, pluginNode),
-                                                  IdeBundle.message("plugin.manager.obsolete.plugins.detected.title"))
-        .yesText(IdeBundle.message("plugins.configurable.disable")).noText(Messages.getNoButton()).icon(Messages.getWarningIcon())
-        .guessWindowAndAsk();
-      toDisable.set(choice);
-    }, ModalityState.any());
-
-    return toDisable.get() ? oldPlugin : null;
+//    PluginId oldPluginId = pluginReplacement.getOldPluginDescriptor().getPluginId();
+//    IdeaPluginDescriptor oldPlugin = PluginManagerCore.getPlugin(oldPluginId);
+//    if (oldPlugin == null) {
+//      LOG.warn("Plugin with id '" + oldPluginId + "' not found");
+//      return null;
+//    }
+//
+//    if (myPluginEnabler.isDisabled(oldPlugin.getPluginId())) {
+//      return null;
+//    }
+//
+//    AtomicBoolean toDisable = new AtomicBoolean();
+//    ApplicationManager.getApplication().invokeAndWait(() -> {
+//      boolean choice = MessageDialogBuilder.yesNo(pluginReplacement.getReplacementMessage(oldPlugin, pluginNode),
+//                                                  IdeBundle.message("plugin.manager.obsolete.plugins.detected.title"))
+//        .yesText(IdeBundle.message("plugins.configurable.disable")).noText(Messages.getNoButton()).icon(Messages.getWarningIcon())
+//        .guessWindowAndAsk();
+//      toDisable.set(choice);
+//    }, ModalityState.any());
+//
+//    return toDisable.get() ? oldPlugin : null;
   }
 
   boolean checkMissingDependencies(@NotNull IdeaPluginDescriptor pluginNode,
@@ -455,9 +409,9 @@ public final class PluginInstallOperation {
       .getLastCompatiblePluginUpdate(depPluginId);
 
     boolean fromCustomRepos = pluginFromMarketplace == null ||
-                              pluginFromCustomRepos != null &&
-                              PluginDownloader.compareVersionsSkipBrokenAndIncompatible(pluginFromCustomRepos.getVersion(),
-                                                                                        pluginFromMarketplace) > 0;
+                              pluginFromCustomRepos != null;
+//                                      &&
+//                              PluginDownloader.compareVersionsSkipBrokenAndIncompatible(pluginFromCustomRepos.getVersion() , pluginFromMarketplace) > 0;
     return fromCustomRepos ? pluginFromCustomRepos : pluginFromMarketplace;
   }
 

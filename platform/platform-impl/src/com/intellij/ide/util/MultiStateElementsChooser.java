@@ -6,7 +6,6 @@ import com.intellij.openapi.util.NlsSafe;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.*;
-import com.intellij.ui.speedSearch.SpeedSearchUtil;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.ComponentWithEmptyText;
@@ -99,8 +98,8 @@ public class MultiStateElementsChooser<T, S> extends JPanel implements Component
     columnModel.getColumn(myTableModel.ELEMENT_COLUMN_INDEX).setCellRenderer(new MyElementColumnCellRenderer());
     add(pane, BorderLayout.CENTER);
 
-    TableSpeedSearch speedSearch = TableSpeedSearch.installOn(myTable);
-    speedSearch.setFilteringMode(true);
+//    TableSpeedSearch speedSearch = TableSpeedSearch.installOn(myTable);
+//    speedSearch.setFilteringMode(true);
     myTable.setRowSorter(new TableRowSorter<>(myTable.getModel()));
     myTable.registerKeyboardAction(
       new ActionListener() {
@@ -599,8 +598,8 @@ public class MultiStateElementsChooser<T, S> extends JPanel implements Component
     protected void customizeCellRenderer(@NotNull JTable table, @Nullable Object value, boolean selected, boolean hasFocus, int row, int column) {
       @SuppressWarnings("unchecked") T item = (T)value;
       String text = item == null ? "" : getItemText(item);
-      SpeedSearchUtil.appendFragmentsForSpeedSearch(
-        table, text, SimpleTextAttributes.REGULAR_ATTRIBUTES, selected, this);
+//      SpeedSearchUtil.appendFragmentsForSpeedSearch(
+//        table, text, SimpleTextAttributes.REGULAR_ATTRIBUTES, selected, this);
 
       ElementProperties properties = myElementToPropertiesMap.get(item);
 

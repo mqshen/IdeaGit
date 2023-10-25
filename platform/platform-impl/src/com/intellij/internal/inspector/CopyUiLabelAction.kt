@@ -1,7 +1,6 @@
 // Copyright 2000-2022 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.internal.inspector
 
-import com.intellij.codeInsight.hint.HintManager
 import com.intellij.ide.HelpTooltip
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.openapi.util.text.StringUtil
@@ -54,9 +53,9 @@ internal class CopyUiLabelAction : UiMouseAction("CopyUiLabel") {
     val anchor = findJComponentFor(component)
     if (anchor != null) {
       val message = "Copied: '${StringUtil.shortenTextWithEllipsis(text, 30, 0)}'"
-      HintManager.getInstance().showHint(JLabel(message),
-                                         RelativePoint.getSouthWestOf(anchor),
-                                         HintManager.HIDE_BY_ANY_KEY or HintManager.HIDE_BY_OTHER_HINT, 0)
+//      HintManager.getInstance().showHint(JLabel(message),
+//                                         RelativePoint.getSouthWestOf(anchor),
+//                                         HintManager.HIDE_BY_ANY_KEY or HintManager.HIDE_BY_OTHER_HINT, 0)
     }
   }
 

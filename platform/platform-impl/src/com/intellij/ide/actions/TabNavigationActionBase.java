@@ -5,6 +5,7 @@ import com.intellij.ide.lightEdit.LightEdit;
 import com.intellij.ide.lightEdit.LightEditService;
 import com.intellij.idea.ActionsBundle;
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
@@ -171,11 +172,23 @@ abstract class TabNavigationActionBase extends AnAction implements DumbAware, Ac
     private GoToTab1Action() {
       super(NavigationType.NUM1);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class GoToTab2Action extends GoToTabAction {
     private GoToTab2Action() {
       super(NavigationType.NUM2);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -183,11 +196,23 @@ abstract class TabNavigationActionBase extends AnAction implements DumbAware, Ac
     private GoToTab3Action() {
       super(NavigationType.NUM3);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class GoToTab4Action extends GoToTabAction {
     private GoToTab4Action() {
       super(NavigationType.NUM4);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -195,11 +220,23 @@ abstract class TabNavigationActionBase extends AnAction implements DumbAware, Ac
     private GoToTab5Action() {
       super(NavigationType.NUM5);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class GoToTab6Action extends GoToTabAction {
     private GoToTab6Action() {
       super(NavigationType.NUM6);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -207,11 +244,23 @@ abstract class TabNavigationActionBase extends AnAction implements DumbAware, Ac
     private GoToTab7Action() {
       super(NavigationType.NUM7);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class GoToTab8Action extends GoToTabAction {
     private GoToTab8Action() {
       super(NavigationType.NUM8);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 
@@ -219,11 +268,23 @@ abstract class TabNavigationActionBase extends AnAction implements DumbAware, Ac
     private GoToTab9Action() {
       super(NavigationType.NUM9);
     }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
+    }
   }
 
   public static final class GoToLastTabAction extends GoToTabAction {
     public GoToLastTabAction() {
       super(NavigationType.LAST);
+    }
+
+    @NotNull
+    @Override
+    public ActionRemoteBehavior getBehavior() {
+      return ActionRemoteBehavior.FrontendOnly;
     }
   }
 }

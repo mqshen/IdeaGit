@@ -1,7 +1,6 @@
 // Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.ui;
 
-import com.intellij.codeInsight.hint.TooltipController;
 import com.intellij.ide.IdeTooltip;
 import com.intellij.ide.IdeTooltipManager;
 import com.intellij.ide.TooltipEvent;
@@ -171,7 +170,7 @@ public class LightweightHint extends UserDataHolderBase implements Hint {
         @Override
         protected void onHidden() {
           fireHintHidden();
-          TooltipController.getInstance().resetCurrent();
+//          TooltipController.getInstance().resetCurrent();
         }
 
         @Override
@@ -399,7 +398,7 @@ public class LightweightHint extends UserDataHolderBase implements Hint {
       myComponent.unregisterKeyboardAction(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
     }
 
-    TooltipController.getInstance().hide(this);
+//    TooltipController.getInstance().hide(this);
 
     myShouldReopenPopup = false;
     fireHintHidden();

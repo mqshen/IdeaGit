@@ -18,8 +18,8 @@ import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
-import com.intellij.openapi.updateSettings.impl.PluginDownloader
-import com.intellij.openapi.updateSettings.impl.UpdateChecker
+//import com.intellij.openapi.updateSettings.impl.PluginDownloader
+//import com.intellij.openapi.updateSettings.impl.UpdateChecker
 import com.intellij.openapi.updateSettings.impl.UpdateSettings
 import com.intellij.openapi.util.JDOMUtil
 import com.intellij.openapi.util.SystemInfo
@@ -187,12 +187,12 @@ open class StandalonePluginUpdateChecker(
     var url =
       "https://plugins.jetbrains.com/plugins/list?pluginId=$pluginId&build=$buildNumber&pluginVersion=$currentVersion&os=$os&uuid=$uid"
 
-    if (!PropertiesComponent.getInstance().getBoolean(UpdateChecker.MACHINE_ID_DISABLED_PROPERTY, false)) {
-      val machineId = MachineIdManager.getAnonymizedMachineId("JetBrainsUpdates", "")
-      if (machineId != null) {
-        url += "&${UpdateChecker.MACHINE_ID_PARAMETER}=$machineId"
-      }
-    }
+//    if (!PropertiesComponent.getInstance().getBoolean(UpdateChecker.MACHINE_ID_DISABLED_PROPERTY, false)) {
+//      val machineId = MachineIdManager.getAnonymizedMachineId("JetBrainsUpdates", "")
+//      if (machineId != null) {
+//        url += "&${UpdateChecker.MACHINE_ID_PARAMETER}=$machineId"
+//      }
+//    }
 
     val responseDoc = HttpRequests.request(url).connect { JDOMUtil.load(it.inputStream) }
     if (responseDoc.name != "plugin-repository") {
@@ -274,7 +274,7 @@ open class StandalonePluginUpdateChecker(
     errorCallback: () -> Unit = {},
   ) {
     val descriptor = update.pluginDescriptor
-    val pluginDownloader = PluginDownloader.createDownloader(descriptor, update.hostToInstallFrom, null)
+//    val pluginDownloader = PluginDownloader.createDownloader(descriptor, update.hostToInstallFrom, null)
     ProgressManager.getInstance().run(object : Task.Backgroundable(
       /* project = */ null,
       /* title = */ IdeBundle.message("plugin.updater.downloading"),
@@ -285,21 +285,21 @@ open class StandalonePluginUpdateChecker(
         var installed = false
         var message: String? = null
         val prepareResult = try {
-          pluginDownloader.prepareToInstall(indicator)
+//          pluginDownloader.prepareToInstall(indicator)
         } catch (e: IOException) {
           LOG.info(e)
           message = e.message
           false
         }
 
-        if (prepareResult) {
-          installed = true
-          pluginDownloader.install()
-
-          ApplicationManager.getApplication().invokeLater {
-            PluginManagerMain.notifyPluginsUpdated(null)
-          }
-        }
+//        if (prepareResult) {
+//          installed = true
+//          pluginDownloader.install()
+//
+//          ApplicationManager.getApplication().invokeLater {
+//            PluginManagerMain.notifyPluginsUpdated(null)
+//          }
+//        }
 
         ApplicationManager.getApplication().invokeLater {
           if (!installed) {

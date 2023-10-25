@@ -5,8 +5,6 @@ import com.intellij.openapi.ui.popup.ListPopupStep;
 import com.intellij.openapi.ui.popup.ListSeparator;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.speedSearch.ElementFilter;
-import com.intellij.ui.speedSearch.SpeedSearch;
 import com.intellij.util.ObjectUtils;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -24,18 +22,14 @@ public final class ListPopupModel<T> extends AbstractListModel<T> {
   private final List<T> myFilteredList = new ArrayList<>();
   private final IntList myIndices = new IntArrayList();
 
-  private final ElementFilter<? super T> myFilter;
   private final ListPopupStep<T> myStep;
 
   private int myFullMatchIndex = -1;
   private int myStartsWithIndex = -1;
-  private final SpeedSearch mySpeedSearch;
   private final Map<Object, ListSeparator> mySeparators = new HashMap<>();
 
-  public ListPopupModel(ElementFilter<? super T> filter, SpeedSearch speedSearch, ListPopupStep<T> step) {
-    myFilter = filter;
+  public ListPopupModel( ListPopupStep<T> step) {
     myStep = step;
-    mySpeedSearch = speedSearch;
     myOriginalList = new ArrayList<>(myStep.getValues());
     rebuildLists();
   }
@@ -84,21 +78,21 @@ public final class ListPopupModel<T> extends AbstractListModel<T> {
       T each = myOriginalList.get(i);
       lastSeparator = ObjectUtils.chooseNotNull(myStep.getSeparatorAbove(each), lastSeparator);
 
-      if (myFilter.shouldBeShowing(each)) {
-        addToFiltered(each);
-        myIndices.add(i);
-        if (lastSeparator != null) {
-          mySeparators.put(each, lastSeparator);
-          lastSeparator = null;
-        }
-      }
+//      if (myFilter.shouldBeShowing(each)) {
+//        addToFiltered(each);
+//        myIndices.add(i);
+//        if (lastSeparator != null) {
+//          mySeparators.put(each, lastSeparator);
+//          lastSeparator = null;
+//        }
+//      }
     }
   }
 
   private void addToFiltered(T each) {
     myFilteredList.add(each);
-    if (!mySpeedSearch.isHoldingFilter()) return;
-    String filterString = StringUtil.toUpperCase(mySpeedSearch.getFilter());
+//    if (!mySpeedSearch.isHoldingFilter()) return;
+    String filterString = "";//StringUtil.toUpperCase(mySpeedSearch.getFilter());
     String candidateString = StringUtil.toUpperCase(myStep.getTextFor(each));
     int index = myFilteredList.size() - 1;
 
@@ -142,9 +136,9 @@ public final class ListPopupModel<T> extends AbstractListModel<T> {
 
   public void refilter() {
     rebuildLists();
-    if (myFilteredList.isEmpty() && !myOriginalList.isEmpty()) {
-      mySpeedSearch.noHits();
-    }
+//    if (myFilteredList.isEmpty() && !myOriginalList.isEmpty()) {
+//      mySpeedSearch.noHits();
+//    }
     fireContentsChanged(this, 0, myFilteredList.size());
   }
 

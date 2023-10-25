@@ -51,7 +51,7 @@ private fun manageWidget(enabled: Boolean) {
   }
 }
 
-private class StatusWidget : StatusBarWidget, TextPresentation {
+private class StatusWidget : StatusBarWidget(), TextPresentation {
   override fun ID(): String = STATUS_BAR_WIDGET_ID
 
   override fun getPresentation(): StatusBarWidget.WidgetPresentation = this

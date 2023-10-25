@@ -16,7 +16,6 @@ import com.intellij.openapi.util.NlsContexts.NotificationContent
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.util.registry.Registry
 import com.intellij.util.Urls
-import org.jetbrains.ide.BuiltInServerManager
 
 open class BrowserLauncherImpl : BrowserLauncherAppless() {
   override fun getDefaultBrowser(): WebBrowser? {
@@ -47,13 +46,13 @@ open class BrowserLauncherImpl : BrowserLauncherAppless() {
 
   override fun signUrl(url: String): String {
     val parsedUrl = Urls.parse(url, false)
-    val serverManager = BuiltInServerManager.getInstance()
-    if (parsedUrl != null && serverManager.isOnBuiltInWebServer(parsedUrl)) {
-      if (Registry.`is`("ide.built.in.web.server.activatable", false)) {
-        PropertiesComponent.getInstance().setValue("ide.built.in.web.server.active", true)
-      }
-      return serverManager.addAuthToken(parsedUrl).toExternalForm()
-    }
+//    val serverManager = BuiltInServerManager.getInstance()
+//    if (parsedUrl != null && serverManager.isOnBuiltInWebServer(parsedUrl)) {
+//      if (Registry.`is`("ide.built.in.web.server.activatable", false)) {
+//        PropertiesComponent.getInstance().setValue("ide.built.in.web.server.active", true)
+//      }
+//      return serverManager.addAuthToken(parsedUrl).toExternalForm()
+//    }
     return url
   }
 

@@ -17,7 +17,6 @@ import com.intellij.internal.statistic.eventLog.events.EventFields.StringValidat
 import com.intellij.internal.statistic.eventLog.events.EventPair
 import com.intellij.internal.statistic.eventLog.events.StringEventField
 import com.intellij.internal.statistic.service.fus.collectors.ApplicationUsagesCollector
-import com.intellij.jdkEx.JdkEx
 import com.intellij.openapi.actionSystem.ex.QuickListsManager
 import com.intellij.openapi.application.EDT
 import com.intellij.openapi.application.ModalityState
@@ -152,7 +151,7 @@ private suspend fun addScreenScale(set: MutableSet<MetricEvent>) {
   if (!GraphicsEnvironment.isHeadless()) {
     withContext(Dispatchers.EDT + ModalityState.any().asContextElement()) {
       val dm = GraphicsEnvironment.getLocalGraphicsEnvironment().defaultScreenDevice.displayMode
-      isScaleMode = dm != null && !JdkEx.getDisplayModeEx().isDefault(dm)
+      isScaleMode = dm != null //&& !JdkEx.getDisplayModeEx().isDefault(dm)
     }
   }
   val data = ArrayList<EventPair<*>>()

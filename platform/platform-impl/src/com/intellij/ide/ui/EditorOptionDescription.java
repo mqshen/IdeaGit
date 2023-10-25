@@ -15,7 +15,6 @@
  */
 package com.intellij.ide.ui;
 
-import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.ex.EditorSettingsExternalizable;
 import com.intellij.openapi.project.Project;
@@ -38,9 +37,9 @@ public class EditorOptionDescription extends PublicFieldBasedOptionDescription {
   @Override
   protected void fireUpdated() {
     Project[] projects = ProjectManager.getInstance().getOpenProjects();
-    for (Project project : projects) {
-      DaemonCodeAnalyzer.getInstance(project).settingsChanged();
-    }
+//    for (Project project : projects) {
+//      DaemonCodeAnalyzer.getInstance(project).settingsChanged();
+//    }
 
     EditorFactory.getInstance().refreshAllEditors();
   }

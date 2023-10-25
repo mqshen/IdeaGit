@@ -12,7 +12,6 @@ import com.intellij.openapi.fileChooser.FileTextField
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.*
-import com.intellij.openapi.updateSettings.impl.UpdateChecker
 import com.intellij.openapi.util.JDOMUtil
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.wm.IdeFocusManager
@@ -44,17 +43,17 @@ internal class ShowUpdateInfoDialogAction : DumbAwareAction() {
 
     val dialog = MyDialog(project)
     if (dialog.showAndGet()) {
-      try {
-        UpdateChecker.testPlatformUpdate(
-          project,
-          dialog.updateXmlText(),
-          dialog.patchFilePath()?.let { File(FileUtil.toSystemDependentName(it)) },
-          dialog.forceUpdate(),
-        )
-      }
-      catch (ex: Exception) {
-        Messages.showErrorDialog(project, "${ex.javaClass.name}: ${ex.message}", "Something Went Wrong")
-      }
+//      try {
+//        UpdateChecker.testPlatformUpdate(
+//          project,
+//          dialog.updateXmlText(),
+//          dialog.patchFilePath()?.let { File(FileUtil.toSystemDependentName(it)) },
+//          dialog.forceUpdate(),
+//        )
+//      }
+//      catch (ex: Exception) {
+//        Messages.showErrorDialog(project, "${ex.javaClass.name}: ${ex.message}", "Something Went Wrong")
+//      }
     }
   }
 

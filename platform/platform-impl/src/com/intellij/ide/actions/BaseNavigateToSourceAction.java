@@ -4,7 +4,6 @@ package com.intellij.ide.actions;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.pom.Navigatable;
-import com.intellij.pom.NavigatableWithText;
 import com.intellij.pom.PomTargetPsiElement;
 import com.intellij.util.OpenSourceUtil;
 import org.jetbrains.annotations.NotNull;
@@ -41,11 +40,10 @@ public abstract class BaseNavigateToSourceAction extends DumbAwareAction {
     }
     //as myFocusEditor is always ignored - Main Menu|View always contains 2 actions with the same name and actually same behaviour
     e.getPresentation().setVisible((enabled || !inPopup) &&
-                                   (myFocusEditor || !(target instanceof NavigatableWithText)));
+                                   (myFocusEditor ));
     e.getPresentation().setEnabled(enabled);
 
-    String navigateActionText = myFocusEditor && target instanceof NavigatableWithText ?
-                                ((NavigatableWithText)target).getNavigateActionText(true) : null;
+    String navigateActionText = null;
     if (navigateActionText != null) {
       e.getPresentation().setText(navigateActionText);
     }

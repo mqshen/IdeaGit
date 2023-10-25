@@ -307,8 +307,12 @@ public final class SettingsEntryPointAction extends DumbAwareAction implements R
     }
   }
 
-  private static final class MyStatusBarWidget implements StatusBarWidget, StatusBarWidget.IconPresentation {
+  private static final class MyStatusBarWidget extends StatusBarWidget implements StatusBarWidget.IconPresentation {
     private StatusBar myStatusBar;
+
+    public String getShortcutText() {
+      return null;
+    }
 
     @Override
     public @NotNull String ID() {

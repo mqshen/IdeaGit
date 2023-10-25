@@ -159,7 +159,7 @@ class ActionMacroManager internal constructor(private val coroutineScope: Corout
     statusBar.addWidget(widget!!)
   }
 
-  private inner class Widget(private val statusBar: StatusBar) : CustomStatusBarWidget, Consumer<MouseEvent> {
+  private inner class Widget(private val statusBar: StatusBar) : CustomStatusBarWidget(), Consumer<MouseEvent> {
     private val icon = com.intellij.util.ui.AnimatedIcon("Macro recording",
                                                          AnimatedIcon.Recording.ICONS.toTypedArray(),
                                                          AllIcons.Ide.Macro.Recording_1,

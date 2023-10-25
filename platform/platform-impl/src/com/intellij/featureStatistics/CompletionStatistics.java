@@ -10,7 +10,7 @@ public final class CompletionStatistics extends CumulativeStatistics {
     registerInvocation();
     if (spared > 0) {
       sparedCharacters += spared;
-      ApplicationManager.getApplication().getMessageBus().syncPublisher(FeatureStatisticsUpdateListener.TOPIC).completionStatUpdated(spared);
+      ApplicationManager.getApplication().getMessageBus();//.syncPublisher(FeatureStatisticsUpdateListener.TOPIC).completionStatUpdated(spared);
     }
   }
 }

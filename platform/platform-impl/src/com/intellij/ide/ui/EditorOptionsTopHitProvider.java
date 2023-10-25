@@ -57,7 +57,8 @@ final class EditorOptionsTopHitProvider implements OptionsTopHitProvider.Applica
   }
 
   static BooleanOptionDescription editorCode(@Label String option, @NonNls String field) {
-    return new DaemonCodeAnalyzerOptionDescription(field, option, "editor.preferences.appearance");
+    return null;
+//    return new DaemonCodeAnalyzerOptionDescription(field, option, "editor.preferences.appearance");
   }
 
   static final class Ex implements OptionsTopHitProvider.CoveredByToggleActions, ApplicationLevelProvider {

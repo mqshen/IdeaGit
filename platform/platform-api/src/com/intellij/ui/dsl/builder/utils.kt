@@ -78,15 +78,17 @@ const val MAX_LINE_LENGTH_WORD_WRAP: Int = -1
  */
 const val MAX_LINE_LENGTH_NO_WRAP: Int = Int.MAX_VALUE
 
-fun interface HyperlinkEventAction {
+interface HyperlinkEventAction {
 
   companion object {
     /**
      * Opens URL in a browser
      */
     @JvmField
-    val HTML_HYPERLINK_INSTANCE: HyperlinkEventAction = HyperlinkEventAction { e ->
-      e.url?.let { BrowserUtil.browse(it) }
+    val HTML_HYPERLINK_INSTANCE: HyperlinkEventAction = object: HyperlinkEventAction {
+      override fun hyperlinkActivated(e: HyperlinkEvent) {
+        e.url?.let { BrowserUtil.browse(it) }
+      }
     }
   }
 

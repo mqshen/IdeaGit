@@ -8,7 +8,6 @@ import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.application.ApplicationBundle;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.UniqueVFilePathBuilder;
-import com.intellij.openapi.fileEditor.impl.EditorHistoryManager;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
@@ -54,10 +53,10 @@ final class LightEditRecentFileActionGroup extends ActionGroup implements DumbAw
   }
 
   private static @NotNull List<VirtualFile> getRecentFiles(@NotNull Project project) {
-    List<VirtualFile> historyFiles = EditorHistoryManager.getInstance(project).getFileList();
-    LinkedHashSet<VirtualFile> result = new LinkedHashSet<>(historyFiles);
-    Arrays.asList(FileEditorManager.getInstance(project).getOpenFiles()).forEach(result::remove);
-    return ContainerUtil.reverse(new ArrayList<>(result));
+//    List<VirtualFile> historyFiles = EditorHistoryManager.getInstance(project).getFileList();
+//    LinkedHashSet<VirtualFile> result = new LinkedHashSet<>(historyFiles);
+//    Arrays.asList(FileEditorManager.getInstance(project).getOpenFiles()).forEach(result::remove);
+    return ContainerUtil.reverse(new ArrayList<>());
   }
 
   private static final class OpenFileAction extends DumbAwareAction implements LightEditCompatible {

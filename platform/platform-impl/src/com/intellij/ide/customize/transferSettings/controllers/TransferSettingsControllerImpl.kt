@@ -5,7 +5,6 @@ import com.intellij.ide.customize.transferSettings.fus.TransferSettingsCollector
 import com.intellij.ide.customize.transferSettings.models.BaseIdeVersion
 import com.intellij.ide.customize.transferSettings.models.FailedIdeVersion
 import com.intellij.ide.customize.transferSettings.models.IdeVersion
-import com.intellij.ide.customize.transferSettings.providers.DefaultImportPerformer
 import com.intellij.ide.customize.transferSettings.providers.TransferSettingsPerformImportTask
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
@@ -23,9 +22,8 @@ class TransferSettingsControllerImpl : TransferSettingsController {
   override fun performImport(project: Project?, ideVersion: IdeVersion, withPlugins: Boolean, pi: ProgressIndicator) {
     TransferSettingsCollector.logImportStarted()
     eventDispatcher.multicaster.importStarted(ideVersion, ideVersion.settingsCache)
-    val performer = getImportPerformer()
 
-    val task = object : TransferSettingsPerformImportTask(project, performer, ideVersion.settingsCache, true) {
+    val task = object : TransferSettingsPerformImportTask(project, ideVersion.settingsCache, true) {
       override fun onSuccess() {
         TransferSettingsCollector.logImportSucceeded(ideVersion, ideVersion.settingsCache)
         eventDispatcher.multicaster.importPerformed(ideVersion, ideVersion.settingsCache)
@@ -58,5 +56,4 @@ class TransferSettingsControllerImpl : TransferSettingsController {
     previouslySelected = ideVersion
   }
 
-  override fun getImportPerformer() = DefaultImportPerformer()
 }

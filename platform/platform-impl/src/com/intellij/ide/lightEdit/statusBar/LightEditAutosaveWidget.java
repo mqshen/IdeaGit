@@ -27,10 +27,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
-public final class LightEditAutosaveWidget implements StatusBarWidget, StatusBarWidget.TextPresentation, LightEditorListener {
+public final class LightEditAutosaveWidget extends StatusBarWidget implements StatusBarWidget.TextPresentation, LightEditorListener {
   private final LightEditorManager myLightEditorManager;
   private StatusBar myStatusBar;
 
+
+  public String getShortcutText() {
+    return null;
+  }
   public LightEditAutosaveWidget(@NotNull LightEditorManager editorManager) {
     myLightEditorManager = editorManager;
   }

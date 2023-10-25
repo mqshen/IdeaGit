@@ -1,9 +1,7 @@
 // Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.ui;
 
-import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.ide.DataManager;
-import com.intellij.ide.ui.LafManager;
 import com.intellij.ide.ui.UISettingsUtils;
 import com.intellij.ide.ui.laf.darcula.ui.DarculaEditorTextFieldBorder;
 import com.intellij.openapi.Disposable;
@@ -438,6 +436,14 @@ public class EditorTextField extends NonOpaquePanel implements EditorTextCompone
     if (project != null) {
       project.getMessageBus().connect(myDisposable).subscribe(ProjectCloseListener.TOPIC, new ProjectCloseListener() {
         @Override
+        public void projectClosingBeforeSave(@NotNull Project project) {
+        }
+
+        @Override
+        public void projectClosed(@NotNull Project project) {
+        }
+
+        @Override
         public void projectClosing(@NotNull Project p) {
           if (p == project) {
             releaseEditorNow();
@@ -518,9 +524,9 @@ public class EditorTextField extends NonOpaquePanel implements EditorTextCompone
     Project project = getProjectIfValid();
     if (project != null && myIsViewer) {
       final PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
-      if (psiFile != null) {
-        DaemonCodeAnalyzer.getInstance(project).setHighlightingEnabled(psiFile, true);
-      }
+//      if (psiFile != null) {
+//        DaemonCodeAnalyzer.getInstance(project).setHighlightingEnabled(psiFile, true);
+//      }
     }
 
     remove(editor.getComponent());
@@ -623,12 +629,12 @@ public class EditorTextField extends NonOpaquePanel implements EditorTextCompone
     setupTextFieldEditor(editor);
     editor.setCaretEnabled(!myIsViewer);
 
-    if (project != null) {
-      PsiFile psiFile = ReadAction.compute(() -> PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument()));
-      if (psiFile != null) {
-        DaemonCodeAnalyzer.getInstance(project).setHighlightingEnabled(psiFile, !myIsViewer);
-      }
-    }
+//    if (project != null) {
+//      PsiFile psiFile = ReadAction.compute(() -> PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument()));
+//      if (psiFile != null) {
+//        DaemonCodeAnalyzer.getInstance(project).setHighlightingEnabled(psiFile, !myIsViewer);
+//      }
+//    }
 
     if (project != null) {
       EditorHighlighterFactory highlighterFactory = EditorHighlighterFactory.getInstance();

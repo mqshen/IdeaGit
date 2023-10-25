@@ -65,6 +65,14 @@ public final class CommandLineWaitingManager {
     });
     busConnection.subscribe(ProjectCloseListener.TOPIC, new ProjectCloseListener() {
       @Override
+      public void projectClosingBeforeSave(@NotNull Project project) {
+      }
+
+      @Override
+      public void projectClosing(@NotNull Project project) {
+      }
+
+      @Override
       public void projectClosed(@NotNull Project project) {
         freeObject(project);
       }

@@ -3,7 +3,6 @@ package com.intellij.ide.actions
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
-import com.intellij.pom.NavigatableWithText
 
 
 class ProjectViewEditSourceAction : BaseNavigateToSourceAction(true) {
@@ -14,8 +13,8 @@ class ProjectViewEditSourceAction : BaseNavigateToSourceAction(true) {
     e.presentation.isEnabledAndVisible =
       navigatables != null &&
       navigatables
-        .filterIsInstance<NavigatableWithText>()
-        .mapNotNull { it.getNavigateActionText(true) }
+//        .filterIsInstance<NavigatableWithText>()
+//        .mapNotNull { it.getNavigateActionText(true) }
         .isNotEmpty()
   }
 }

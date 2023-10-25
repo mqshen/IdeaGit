@@ -40,6 +40,7 @@ import java.awt.Font
 import javax.swing.Icon
 import javax.swing.JLabel
 import javax.swing.JPanel
+import javax.swing.event.HyperlinkEvent
 
 internal class MeetNewUiToolWindow(private val project: Project, private val toolWindow: ToolWindow)
   : SimpleToolWindowPanel(true, true), DataProvider {
@@ -120,10 +121,13 @@ internal class MeetNewUiToolWindow(private val project: Project, private val too
           cell() // Deny right component to shrink
         }.customize(UnscaledGapsY(bottom = 20))
         row {
-          comment(IdeBundle.message("meetnewui.toolwindow.description"), maxLineLength = MAX_LINE_LENGTH_NO_WRAP) {
-            ExperimentalUiCollector.logMeetNewUiAction(ExperimentalUiCollector.MeetNewUiAction.NEW_UI_LINK)
-            ShowSettingsUtil.getInstance().showSettingsDialog(project, IdeBundle.message("configurable.new.ui.name"))
-          }
+          comment(IdeBundle.message("meetnewui.toolwindow.description"), maxLineLength = MAX_LINE_LENGTH_NO_WRAP,
+            object: HyperlinkEventAction {
+              override fun hyperlinkActivated(e: HyperlinkEvent) {
+                ExperimentalUiCollector.logMeetNewUiAction(ExperimentalUiCollector.MeetNewUiAction.NEW_UI_LINK)
+                ShowSettingsUtil.getInstance().showSettingsDialog(project, IdeBundle.message("configurable.new.ui.name"))
+              }
+            })
         }.customize(UnscaledGapsY(bottom = 20))
         row {
           button(IdeBundle.message("meetnewui.toolwindow.button.finishSetup")) {

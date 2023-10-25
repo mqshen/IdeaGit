@@ -16,7 +16,9 @@
 package com.intellij.ide.actions;
 
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.wm.ToolWindow;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @deprecated See {@link ToolWindowViewModeAction} \
@@ -39,4 +41,9 @@ public class ToggleSideModeAction extends BaseToolWindowToggleAction {
     presentation.setEnabled(window.isAvailable());
   }
 
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
+  }
 }

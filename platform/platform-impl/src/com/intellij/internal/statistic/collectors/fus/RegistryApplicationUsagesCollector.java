@@ -15,9 +15,7 @@ import com.intellij.openapi.application.ExperimentalFeature;
 import com.intellij.openapi.application.Experiments;
 import com.intellij.openapi.extensions.PluginDescriptor;
 import com.intellij.openapi.extensions.PluginId;
-import com.intellij.openapi.options.advanced.AdvancedSettingBean;
 import com.intellij.openapi.options.advanced.AdvancedSettings;
-import com.intellij.openapi.options.advanced.AdvancedSettingsImpl;
 import com.intellij.openapi.util.registry.Registry;
 import com.intellij.openapi.util.registry.RegistryValue;
 import com.intellij.openapi.util.text.StringUtil;
@@ -62,14 +60,14 @@ public final class RegistryApplicationUsagesCollector extends ApplicationUsagesC
       .map(f -> EXPERIMENT.metric(REGISTRY_KEY.with(f.id)))
       .collect(Collectors.toSet());
 
-    final Set<MetricEvent> advancedSettings = AdvancedSettingBean.EP_NAME.getExtensionList().stream()
-      .filter(f -> ((AdvancedSettingsImpl)AdvancedSettings.getInstance()).isNonDefault(f.id))
-      .map(f -> ADVANCED_SETTING.metric(REGISTRY_KEY.with(f.id)))
-      .collect(Collectors.toSet());
+//    final Set<MetricEvent> advancedSettings = AdvancedSettingBean.EP_NAME.getExtensionList().stream()
+//      .filter(f -> ((AdvancedSettingsImpl)AdvancedSettings.getInstance()).isNonDefault(f.id))
+//      .map(f -> ADVANCED_SETTING.metric(REGISTRY_KEY.with(f.id)))
+//      .collect(Collectors.toSet());
 
     final Set<MetricEvent> result = new HashSet<>(registry);
     result.addAll(experiments);
-    result.addAll(advancedSettings);
+//    result.addAll(advancedSettings);
     return result;
   }
 
@@ -88,15 +86,15 @@ public final class RegistryApplicationUsagesCollector extends ApplicationUsagesC
         return info.isDevelopedByJetBrains() ? ValidationResultType.ACCEPTED : ValidationResultType.THIRD_PARTY;
       }
 
-      for (AdvancedSettingBean extension : AdvancedSettingBean.EP_NAME.getExtensionList()) {
-        if (extension.id.equals(data)) {
-          PluginDescriptor descriptor = extension.getPluginDescriptor();
-          if (descriptor == null) return ValidationResultType.REJECTED;
-          final PluginInfo info = getPluginInfoByDescriptor(descriptor);
-          context.setPayload(PLUGIN_INFO, info);
-          return info.isDevelopedByJetBrains() ? ValidationResultType.ACCEPTED : ValidationResultType.THIRD_PARTY;
-        }
-      }
+//      for (AdvancedSettingBean extension : AdvancedSettingBean.EP_NAME.getExtensionList()) {
+//        if (extension.id.equals(data)) {
+//          PluginDescriptor descriptor = extension.getPluginDescriptor();
+//          if (descriptor == null) return ValidationResultType.REJECTED;
+//          final PluginInfo info = getPluginInfoByDescriptor(descriptor);
+//          context.setPayload(PLUGIN_INFO, info);
+//          return info.isDevelopedByJetBrains() ? ValidationResultType.ACCEPTED : ValidationResultType.THIRD_PARTY;
+//        }
+//      }
 
 
       PluginInfo info = getPluginInfoByRegistry(Registry.get(data));

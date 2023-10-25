@@ -6,7 +6,6 @@ import com.intellij.ide.plugins.marketplace.statistics.PluginManagerUsageCollect
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.extensions.PluginId;
-import com.intellij.openapi.updateSettings.impl.PluginDownloader;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -120,8 +119,8 @@ public final class InstalledPluginsState {
       return;
     }
 
-    boolean supersedes = PluginManagerCore.isCompatible(descriptor) &&
-                         PluginDownloader.compareVersionsSkipBrokenAndIncompatible(descriptor.getVersion(), existing) > 0;
+    boolean supersedes = PluginManagerCore.isCompatible(descriptor);
+//    && PluginDownloader.compareVersionsSkipBrokenAndIncompatible(descriptor.getVersion(), existing) > 0;
 
     String idString = id.getIdString();
 

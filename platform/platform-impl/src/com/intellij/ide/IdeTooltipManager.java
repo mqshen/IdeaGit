@@ -96,6 +96,14 @@ public class IdeTooltipManager implements Disposable {
     });
     connection.subscribe(ProjectCloseListener.TOPIC, new ProjectCloseListener() {
       @Override
+      public void projectClosingBeforeSave(@NotNull Project project) {
+      }
+
+      @Override
+      public void projectClosed(@NotNull Project project) {
+      }
+
+      @Override
       public void projectClosing(@NotNull Project project) {
         hideCurrentNow(false);
       }

@@ -24,7 +24,6 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageDialogBuilder;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.updateSettings.impl.UpdateChecker;
 import com.intellij.openapi.updateSettings.impl.UpdateSettings;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.wm.IdeFrame;
@@ -331,19 +330,19 @@ public final class PluginManagerMain {
     ApplicationEx app = ApplicationManagerEx.getApplicationEx();
     String title = IdeBundle.message("updates.notification.title", ApplicationNamesInfo.getInstance().getFullProductName());
     String action = IdeBundle.message("ide.restart.required.notification", app.isRestartCapable() ? 1 : 0);
-    UpdateChecker.getNotificationGroupForPluginUpdateResults()
-      .createNotification(title, NotificationType.INFORMATION)
-      .setDisplayId("plugins.updated.suggest.restart")
-      .addAction(new NotificationAction(action) {
-        @Override
-        public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
-          if (PluginManagerConfigurable.showRestartDialog() == Messages.YES) {
-            notification.expire();
-            ApplicationManagerEx.getApplicationEx().restart(true);
-          }
-        }
-      })
-      .notify(project);
+//    UpdateChecker.getNotificationGroupForPluginUpdateResults()
+//      .createNotification(title, NotificationType.INFORMATION)
+//      .setDisplayId("plugins.updated.suggest.restart")
+//      .addAction(new NotificationAction(action) {
+//        @Override
+//        public void actionPerformed(@NotNull AnActionEvent e, @NotNull Notification notification) {
+//          if (PluginManagerConfigurable.showRestartDialog() == Messages.YES) {
+//            notification.expire();
+//            ApplicationManagerEx.getApplicationEx().restart(true);
+//          }
+//        }
+//      })
+//      .notify(project);
   }
 
   public static boolean checkThirdPartyPluginsAllowed(@NotNull Collection<? extends IdeaPluginDescriptor> descriptors) {

@@ -72,10 +72,10 @@ sealed class TopHitCache : Disposable {
 @Service(Service.Level.PROJECT)
 private class ProjectTopHitCache(project: Project) : TopHitCache() {
   init {
-    OptionsTopHitProvider.PROJECT_LEVEL_EP.addExtensionPointListener(object : ExtensionPointListener<ProjectLevelProvider> {
-      override fun extensionRemoved(extension: ProjectLevelProvider, pluginDescriptor: PluginDescriptor) {
-        invalidateCachedOptions(extension.javaClass)
-      }
-    }, project)
+//    OptionsTopHitProvider.PROJECT_LEVEL_EP.addExtensionPointListener(object : ExtensionPointListener<ProjectLevelProvider> {
+//      override fun extensionRemoved(extension: ProjectLevelProvider, pluginDescriptor: PluginDescriptor) {
+//        invalidateCachedOptions(extension.javaClass)
+//      }
+//    }, project)
   }
 }

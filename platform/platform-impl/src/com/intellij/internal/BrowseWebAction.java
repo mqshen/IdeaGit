@@ -6,7 +6,6 @@ import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.fileEditor.impl.HTMLEditorProvider;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.jcef.JBCefApp;
@@ -28,13 +27,13 @@ final class BrowseWebAction extends AnAction implements DumbAware {
     var project = e.getProject();
     if (project != null) {
       var url = Messages.showInputDialog(project, "Where to?", "Browse Web", null, "https://www.jetbrains.com", null);
-      if (url != null && !url.isBlank()) {
-        HTMLEditorProvider.openEditor(project, "World Wild Web", HTMLEditorProvider.Request.url(url)
-          .withQueryHandler((id, jsRequest, completion) -> {
-            new Notification("System Messages", "JS request", "[" + id + "] " + jsRequest, NotificationType.INFORMATION).notify(project);
-            return "true";
-          }));
-      }
+//      if (url != null && !url.isBlank()) {
+//        HTMLEditorProvider.openEditor(project, "World Wild Web", HTMLEditorProvider.Request.url(url)
+//          .withQueryHandler((id, jsRequest, completion) -> {
+//            new Notification("System Messages", "JS request", "[" + id + "] " + jsRequest, NotificationType.INFORMATION).notify(project);
+//            return "true";
+//          }));
+//      }
     }
   }
 }

@@ -1,8 +1,6 @@
 // Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.internal.inspector;
 
-import com.intellij.codeInsight.lookup.LookupEx;
-import com.intellij.codeInsight.lookup.LookupManager;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -35,12 +33,12 @@ final class ApplyWindowSizeAction extends DumbAwareAction {
     Project project = e.getProject();
     Window window = null;
     if (owner != null) {
-      if (editor != null && project != null) {
-        LookupEx lookup = LookupManager.getInstance(project).getActiveLookup();
-        if (lookup != null) {
-          window = ComponentUtil.getParentOfType((Class<? extends Window>)Window.class, lookup.getComponent());
-        }
-      }
+//      if (editor != null && project != null) {
+//        LookupEx lookup = LookupManager.getInstance(project).getActiveLookup();
+//        if (lookup != null) {
+//          window = ComponentUtil.getParentOfType((Class<? extends Window>)Window.class, lookup.getComponent());
+//        }
+//      }
 
       if (window == null) {
         window = ComponentUtil.getParentOfType((Class<? extends Window>)Window.class, owner);

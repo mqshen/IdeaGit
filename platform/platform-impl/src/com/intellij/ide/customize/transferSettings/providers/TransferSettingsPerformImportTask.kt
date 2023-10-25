@@ -10,7 +10,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.util.application
 
 open class TransferSettingsPerformImportTask(project: Project?,
-                                             private val performer: ImportPerformer,
                                              private var settings: Settings,
                                              private val shouldInstallPlugins: Boolean) : Task.Backgroundable(project,
                                                                                                               IdeBundle.message("transfersettings.task.progress.title.importing.settings"),
@@ -18,20 +17,11 @@ open class TransferSettingsPerformImportTask(project: Project?,
   override fun run(indicator: ProgressIndicator) {
     indicator.isIndeterminate = true
     indicator.text2 = IdeBundle.message("transfersettings.task.progress.details.starting.up")
-    val requiredPlugins = performer.collectAllRequiredPlugins(settings)
     indicator.isIndeterminate = false
     indicator.fraction = 0.0
 
-    if (shouldInstallPlugins) {
-      performer.installPlugins(project, requiredPlugins, indicator)
-    }
-
-    settings = performer.patchSettingsAfterPluginInstallation(settings, PluginManagerCore.plugins.map { it.pluginId.idString }.toSet())
-
-    performer.perform(project, settings, indicator)
     indicator.isIndeterminate = true
     indicator.text2 = IdeBundle.message("transfersettings.task.progress.details.finishing.up")
-    application.invokeAndWait({ performer.performEdt(project, settings) }, indicator.modalityState)
 
     indicator.text2 = IdeBundle.message("transfersettings.task.progress.details.complete")
   }

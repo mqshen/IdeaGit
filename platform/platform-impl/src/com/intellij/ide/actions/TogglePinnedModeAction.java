@@ -16,8 +16,10 @@
 package com.intellij.ide.actions;
 
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowType;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @deprecated See {@link ToolWindowViewModeAction} \
@@ -38,5 +40,11 @@ public class TogglePinnedModeAction extends BaseToolWindowToggleAction {
   @Override
   protected void update(ToolWindow window, Presentation presentation) {
     presentation.setEnabled(window.isAvailable() && ToolWindowType.SLIDING!=window.getType());
+  }
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

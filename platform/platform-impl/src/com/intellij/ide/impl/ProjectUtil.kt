@@ -40,7 +40,7 @@ import com.intellij.platform.PlatformProjectOpenProcessor
 import com.intellij.platform.PlatformProjectOpenProcessor.Companion.createOptionsToOpenDotIdeaOrCreateNewIfNotExists
 import com.intellij.platform.attachToProjectAsync
 import com.intellij.project.stateStore
-import com.intellij.projectImport.ProjectAttachProcessor
+//import com.intellij.projectImport.ProjectAttachProcessor
 import com.intellij.projectImport.ProjectOpenProcessor
 import com.intellij.ui.AppIcon
 import com.intellij.ui.ComponentUtil
@@ -662,21 +662,22 @@ object ProjectUtil {
   @Internal
   @VisibleForTesting
   suspend fun openExistingDir(file: Path, currentProject: Project?): Project? {
-    val canAttach = ProjectAttachProcessor.canAttachToProject()
+//    val canAttach = ProjectAttachProcessor.canAttachToProject()
     val preferAttach = currentProject != null &&
-                       canAttach &&
+//                       canAttach &&
                        (PlatformUtils.isDataGrip() && !ProjectUtilCore.isValidProjectPath(file))
-    if (preferAttach && attachToProjectAsync(projectToClose = currentProject!!, projectDir = file, callback = null)) {
+    if (preferAttach && attachToProjectAsync(projectToClose = currentProject!!, projectDir = file)) {
       return null
     }
 
-    val project = if (canAttach) {
-      val options = createOptionsToOpenDotIdeaOrCreateNewIfNotExists(file, currentProject)
-      ProjectManagerEx.getInstanceEx().openProjectAsync(file, options)
-    }
-    else {
-      openOrImportAsync(file, OpenProjectTask().withProjectToClose(currentProject))
-    }
+//    val project = if (canAttach) {
+//      val options = createOptionsToOpenDotIdeaOrCreateNewIfNotExists(file, currentProject)
+//      ProjectManagerEx.getInstanceEx().openProjectAsync(file, options)
+//    }
+//    else {
+//      openOrImportAsync(file, OpenProjectTask().withProjectToClose(currentProject))
+//    }
+    val project = openOrImportAsync(file, OpenProjectTask().withProjectToClose(currentProject))
     if (!ApplicationManager.getApplication().isUnitTestMode) {
       FileChooserUtil.setLastOpenedFile(project, file)
     }

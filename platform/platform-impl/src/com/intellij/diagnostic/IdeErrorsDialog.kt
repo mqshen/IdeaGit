@@ -451,15 +451,6 @@ open class IdeErrorsDialog @JvmOverloads internal constructor(
     else if (t is AbstractMethodError) {
       info.append(DiagnosticBundle.message("error.list.message.blame.unknown.plugin"))
     }
-    else if (t is Freeze) {
-      info.append(DiagnosticBundle.message("error.list.message.blame.freeze"))
-    }
-    else if (t is JBRCrash) {
-      info.append(DiagnosticBundle.message("error.list.message.blame.jbr.crash"))
-    }
-    else if (t is KotlinCompilerCrash) {
-      info.append(DiagnosticBundle.message("error.list.message.blame.kotlin.crash")).append(' ').append(t.version)
-    }
     else {
       info.append(DiagnosticBundle.message("error.list.message.blame.core", ApplicationNamesInfo.getInstance().productName))
     }
@@ -581,7 +572,8 @@ open class IdeErrorsDialog @JvmOverloads internal constructor(
     }
 
     val (userMessage, stacktrace) = cluster.decouple()
-    val events = arrayOf<IdeaLoggingEvent>(IdeaReportingEvent(message, userMessage, stacktrace, cluster.plugin))
+    val events = arrayOf<IdeaLoggingEvent>()
+//      IdeaReportingEvent(message, userMessage, stacktrace, cluster.plugin))
     var parentComponent: Container = rootPane
     if (dialogClosed) {
       val frame = ComponentUtil.getParentOfType(IdeFrame::class.java, parentComponent)
@@ -653,7 +645,7 @@ open class IdeErrorsDialog @JvmOverloads internal constructor(
 
   private inner class ClearErrorsAction : AbstractAction(DiagnosticBundle.message("error.dialog.clear.all.action")) {
     override fun actionPerformed(e: ActionEvent) {
-      IdeErrorDialogUsageCollector.logClearAll()
+//      IdeErrorDialogUsageCollector.logClearAll()
       myMessagePool.clearErrors()
       doCancelAction()
     }
@@ -798,7 +790,7 @@ open class IdeErrorsDialog @JvmOverloads internal constructor(
   private inner class DefaultReportAction : AbstractAction() {
     override fun actionPerformed(e: ActionEvent) {
       if (isEnabled) {
-        IdeErrorDialogUsageCollector.logReport()
+//        IdeErrorDialogUsageCollector.logReport()
         PropertiesComponent.getInstance().setValue(LAST_OK_ACTION, ReportAction.DEFAULT.name)
         val closeDialog = myMessageClusters.size == 1
         val reportingStarted = reportMessage(selectedCluster(), closeDialog)
@@ -815,7 +807,7 @@ open class IdeErrorsDialog @JvmOverloads internal constructor(
   private inner class ReportAllAction : AbstractAction(DiagnosticBundle.message("error.report.all.action")) {
     override fun actionPerformed(e: ActionEvent) {
       if (isEnabled) {
-        IdeErrorDialogUsageCollector.logReportAll()
+//        IdeErrorDialogUsageCollector.logReportAll()
         PropertiesComponent.getInstance().setValue(LAST_OK_ACTION, ReportAction.REPORT_ALL.name)
         val reportingStarted = reportAll()
         if (reportingStarted) {
@@ -828,7 +820,7 @@ open class IdeErrorsDialog @JvmOverloads internal constructor(
   private inner class ReportAndClearAllAction : AbstractAction(DiagnosticBundle.message("error.report.and.clear.all.action")) {
     override fun actionPerformed(e: ActionEvent) {
       if (isEnabled) {
-        IdeErrorDialogUsageCollector.logReportAndClearAll()
+//        IdeErrorDialogUsageCollector.logReportAndClearAll()
         PropertiesComponent.getInstance().setValue(LAST_OK_ACTION, ReportAction.REPORT_AND_CLEAR_ALL.name)
         val reportingStarted = reportAll()
         if (reportingStarted) {
@@ -975,15 +967,15 @@ open class IdeErrorsDialog @JvmOverloads internal constructor(
     @JvmStatic
     fun getPlugin(event: IdeaLoggingEvent): IdeaPluginDescriptor? {
       var plugin: IdeaPluginDescriptor? = null
-      if (event is IdeaReportingEvent) {
-        plugin = event.plugin
-      }
-      else {
+//      if (event is IdeaReportingEvent) {
+//        plugin = event.plugin
+//      }
+//      else {
         val t = event.throwable
         if (t != null) {
           plugin = PluginManagerCore.getPlugin(PluginUtil.getInstance().findPluginId(t))
         }
-      }
+//      }
       return plugin
     }
 

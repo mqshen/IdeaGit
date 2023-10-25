@@ -13,7 +13,6 @@ import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory;
 import com.intellij.openapi.editor.impl.EditorImpl;
 import com.intellij.openapi.fileEditor.*;
 import com.intellij.openapi.fileEditor.ex.FileEditorProviderManager;
-import com.intellij.openapi.fileEditor.impl.EditorHistoryManager;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.fileTypes.PlainTextFileType;
@@ -60,11 +59,11 @@ public final class LightEditorManagerImpl implements LightEditorManager, Disposa
     }
     FileEditor fileEditor = pair.second;
     LightEditorInfo editorInfo = new LightEditorInfoImpl(pair.first, fileEditor, file);
-    FileEditorState state = EditorHistoryManager.getInstance(project).getState(file, pair.first);
-    if (state != null) {
-      fileEditor.getComponent();
-      fileEditor.setState(state);
-    }
+//    FileEditorState state = EditorHistoryManager.getInstance(project).getState(file, pair.first);
+//    if (state != null) {
+//      fileEditor.getComponent();
+//      fileEditor.setState(state);
+//    }
     if (LightEditorInfoImpl.getEditor(editorInfo) instanceof EditorImpl editor) {
       editor.setDropHandler(new LightEditDropHandler());
     }
@@ -156,7 +155,7 @@ public final class LightEditorManagerImpl implements LightEditorManager, Disposa
 
   @Override
   public void closeEditor(@NotNull LightEditorInfo editorInfo) {
-    EditorHistoryManager.getInstance(myLightEditService.getOrCreateProject()).updateHistoryEntry(editorInfo.getFile(), false);
+//    EditorHistoryManager.getInstance(myLightEditService.getOrCreateProject()).updateHistoryEntry(editorInfo.getFile(), false);
     myEditors.remove(editorInfo);
     setImplicitSaveEnabled(editorInfo.getFile(), true);
     ((LightEditorInfoImpl)editorInfo).disposeEditor();

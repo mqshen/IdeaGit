@@ -1,7 +1,6 @@
 // Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.ide.actions
 
-import com.intellij.codeInsight.daemon.HighlightingPassesCache
 import com.intellij.codeInsight.hint.HintUtil
 import com.intellij.ide.DataManager
 import com.intellij.ide.IdeBundle
@@ -11,7 +10,6 @@ import com.intellij.ide.actions.SwitcherLogger.NAVIGATED
 import com.intellij.ide.actions.SwitcherLogger.NAVIGATED_INDEXES
 import com.intellij.ide.actions.SwitcherLogger.NAVIGATED_ORIGINAL_INDEXES
 import com.intellij.ide.actions.SwitcherLogger.SHOWN_TIME_ACTIVITY
-import com.intellij.ide.actions.SwitcherSpeedSearch.Companion.installOn
 import com.intellij.ide.actions.ui.JBListWithOpenInRightSplit
 import com.intellij.ide.lightEdit.LightEdit
 import com.intellij.ide.lightEdit.LightEditFeatureUsagesUtil
@@ -28,7 +26,6 @@ import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.ex.IdeDocumentHistory
-import com.intellij.openapi.fileEditor.impl.EditorHistoryManager.Companion.getInstance
 import com.intellij.openapi.fileEditor.impl.EditorWindow
 import com.intellij.openapi.fileEditor.impl.FileEditorManagerImpl
 import com.intellij.openapi.fileEditor.impl.FileEditorOpenOptions
@@ -57,8 +54,6 @@ import com.intellij.ui.components.panels.HorizontalLayout
 import com.intellij.ui.hover.ListHoverListener
 import com.intellij.ui.popup.PopupUpdateProcessorBase
 import com.intellij.ui.render.RenderingUtil
-import com.intellij.ui.speedSearch.FilteringListModel
-import com.intellij.ui.speedSearch.NameFilteringListModel
 import com.intellij.util.ArrayUtil
 import com.intellij.util.concurrency.AppExecutorUtil
 import com.intellij.util.containers.ContainerUtil
@@ -124,7 +119,7 @@ object Switcher : BaseSwitcherAction(null) {
     val pinned // false - auto closeable on modifier key release, true - default popup
       : Boolean
     private val onKeyRelease: SwitcherKeyReleaseListener
-    val mySpeedSearch: SwitcherSpeedSearch?
+//    val mySpeedSearch: SwitcherSpeedSearch?
     val myTitle: String
     private var myHint: JBPopup? = null
     override fun getData(dataId: @NonNls String): Any? {
@@ -136,9 +131,9 @@ object Switcher : BaseSwitcherAction(null) {
         val item = ContainerUtil.getOnlyItem(files.selectedValuesList)
         return item?.file
       }
-      if (PlatformDataKeys.SPEED_SEARCH_TEXT.`is`(dataId)) {
-        return if (mySpeedSearch != null && mySpeedSearch.isPopupActive) mySpeedSearch.enteredPrefix else null
-      }
+//      if (PlatformDataKeys.SPEED_SEARCH_TEXT.`is`(dataId)) {
+//        return if (mySpeedSearch != null && mySpeedSearch.isPopupActive) mySpeedSearch.enteredPrefix else null
+//      }
       if (CommonDataKeys.VIRTUAL_FILE_ARRAY.`is`(dataId)) {
         if (files.isSelectionEmpty) return null
         val array = files.selectedValuesList.map(SwitcherVirtualFile::file).toTypedArray()
@@ -153,12 +148,12 @@ object Switcher : BaseSwitcherAction(null) {
       pinned = !onKeyRelease.isEnabled
       val onlyEdited = true == onlyEditedFiles
       myTitle = title
-      mySpeedSearch = if (recent && Registry.`is`("ide.recent.files.speed.search")) installOn(this) else null
+//      mySpeedSearch = if (recent && Registry.`is`("ide.recent.files.speed.search")) installOn(this) else null
       cbShowOnlyEditedFiles = if (!recent || !Experiments.getInstance().isFeatureEnabled("recent.and.edited.files.together")) null
       else JCheckBox(IdeBundle.message("recent.files.checkbox.label"))
       val renderer = SwitcherListRenderer(this)
       val windows = renderer.toolWindows
-      val showMnemonics = mySpeedSearch == null || Registry.`is`("ide.recent.files.tool.window.mnemonics")
+      val showMnemonics = true//mySpeedSearch == null || Registry.`is`("ide.recent.files.tool.window.mnemonics")
       if (showMnemonics || Registry.`is`("ide.recent.files.tool.window.sort.by.mnemonics")) {
         updateMnemonics(windows, showMnemonics)
       }
@@ -181,10 +176,10 @@ object Switcher : BaseSwitcherAction(null) {
         registerSwingAction(ListActions.PageUp.ID, "PAGE_UP")
         registerSwingAction(ListActions.PageDown.ID, "PAGE_DOWN")
       }
-      if (mySpeedSearch == null || Registry.`is`("ide.recent.files.tool.window.mnemonics")) {
+//      if (mySpeedSearch == null || Registry.`is`("ide.recent.files.tool.window.mnemonics")) {
         windows.forEach(
           java.util.function.Consumer { window: SwitcherToolWindow -> registerToolWindowAction(window) })
-      }
+//      }
       border = JBUI.Borders.empty()
       pathLabel.putClientProperty(SwingTextTrimmer.KEY, SwingTextTrimmer.THREE_DOTS_AT_LEFT)
       val header = JPanel(HorizontalLayout(5))
@@ -228,7 +223,7 @@ object Switcher : BaseSwitcherAction(null) {
       if (!showMnemonics) {
         windows.forEach(java.util.function.Consumer { window: SwitcherToolWindow -> window.mnemonic = null })
       }
-      toolWindows = JBList(mySpeedSearch?.wrap(twModel) ?: twModel)
+      toolWindows = JBList(twModel)
       toolWindows.visibleRowCount = toolWindows.itemsCount
       toolWindows.border = JBUI.Borders.empty(5, 0)
       toolWindows.selectionMode = if (pinned) ListSelectionModel.MULTIPLE_INTERVAL_SELECTION else ListSelectionModel.SINGLE_SELECTION
@@ -282,7 +277,7 @@ object Switcher : BaseSwitcherAction(null) {
         }
       }
       files = JBListWithOpenInRightSplit
-        .createListWithOpenInRightSplitter(mySpeedSearch?.wrap(filesModel) ?: filesModel, null)
+        .createListWithOpenInRightSplitter( filesModel, null)
       files.visibleRowCount = files.itemsCount
       files.selectionMode = if (pinned) ListSelectionModel.MULTIPLE_INTERVAL_SELECTION else ListSelectionModel.SINGLE_SELECTION
       files.accessibleContext.accessibleName = IdeBundle.message("recent.files.accessible.file.list")
@@ -309,12 +304,12 @@ object Switcher : BaseSwitcherAction(null) {
       if (!windows.isEmpty()) {
         addToLeft(SwitcherScrollPane(toolWindows, false))
       }
-      if (mySpeedSearch != null) {
-        // copy a speed search listener from the panel to the lists
-        val listener = keyListeners.lastOrNull()
-        files.addKeyListener(listener)
-        toolWindows.addKeyListener(listener)
-      }
+//      if (mySpeedSearch != null) {
+//        // copy a speed search listener from the panel to the lists
+//        val listener = keyListeners.lastOrNull()
+//        files.addKeyListener(listener)
+//        toolWindows.addKeyListener(listener)
+//      }
       myPopup = JBPopupFactory.getInstance().createComponentPopupBuilder(this,
                                                                          if (!files.isEmpty || toolWindows.isEmpty) files else toolWindows)
         .setResizable(pinned)
@@ -341,14 +336,15 @@ object Switcher : BaseSwitcherAction(null) {
       project.putUserData(SWITCHER_KEY, this)
       myPopup.showCenteredInCurrentWindow(project)
 
-      if (Registry.`is`("highlighting.passes.cache")) {
-        HighlightingPassesCache.getInstance(project).schedule(getNotOpenedRecentFiles())
-      }
+//      if (Registry.`is`("highlighting.passes.cache")) {
+//        HighlightingPassesCache.getInstance(project).schedule(getNotOpenedRecentFiles())
+//      }
     }
     private fun getNotOpenedRecentFiles(): List<VirtualFile> {
-      val recentFiles = getInstance(project).fileList
-      val openFiles = FileEditorManager.getInstance(project).openFiles
-      return recentFiles.subtract(openFiles.toSet()).toList()
+//      val recentFiles = getInstance(project).fileList
+//      val openFiles = FileEditorManager.getInstance(project).openFiles
+//      return recentFiles.subtract(openFiles.toSet()).toList()
+      return emptyList()
     }
 
     override fun dispose() {
@@ -367,7 +363,7 @@ object Switcher : BaseSwitcherAction(null) {
     val isOnlyEditedFilesShown: Boolean
       get() = cbShowOnlyEditedFiles != null && cbShowOnlyEditedFiles.isSelected
     val isSpeedSearchPopupActive: Boolean
-      get() = mySpeedSearch != null && mySpeedSearch.isPopupActive
+      get() = false //mySpeedSearch != null && mySpeedSearch.isPopupActive
 
     override fun registerHint(h: JBPopup) {
       if (myHint != null && myHint!!.isVisible && myHint !== h) {
@@ -418,10 +414,10 @@ object Switcher : BaseSwitcherAction(null) {
     }
 
     private fun closeTabOrToolWindow() {
-      if (mySpeedSearch != null && mySpeedSearch.isPopupActive) {
-        mySpeedSearch.updateEnteredPrefix()
-        return
-      }
+//      if (mySpeedSearch != null && mySpeedSearch.isPopupActive) {
+//        mySpeedSearch.updateEnteredPrefix()
+//        return
+//      }
       val selectedList: JList<out SwitcherListItem>? = selectedList
       val selected = selectedList!!.selectedIndices
       Arrays.sort(selected)
@@ -440,9 +436,9 @@ object Switcher : BaseSwitcherAction(null) {
             fileEditorManager.closeFile(virtualFile, window)
           }
           ListUtil.removeItem(files.model, selectedIndex)
-          if (item.window == null) {
-            getInstance(project).removeFile(virtualFile)
-          }
+//          if (item.window == null) {
+//            getInstance(project).removeFile(virtualFile)
+//          }
         }
         else item?.close(this)
       }
@@ -464,12 +460,12 @@ object Switcher : BaseSwitcherAction(null) {
     }
 
     private fun hideSpeedSearchOrPopup() {
-      if (mySpeedSearch == null || !mySpeedSearch.isPopupActive) {
+//      if (mySpeedSearch == null || !mySpeedSearch.isPopupActive) {
         cancel()
-      }
-      else {
-        mySpeedSearch.hidePopup()
-      }
+//      }
+//      else {
+//        mySpeedSearch.hidePopup()
+//      }
     }
 
     fun go(forward: Boolean) {
@@ -509,8 +505,8 @@ object Switcher : BaseSwitcherAction(null) {
       val onlyEdited = ItemEvent.SELECTED == event.stateChange
       val listWasSelected = files.selectedIndex != -1
       val filesToShow = getFilesToShow(project, onlyEdited, toolWindows.itemsCount, recent)
-      resetListModelAndUpdateNames(
-        (files.model as FilteringListModel<SwitcherVirtualFile>).originalModel as CollectionListModel<SwitcherVirtualFile>, filesToShow)
+//      resetListModelAndUpdateNames(
+//        (files.model as FilteringListModel<SwitcherVirtualFile>).originalModel as CollectionListModel<SwitcherVirtualFile>, filesToShow)
       val selectionIndex = getFilesSelectedIndex(project, files, true)
       if (selectionIndex > -1 && listWasSelected) {
         files.selectedIndex = selectionIndex
@@ -519,9 +515,9 @@ object Switcher : BaseSwitcherAction(null) {
       files.repaint()
       // refresh the Recent Locations item
       val toolWindowsModel = toolWindows.model
-      if (toolWindowsModel is NameFilteringListModel<*>) {
-        (toolWindowsModel as NameFilteringListModel<*>).refilter()
-      }
+//      if (toolWindowsModel is NameFilteringListModel<*>) {
+//        (toolWindowsModel as NameFilteringListModel<*>).refilter()
+//      }
       toolWindows.repaint()
     }
 
@@ -559,13 +555,13 @@ object Switcher : BaseSwitcherAction(null) {
     fun navigate(e: InputEvent?) {
       val mode = if (e == null) FileEditorManagerImpl.OpenMode.DEFAULT else getOpenMode(e)
       val values: List<*> = selectedList!!.selectedValuesList
-      val searchQuery = mySpeedSearch?.enteredPrefix
+//      val searchQuery = mySpeedSearch?.enteredPrefix
 
       navigationData = createNavigationData(values)
 
       cancel()
       if (values.isEmpty()) {
-        tryToOpenFileSearch(e, searchQuery)
+//        tryToOpenFileSearch(e, searchQuery)
       }
       else if (values[0] is SwitcherVirtualFile) {
         IdeFocusManager.getInstance(project).doWhenFocusSettlesDown(
@@ -620,12 +616,13 @@ object Switcher : BaseSwitcherAction(null) {
     private fun createNavigationData(values: List<*>): SwitcherLogger.NavigationData? {
       if (selectedList != files) return null
 
-      val filteringListModel = files.model as? FilteringListModel<SwitcherVirtualFile> ?: return null
-      val collectionListModel = filteringListModel.originalModel as? CollectionListModel<SwitcherVirtualFile> ?: return null
-      val originalIndexes = values.filterIsInstance<SwitcherVirtualFile>().map { collectionListModel.getElementIndex(it) }
-      val navigatedIndexes = values.filterIsInstance<SwitcherVirtualFile>().map { filteringListModel.getElementIndex(it) }
+//      val filteringListModel = files.model as? FilteringListModel<SwitcherVirtualFile> ?: return null
+//      val collectionListModel = filteringListModel.originalModel as? CollectionListModel<SwitcherVirtualFile> ?: return null
+//      val originalIndexes = values.filterIsInstance<SwitcherVirtualFile>().map { collectionListModel.getElementIndex(it) }
+//      val navigatedIndexes = values.filterIsInstance<SwitcherVirtualFile>().map { filteringListModel.getElementIndex(it) }
 
-      return SwitcherLogger.NavigationData(originalIndexes, navigatedIndexes)
+//      return SwitcherLogger.NavigationData(originalIndexes, navigatedIndexes)
+      return null
     }
 
     private fun tryToOpenFileSearch(e: InputEvent?, fileName: String?) {
@@ -674,9 +671,9 @@ object Switcher : BaseSwitcherAction(null) {
         registerAction({ event: InputEvent? ->
                          cancel()
                          window.window.activate(null, true, true)
-                       }, if (mySpeedSearch == null) onKeyRelease.getShortcuts(
-          mnemonic!!)
-                       else if (SystemInfo.isMac) CustomShortcutSet.fromString("alt $mnemonic", "alt control $mnemonic")
+                       },
+//          if (mySpeedSearch == null) onKeyRelease.getShortcuts(mnemonic!!) else
+            if (SystemInfo.isMac) CustomShortcutSet.fromString("alt $mnemonic", "alt control $mnemonic")
         else CustomShortcutSet.fromString(
           "alt $mnemonic"))
       }
@@ -765,21 +762,22 @@ object Switcher : BaseSwitcherAction(null) {
       }
 
       private fun getRecentFiles(project: Project): List<VirtualFile> {
-        val recentFiles = getInstance(project).fileList
+//        val recentFiles = getInstance(project).fileList
         val openFiles = FileEditorManager.getInstance(project).openFiles
-        val recentFilesSet: Set<VirtualFile> = HashSet(recentFiles)
+//        val recentFilesSet: Set<VirtualFile> = HashSet(recentFiles)
         val openFilesSet: Set<VirtualFile> = ContainerUtil.newHashSet(*openFiles)
 
         // Add missing FileEditor tabs right after the last one, that is available via "Recent Files"
         var index = 0
-        for (i in recentFiles.indices) {
-          if (openFilesSet.contains(recentFiles[i])) {
-            index = i
-            break
-          }
-        }
-        val result: MutableList<VirtualFile> = ArrayList(recentFiles)
-        result.addAll(index, openFiles.filter { it: VirtualFile -> !recentFilesSet.contains(it) })
+//        for (i in recentFiles.indices) {
+//          if (openFilesSet.contains(recentFiles[i])) {
+//            index = i
+//            break
+//          }
+//        }
+//        val result: MutableList<VirtualFile> = ArrayList(recentFiles)
+//        result.addAll(index, openFiles.filter { it: VirtualFile -> !recentFilesSet.contains(it) })
+        val result: MutableList<VirtualFile> = ArrayList()
         return result
       }
 

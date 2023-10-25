@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="kotlin-reflect" type="repository">
+    <properties maven-id="org.jetbrains.kotlin:kotlin-reflect:1.9.10">
+      <verification>
+        <artifact url="file://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-reflect/1.9.10/kotlin-reflect-1.9.10.jar">
+          <sha256sum>8a835f5176355083668aff0ed6eef5b3eb030e10e89679ed3eeb703fd2d5b900</sha256sum>
+        </artifact>
+      </verification>
+      <exclude>
+        <dependency maven-id="org.jetbrains.kotlin:kotlin-stdlib" />
+      </exclude>
+    </properties>
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-reflect/1.9.10/kotlin-reflect-1.9.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-reflect/1.9.10/kotlin-reflect-1.9.10-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

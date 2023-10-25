@@ -1,7 +1,6 @@
 // Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package com.intellij.ui.stripe;
 
-import com.intellij.codeInsight.daemon.DaemonCodeAnalyzerSettings;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.actionSystem.ShortcutSet;
 import com.intellij.openapi.util.registry.Registry;
@@ -46,8 +45,8 @@ public abstract class Updater<Painter extends ErrorStripePainter> implements Dis
     myScrollBar.addMouseMotionListener(myMouseAdapter);
     myQueue = new MergingUpdateQueue("ErrorStripeUpdater", 100, true, myScrollBar, this);
     ComponentUtil.putClientProperty(myScrollBar, JBScrollBar.TRACK, (g, x, y, width, height, object) -> {
-      DaemonCodeAnalyzerSettings settings = DaemonCodeAnalyzerSettings.getInstance();
-      myPainter.setMinimalThickness(settings == null ? 2 : Math.min(settings.getErrorStripeMarkMinHeight(), JBUIScale.scale(4)));
+//      DaemonCodeAnalyzerSettings settings = DaemonCodeAnalyzerSettings.getInstance();
+//      myPainter.setMinimalThickness(settings == null ? 2 : Math.min(settings.getErrorStripeMarkMinHeight(), JBUIScale.scale(4)));
       myPainter.setErrorStripeGap(Registry.intValue("error.stripe.gap", 0));
       if (myPainter instanceof ExtraErrorStripePainter extra) {
         extra.setGroupSwap(!myScrollBar.getComponentOrientation().isLeftToRight());

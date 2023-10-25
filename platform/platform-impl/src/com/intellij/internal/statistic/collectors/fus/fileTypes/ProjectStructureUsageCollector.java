@@ -17,7 +17,6 @@ import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.SourceFolder;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.packageDependencies.DependencyValidationManager;
 import com.intellij.psi.search.scope.packageSet.NamedScope;
 import com.intellij.psi.search.scope.packageSet.NamedScopeManager;
 import com.intellij.util.PlatformUtils;
@@ -85,11 +84,11 @@ final class ProjectStructureUsageCollector extends ProjectUsagesCollector {
           if (StringUtil.isNotEmpty(source.getPackagePrefix())) {
             packagePrefix++;
           }
-          String key = typeNames.get(source.getRootType());
-          if (key == null) {
-            continue;
-          }
-          types.mergeInt(key, 1, Math::addExact);
+//          String key = typeNames.get(source.getRootType());
+//          if (key == null) {
+//            continue;
+//          }
+//          types.mergeInt(key, 1, Math::addExact);
         }
       }
       String[] groupPath = moduleManager.getModuleGroupPath(module);
@@ -114,8 +113,8 @@ final class ProjectStructureUsageCollector extends ProjectUsagesCollector {
 
     NamedScope[] localScopes = NamedScopeManager.getInstance(project).getEditableScopes();
     result.add(NAMED_SCOPES_TOTAL_LOCAL.metric(localScopes.length));
-    NamedScope[] sharedScopes = DependencyValidationManager.getInstance(project).getEditableScopes();
-    result.add(NAMED_SCOPES_TOTAL_SHARED.metric(sharedScopes.length));
+//    NamedScope[] sharedScopes = DependencyValidationManager.getInstance(project).getEditableScopes();
+//    result.add(NAMED_SCOPES_TOTAL_SHARED.metric(sharedScopes.length));
 
     String basePath = project.getBasePath();
     if (basePath != null && WslPath.isWslUncPath(basePath)) {

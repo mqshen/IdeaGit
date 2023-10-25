@@ -17,7 +17,6 @@ import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.util.text.Strings;
-import com.intellij.packageDependencies.ui.TreeExpansionMonitor;
 import com.intellij.ui.*;
 import com.intellij.ui.mac.touchbar.TouchbarSupport;
 import com.intellij.ui.treeStructure.Tree;
@@ -61,7 +60,7 @@ public class CustomizableActionsPanel {
 
     patchActionsTreeCorrespondingToSchema(root);
 
-    TreeExpansionMonitor.install(myActionsTree);
+//    TreeExpansionMonitor.install(myActionsTree);
     myTopPanel.add(setupFilterComponent(myActionsTree), BorderLayout.WEST);
     myTopPanel.add(createToolbar(), BorderLayout.CENTER);
 
@@ -92,33 +91,13 @@ public class CustomizableActionsPanel {
   }
 
   static FilterComponent setupFilterComponent(JTree tree) {
-    final TreeSpeedSearch mySpeedSearch = new TreeSpeedSearch(tree, true, null, new TreePathStringFunction()) {
-      @Override
-      public boolean isPopupActive() {
-        return /*super.isPopupActive()*/true;
-      }
 
-      @Override
-      public void showPopup(String searchText) {
-        //super.showPopup(searchText);
-      }
-
-      @Override
-      protected boolean isSpeedSearchEnabled() {
-        return /*super.isSpeedSearchEnabled()*/false;
-      }
-
-      @Override
-      public void showPopup() {
-        //super.showPopup();
-      }
-    };
-    mySpeedSearch.setupListeners();
+//    mySpeedSearch.setupListeners();
     final FilterComponent filterComponent = new FilterComponent("CUSTOMIZE_ACTIONS", 5) {
       @Override
       public void filter() {
-        mySpeedSearch.findAndSelectElement(getFilter());
-        mySpeedSearch.getComponent().repaint();
+//        mySpeedSearch.findAndSelectElement(getFilter());
+//        mySpeedSearch.getComponent().repaint();
       }
     };
     JTextField textField = filterComponent.getTextEditor();
@@ -128,9 +107,9 @@ public class CustomizableActionsPanel {
         @Override
         public void actionPerformed(@NotNull AnActionEvent e) {
           String filter = filterComponent.getFilter();
-          if (!StringUtil.isEmpty(filter)) {
-            mySpeedSearch.adjustSelection(keyCode, filter);
-          }
+//          if (!StringUtil.isEmpty(filter)) {
+//            mySpeedSearch.adjustSelection(keyCode, filter);
+//          }
         }
       }.registerCustomShortcutSet(keyCode, 0, textField);
 

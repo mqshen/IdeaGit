@@ -11,7 +11,6 @@ import com.intellij.ui.*
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.dialog
 import com.intellij.ui.components.panels.Wrapper
-import com.intellij.ui.speedSearch.SpeedSearchUtil
 import com.intellij.util.Function
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.components.BorderLayoutPanel
@@ -109,34 +108,34 @@ class CustomizeActionGroupPanel(
   }
 
   private fun createSearchComponent(): Component {
-    val speedSearch = object : ListSpeedSearch<Any>(list, null, Function {
-      when (it) {
-        is String -> ActionManager.getInstance().getAction(it).templateText
-        else -> null
-      }
-    }) {
-      override fun isPopupActive() = true
-      override fun showPopup(searchText: String?) {}
-      override fun isSpeedSearchEnabled() = false
-      override fun showPopup() {}
-    }
-    speedSearch.setupListeners()
+//    val speedSearch = object : ListSpeedSearch<Any>(list, null, Function {
+//      when (it) {
+//        is String -> ActionManager.getInstance().getAction(it).templateText
+//        else -> null
+//      }
+//    }) {
+//      override fun isPopupActive() = true
+//      override fun showPopup(searchText: String?) {}
+//      override fun isSpeedSearchEnabled() = false
+//      override fun showPopup() {}
+//    }
+//    speedSearch.setupListeners()
     val filterComponent = object : FilterComponent("CUSTOMIZE_ACTIONS", 5) {
       override fun filter() {
-        speedSearch.findAndSelectElement(filter)
-        speedSearch.component.repaint()
+//        speedSearch.findAndSelectElement(filter)
+//        speedSearch.component.repaint()
       }
     }
-    for (keyCode in intArrayOf(KeyEvent.VK_HOME, KeyEvent.VK_END, KeyEvent.VK_UP, KeyEvent.VK_DOWN)) {
-      object : DumbAwareAction() {
-        override fun actionPerformed(e: AnActionEvent) {
-          val filter: String = filterComponent.filter
-          if (!StringUtil.isEmpty(filter)) {
-            speedSearch.adjustSelection(keyCode, filter)
-          }
-        }
-      }.registerCustomShortcutSet(keyCode, 0, filterComponent.textEditor)
-    }
+//    for (keyCode in intArrayOf(KeyEvent.VK_HOME, KeyEvent.VK_END, KeyEvent.VK_UP, KeyEvent.VK_DOWN)) {
+//      object : DumbAwareAction() {
+//        override fun actionPerformed(e: AnActionEvent) {
+//          val filter: String = filterComponent.filter
+//          if (!StringUtil.isEmpty(filter)) {
+//            speedSearch.adjustSelection(keyCode, filter)
+//          }
+//        }
+//      }.registerCustomShortcutSet(keyCode, 0, filterComponent.textEditor)
+//    }
     return filterComponent
   }
 
@@ -257,7 +256,7 @@ class CustomizeActionGroupPanel(
   private class MyListCellRender : ColoredListCellRenderer<Any>() {
     override fun customizeCellRenderer(list: JList<out Any>, value: Any?, index: Int, selected: Boolean, hasFocus: Boolean) {
       CustomizationUtil.acceptObjectIconAndText(value) { text, description, icon ->
-        SpeedSearchUtil.appendFragmentsForSpeedSearch(list, text, SimpleTextAttributes.REGULAR_ATTRIBUTES, selected, this)
+//        SpeedSearchUtil.appendFragmentsForSpeedSearch(list, text, SimpleTextAttributes.REGULAR_ATTRIBUTES, selected, this)
         if (description != null) {
           append("   ", SimpleTextAttributes.REGULAR_ATTRIBUTES, false)
           append(description, SimpleTextAttributes.GRAYED_ATTRIBUTES)

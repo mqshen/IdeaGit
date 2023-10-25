@@ -1,11 +1,7 @@
 // Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.ide.lightEdit;
 
-import com.intellij.codeInsight.CodeInsightBundle;
-import com.intellij.codeInsight.completion.EmptyCompletionNotifier;
-import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.ide.IdeBundle;
-import com.intellij.ide.lightEdit.intentions.openInProject.LightEditOpenInProjectIntention;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationBundle;
 import com.intellij.openapi.application.ApplicationManager;
@@ -179,26 +175,26 @@ public final class LightEditUtil {
     return Registry.is(ENABLED_FILE_OPEN_KEY) && !PlatformUtils.isDataGrip();
   }
 
-  @ApiStatus.Internal
-  public static @NotNull EmptyCompletionNotifier createEmptyCompletionNotifier() {
-    return new EmptyCompletionNotifier() {
-      @Override
-      public void showIncompleteHint(@NotNull Editor editor, @NotNull @NlsContexts.HintText String text, boolean isDumbMode) {
-        HintManager.getInstance().showInformationHint(
-          editor,
-          StringUtil.escapeXmlEntities(text) + CodeInsightBundle.message("completion.incomplete.light.edit.suffix", OPEN_FILE_IN_PROJECT_HREF),
-          e -> {
-            if (HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType())
-                && OPEN_FILE_IN_PROJECT_HREF.equals(e.getDescription())) {
-              VirtualFile file = LightEditService.getInstance().getSelectedFile();
-              if (file != null) {
-                LightEditOpenInProjectIntention.performOn(Objects.requireNonNull(editor.getProject()), file);
-              }
-            }
-          });
-      }
-    };
-  }
+//  @ApiStatus.Internal
+//  public static @NotNull EmptyCompletionNotifier createEmptyCompletionNotifier() {
+//    return new EmptyCompletionNotifier() {
+//      @Override
+//      public void showIncompleteHint(@NotNull Editor editor, @NotNull @NlsContexts.HintText String text, boolean isDumbMode) {
+//        HintManager.getInstance().showInformationHint(
+//          editor,
+//          StringUtil.escapeXmlEntities(text) + CodeInsightBundle.message("completion.incomplete.light.edit.suffix", OPEN_FILE_IN_PROJECT_HREF),
+//          e -> {
+//            if (HyperlinkEvent.EventType.ACTIVATED.equals(e.getEventType())
+//                && OPEN_FILE_IN_PROJECT_HREF.equals(e.getDescription())) {
+//              VirtualFile file = LightEditService.getInstance().getSelectedFile();
+//              if (file != null) {
+//                LightEditOpenInProjectIntention.performOn(Objects.requireNonNull(editor.getProject()), file);
+//              }
+//            }
+//          });
+//      }
+//    };
+//  }
 
   public static @Nullable EditorComposite findEditorComposite(@NotNull FileEditor fileEditor) {
     return ((LightEditServiceImpl)LightEditService.getInstance()).getEditPanel().getTabs().findEditorComposite(fileEditor);

@@ -1,9 +1,6 @@
 // Copyright 2000-2023 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.ui.codeFloatingToolbar
 
-import com.intellij.codeInsight.hint.HintManager
-import com.intellij.codeInsight.hint.HintManagerImpl
-import com.intellij.codeInsight.template.TemplateManager
 import com.intellij.ide.ui.customization.CustomActionsSchema
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.DefaultActionGroup
@@ -58,7 +55,7 @@ class CodeFloatingToolbar(
   }
 
   override fun hasIgnoredParent(element: PsiElement): Boolean {
-    return !element.isWritable || TemplateManager.getInstance(element.project).getActiveTemplate(editor) != null
+    return !element.isWritable //|| TemplateManager.getInstance(element.project).getActiveTemplate(editor) != null
   }
 
   override fun isEnabled(): Boolean {
@@ -89,12 +86,12 @@ class CodeFloatingToolbar(
       else -> getOffsetForLine(editor, getLineByVisualStart(editor, selectionStart, false))
     }
     val visualPosition = editor.offsetToVisualPosition(offsetForHint)
-    val hintPoint = HintManagerImpl.getHintPosition(hint, editor, visualPosition, HintManager.DEFAULT)
-    val verticalGap = Registry.get("floating.codeToolbar.verticalOffset").asInteger()
+    val hintPoint = Point()//HintManagerImpl.getHintPosition(hint, editor, visualPosition, HintManager.DEFAULT)
+//    val verticalGap = Registry.get("floating.codeToolbar.verticalOffset").asInteger()
     val dy = if (isBelow) {
-      editor.lineHeight + verticalGap
+      editor.lineHeight //+ verticalGap
     } else {
-      -(hint.component.preferredSize.height + verticalGap)
+      -hint.component.preferredSize.height// + verticalGap)
     }
     hintPoint.translate(0, dy)
     return hintPoint

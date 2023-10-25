@@ -2,7 +2,6 @@
 package com.intellij.ide.ui.search;
 
 import com.intellij.BundleBase;
-import com.intellij.application.options.SkipSelfSearchComponent;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.*;
@@ -130,9 +129,9 @@ public final class SearchUtil {
   }
 
   private static void processComponent(JComponent component, Set<? super OptionDescription> configurableOptions, String path, boolean i18n) {
-    if (component instanceof SkipSelfSearchComponent) {
-      return;
-    }
+//    if (component instanceof SkipSelfSearchComponent) {
+//      return;
+//    }
     List<String> additional = ClientProperty.get(component, ADDITIONAL_SEARCH_LABELS_KEY);
     if (additional != null) {
       for (String each : additional) {

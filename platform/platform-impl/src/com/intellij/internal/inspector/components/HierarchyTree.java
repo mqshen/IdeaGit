@@ -12,7 +12,6 @@ import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.ScalableIcon;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.*;
-import com.intellij.ui.speedSearch.SpeedSearchUtil;
 import com.intellij.util.IconUtil;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.containers.ContainerUtil;
@@ -354,7 +353,7 @@ public abstract class HierarchyTree extends JTree implements TreeSelectionListen
       setForeground(foreground);
       setBackground(background);
 
-      SpeedSearchUtil.applySpeedSearchHighlighting(tree, this, false, selected);
+//      SpeedSearchUtil.applySpeedSearchHighlighting(tree, this, false, selected);
     }
   }
 

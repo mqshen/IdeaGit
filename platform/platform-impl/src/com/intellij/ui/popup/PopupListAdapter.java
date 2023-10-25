@@ -11,7 +11,6 @@ import com.intellij.ui.ScrollingUtil;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.popup.util.PopupImplUtil;
-import com.intellij.ui.speedSearch.ListWithFilter;
 import com.intellij.util.Consumer;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +31,7 @@ import java.util.function.Predicate;
 final class PopupListAdapter<T> implements PopupChooserBuilder.PopupComponentAdapter<T> {
   private final JList<T> myList;
   private final PopupChooserBuilder<T> myBuilder;
-  private ListWithFilter<T> myListWithFilter;
+//  private ListWithFilter<T> myListWithFilter;
 
   PopupListAdapter(PopupChooserBuilder<T> builder, JList<T> list) {
     myBuilder = builder;
@@ -69,7 +68,7 @@ final class PopupListAdapter<T> implements PopupChooserBuilder.PopupComponentAda
 
   @Override
   public JScrollPane createScrollPane() {
-    return myListWithFilter.getScrollPane();
+    return null;//myListWithFilter.getScrollPane();
   }
 
   @Override
@@ -84,10 +83,11 @@ final class PopupListAdapter<T> implements PopupChooserBuilder.PopupComponentAda
 
   @Override
   public JComponent buildFinalComponent() {
-    myListWithFilter = (ListWithFilter<T>)ListWithFilter.wrap(myList, new MyListWrapper(myList), myBuilder.getItemsNamer(),
-                                                              false, myBuilder.isFilterAlwaysVisible(), true);
-    myListWithFilter.setAutoPackHeight(myBuilder.isAutoPackHeightOnFiltering());
-    return myListWithFilter;
+//    myListWithFilter = (ListWithFilter<T>)ListWithFilter.wrap(myList, new MyListWrapper(myList), myBuilder.getItemsNamer(),
+//                                                              false, myBuilder.isFilterAlwaysVisible(), true);
+//    myListWithFilter.setAutoPackHeight(myBuilder.isAutoPackHeightOnFiltering());
+//    return myListWithFilter;
+    return null;
   }
 
   @Override
@@ -128,7 +128,8 @@ final class PopupListAdapter<T> implements PopupChooserBuilder.PopupComponentAda
 
   @Override
   public boolean checkResetFilter() {
-    return myListWithFilter.resetFilter();
+//    return myListWithFilter.resetFilter();
+    return false;
   }
 
   @Override

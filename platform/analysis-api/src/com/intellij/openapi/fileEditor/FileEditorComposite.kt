@@ -3,10 +3,10 @@ package com.intellij.openapi.fileEditor
 
 import org.jetbrains.annotations.ApiStatus.Internal
 
-interface FileEditorComposite {
+abstract class FileEditorComposite {
   companion object {
     @Internal
-    val EMPTY: FileEditorComposite = object : FileEditorComposite {
+    val EMPTY: FileEditorComposite = object : FileEditorComposite() {
       override val allEditors: List<FileEditor>
         get() = emptyList()
       override val allProviders: List<FileEditorProvider>
@@ -18,7 +18,7 @@ interface FileEditorComposite {
     fun createFileEditorComposite(allEditors: List<FileEditor>,
                                   allProviders: List<FileEditorProvider>,
                                   isPreview: Boolean = false): FileEditorComposite {
-      return object : FileEditorComposite {
+      return object : FileEditorComposite() {
         override val allEditors: List<FileEditor>
           get() = allEditors
         override val allProviders: List<FileEditorProvider>
@@ -33,9 +33,9 @@ interface FileEditorComposite {
     }
   }
 
-  val allEditors: List<FileEditor>
-  val allProviders: List<FileEditorProvider>
-  val isPreview: Boolean
+  abstract val allEditors: List<FileEditor>
+  abstract val allProviders: List<FileEditorProvider>
+  abstract val isPreview: Boolean
 
   @Internal
   fun retrofit(): com.intellij.openapi.util.Pair<Array<FileEditor>, Array<FileEditorProvider>> {

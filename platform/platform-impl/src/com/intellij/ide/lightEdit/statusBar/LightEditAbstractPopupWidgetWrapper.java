@@ -19,8 +19,8 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public abstract class LightEditAbstractPopupWidgetWrapper
-  implements StatusBarWidget, LightEditorListener, CustomStatusBarWidget {
+public abstract class LightEditAbstractPopupWidgetWrapper extends CustomStatusBarWidget
+  implements LightEditorListener  {
 
   private final NotNullLazyValue<EditorBasedStatusBarPopup> myOriginalInstance;
 

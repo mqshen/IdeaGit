@@ -2,7 +2,6 @@
 package com.intellij.internal.statistic.collectors.fus.actions.persistence;
 
 import com.intellij.build.BuildContentManager;
-import com.intellij.facet.ui.FacetDependentToolWindow;
 import com.intellij.ide.actions.ToolWindowMoveAction.Anchor;
 import com.intellij.ide.actions.ToolWindowViewModeAction.ViewMode;
 import com.intellij.internal.statistic.eventLog.events.EventFields;
@@ -136,9 +135,9 @@ public final class ToolWindowCollector {
     if (info == null) {
       info = getToolWindowInfo(toolWindowId, LibraryDependentToolWindow.EXTENSION_POINT_NAME.getExtensions());
     }
-    if (info == null) {
-      info = getToolWindowInfo(toolWindowId, FacetDependentToolWindow.EXTENSION_POINT_NAME.getExtensions());
-    }
+//    if (info == null) {
+//      info = getToolWindowInfo(toolWindowId, FacetDependentToolWindow.EXTENSION_POINT_NAME.getExtensions());
+//    }
     return info != null ? info : getUnknownPlugin();
   }
 

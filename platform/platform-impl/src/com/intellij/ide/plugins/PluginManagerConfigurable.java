@@ -33,7 +33,6 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupListener;
 import com.intellij.openapi.ui.popup.LightweightWindowEvent;
-import com.intellij.openapi.updateSettings.impl.UpdateChecker;
 import com.intellij.openapi.updateSettings.impl.UpdateSettings;
 import com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.FUSEventSource;
 import com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.PluginsAdvertiserStartupActivityKt;
@@ -215,7 +214,7 @@ public final class PluginManagerConfigurable
     });
     myPluginModel.setPluginUpdatesService(myPluginUpdatesService);
 
-    UpdateChecker.updateDescriptorsForInstalledPlugins(InstalledPluginsState.getInstance());
+//    UpdateChecker.updateDescriptorsForInstalledPlugins(InstalledPluginsState.getInstance());
 
     createMarketplaceTab();
     createInstalledTab();

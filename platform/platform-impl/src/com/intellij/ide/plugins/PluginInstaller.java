@@ -5,7 +5,6 @@ import com.intellij.CommonBundle;
 import com.intellij.core.CoreBundle;
 import com.intellij.diagnostic.LoadingState;
 import com.intellij.ide.IdeBundle;
-import com.intellij.ide.plugins.marketplace.MarketplacePluginDownloadService;
 import com.intellij.ide.plugins.marketplace.PluginSignatureChecker;
 import com.intellij.ide.plugins.marketplace.statistics.PluginManagerUsageCollector;
 import com.intellij.ide.plugins.marketplace.statistics.enums.InstallationSourceEnum;
@@ -368,11 +367,11 @@ public final class PluginInstaller {
         }
       }
 
-      if (path.toString().endsWith(".zip") && keepArchive()) {
-        File tempFile = MarketplacePluginDownloadService.getPluginTempFile();
-        FileUtil.copy(file, tempFile);
-        MarketplacePluginDownloadService.renameFileToZipRoot(tempFile);
-      }
+//      if (path.toString().endsWith(".zip") && keepArchive()) {
+//        File tempFile = MarketplacePluginDownloadService.getPluginTempFile();
+//        FileUtil.copy(file, tempFile);
+//        MarketplacePluginDownloadService.renameFileToZipRoot(tempFile);
+//      }
       return true;
     }
     catch (IOException ex) {

@@ -18,7 +18,6 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.project.ProjectKt;
-import com.intellij.workspaceModel.ide.impl.jps.serialization.JpsProjectModelSynchronizer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
@@ -66,7 +65,7 @@ public final class SaveAsDirectoryBasedFormatAction extends AnAction implements 
 
     store.clearStorages();
     store.setPath(baseDir);
-    WriteAction.run(() -> JpsProjectModelSynchronizer.Companion.getInstance(project).convertToDirectoryBasedFormat());
+//    WriteAction.run(() -> JpsProjectModelSynchronizer.Companion.getInstance(project).convertToDirectoryBasedFormat());
   }
 
   @TestOnly

@@ -2,7 +2,6 @@
 package com.intellij.ide.ui;
 
 import com.intellij.ide.IdeBundle;
-import com.intellij.ide.SearchTopHitProvider;
 import com.intellij.ide.ui.search.OptionDescription;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
@@ -14,13 +13,12 @@ import java.util.function.Consumer;
 /**
  * @author Konstantin Bulenkov
  */
-final class UISimpleSettingsProvider implements SearchTopHitProvider, OptionsTopHitProvider.CoveredByToggleActions {
+final class UISimpleSettingsProvider implements OptionsTopHitProvider.CoveredByToggleActions {
   private static final OptionDescription HIDE_TOOL_STRIPES = AppearanceOptionsTopHitProvider.appearance(IdeBundle.message("option.hide.tool.window.bars"), "hideToolStripes");
   private static final OptionDescription IS_BLOCK_CURSOR = EditorOptionsTopHitProvider.editor(IdeBundle.message("label.show.block.cursor"), "IS_BLOCK_CURSOR");
   private static final OptionDescription IS_WHITESPACES_SHOWN = EditorOptionsTopHitProvider.editor(IdeBundle.message("label.show.whitespaces"), "IS_WHITESPACES_SHOWN");
   private static final OptionDescription ARE_LINE_NUMBERS_SHOWN = EditorOptionsTopHitProvider.editor(IdeBundle.message("label.show.line.numbers"), "ARE_LINE_NUMBERS_SHOWN");
 
-  @Override
   public void consumeTopHits(@NotNull String pattern, @NotNull Consumer<Object> collector, @Nullable Project project) {
     pattern = StringUtil.toLowerCase(pattern.trim());
     if (StringUtil.isBetween(pattern, "tool w", "tool window bars") || StringUtil.isBetween(pattern, "toolw", "toolwindow ")) {

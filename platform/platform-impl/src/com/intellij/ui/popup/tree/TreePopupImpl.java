@@ -54,7 +54,7 @@ public class TreePopupImpl extends WizardPopup implements TreePopup, NextStepHan
   protected JComponent createContent() {
     myWizardTree = new MyTree();
     myWizardTree.getAccessibleContext().setAccessibleName("WizardTree");
-    myModel = FilteringTreeModel.createModel(getTreeStep().getStructure(), this, Invoker.forEventDispatchThread(this), this);
+    myModel = FilteringTreeModel.createModel(getTreeStep().getStructure(), Invoker.forEventDispatchThread(this), this);
     myWizardTree.setModel(myModel);
     myModel.updateTree(myWizardTree, false, null);
     myWizardTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -422,7 +422,7 @@ public class TreePopupImpl extends WizardPopup implements TreePopup, NextStepHan
 
   @Override
   protected void onSpeedSearchPatternChanged() {
-    myModel.updateTree(myWizardTree, mySpeedSearch.isHoldingFilter(), null);
+//    myModel.updateTree(myWizardTree, mySpeedSearch.isHoldingFilter(), null);
   }
 
   @Override

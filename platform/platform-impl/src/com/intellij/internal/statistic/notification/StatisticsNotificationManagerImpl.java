@@ -3,7 +3,6 @@ package com.intellij.internal.statistic.notification;
 
 import com.intellij.application.Topics;
 import com.intellij.featureStatistics.FeatureUsageTracker;
-import com.intellij.featureStatistics.FeatureUsageTrackerImpl;
 import com.intellij.ide.StatisticsNotificationManager;
 import com.intellij.ide.gdpr.ConsentOptions;
 import com.intellij.internal.statistic.persistence.UsageStatisticsPersistenceComponent;
@@ -48,8 +47,9 @@ final class StatisticsNotificationManagerImpl implements StatisticsNotificationM
   }
 
   private static boolean isShouldShowNotification() {
-    return UsageStatisticsPersistenceComponent.getInstance().isShowNotification() &&
-           (System.currentTimeMillis() - Time.WEEK > ((FeatureUsageTrackerImpl)FeatureUsageTracker.getInstance()).getFirstRunTime());
+    return false;
+//    UsageStatisticsPersistenceComponent.getInstance().isShowNotification() &&
+//           (System.currentTimeMillis() - Time.WEEK > ((FeatureUsageTrackerImpl)FeatureUsageTracker.getInstance()).getFirstRunTime());
   }
 
   private static void showNotification() {

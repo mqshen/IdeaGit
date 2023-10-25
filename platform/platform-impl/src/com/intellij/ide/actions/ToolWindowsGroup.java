@@ -2,6 +2,7 @@
 package com.intellij.ide.actions;
 
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehavior;
 import com.intellij.openapi.actionSystem.remoting.ActionRemoteBehaviorSpecification;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
@@ -77,5 +78,11 @@ public final class ToolWindowsGroup extends ActionGroup implements DumbAware, Ac
       int mnemonic = ActivateToolWindowAction.getMnemonicForToolWindow(it.getToolWindowId());
       return mnemonic != -1 ? mnemonic : Integer.MAX_VALUE;
     });
+  }
+
+  @NotNull
+  @Override
+  public ActionRemoteBehavior getBehavior() {
+    return ActionRemoteBehavior.FrontendOnly;
   }
 }

@@ -31,6 +31,7 @@ import java.awt.Graphics2D
 import java.awt.geom.Path2D
 import java.awt.geom.Point2D
 import java.util.concurrent.TimeUnit
+import javax.swing.event.HyperlinkEvent
 
 internal class MouseWheelSmoothScrollOptionsAction : DumbAwareAction(), ActionRemoteBehaviorSpecification.Frontend {
   override fun actionPerformed(e: AnActionEvent) {
@@ -68,14 +69,22 @@ internal class MouseWheelSmoothScrollOptionsAction : DumbAwareAction(), ActionRe
             .enabledIf(c.selected.and(isPlaying.not()))
         }
         row {
-          text(IdeBundle.message("link.smooth.scrolling.play.curve.animation")) {
-            isPlaying.set(true)
-            myBezierPainter.startAnimation()
-          }.visibleIf(isPlaying.not())
-          text(IdeBundle.message("link.smooth.scrolling.stop.curve.animation")) {
-            isPlaying.set(false)
-            myBezierPainter.stopAnimation()
-          }.visibleIf(isPlaying)
+          text(IdeBundle.message("link.smooth.scrolling.play.curve.animation"),
+            action = object : HyperlinkEventAction {
+              override fun hyperlinkActivated(e: HyperlinkEvent) {
+
+                isPlaying.set(true)
+                myBezierPainter.startAnimation()
+              }
+            })
+            .visibleIf(isPlaying.not())
+          text(IdeBundle.message("link.smooth.scrolling.stop.curve.animation"),
+          action = object : HyperlinkEventAction {
+            override fun hyperlinkActivated(e: HyperlinkEvent) {
+              isPlaying.set(false)
+              myBezierPainter.stopAnimation()
+            }
+          }).visibleIf(isPlaying)
         }
         panel {
           row {

@@ -18,11 +18,9 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerEx
 import com.intellij.openapi.wm.impl.ToolWindowManagerImpl
-import com.intellij.problems.WolfTheProblemSolver
 import com.intellij.toolWindow.ToolWindowEventSource
 import com.intellij.ui.*
 import com.intellij.ui.render.RenderingUtil
-import com.intellij.ui.speedSearch.SpeedSearchUtil.applySpeedSearchHighlighting
 import com.intellij.util.IconUtil
 import com.intellij.util.ui.EmptyIcon
 import com.intellij.util.ui.JBUI
@@ -132,7 +130,7 @@ class SwitcherVirtualFile(
   var foregroundTextColor: Color? = null
 
   val isProblemFile: Boolean
-    get() = WolfTheProblemSolver.getInstance(project)?.isProblemFile(file) == true
+    get() = true//WolfTheProblemSolver.getInstance(project)?.isProblemFile(file) == true
 
   override var mainText: String = ""
 
@@ -198,7 +196,7 @@ internal class SwitcherListRenderer(val switcher: Switcher.SwitcherPanel) : List
     mnemonic.isVisible = value.mnemonic != null
     value.prepareMainRenderer(main, selected)
     value.prepareExtraRenderer(extra, selected)
-    applySpeedSearchHighlighting(switcher, main, false, selected)
+//    applySpeedSearchHighlighting(switcher, main, false, selected)
     panel.accessibleContext.accessibleName = value.mainText
     panel.accessibleContext.accessibleDescription = value.statusText
     return panel

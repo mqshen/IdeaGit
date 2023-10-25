@@ -25,22 +25,22 @@ import javax.swing.border.Border
  *
  * @see com.intellij.openapi.wm.StatusBarWidgetFactory
  */
-interface StatusBarWidget : Disposable {
+abstract class StatusBarWidget : Disposable {
   @Suppress("FunctionName")
-  fun ID(): @NonNls String
+  abstract fun ID(): @NonNls String
 
   @Suppress("DEPRECATION")
-  fun getPresentation(): WidgetPresentation? {
+  open fun getPresentation(): WidgetPresentation? {
     return getPresentation(if (SystemInfoRt.isMac) PlatformType.MAC else PlatformType.DEFAULT)
   }
 
-  fun install(statusBar: StatusBar) {}
+  open fun install(statusBar: StatusBar) {}
 
   override fun dispose() {}
 
   @Suppress("SpellCheckingInspection")
-  interface Multiframe : StatusBarWidget {
-    fun copy(): StatusBarWidget
+  abstract class Multiframe : StatusBarWidget() {
+    abstract fun copy(): StatusBarWidget
   }
 
   interface WidgetPresentation {

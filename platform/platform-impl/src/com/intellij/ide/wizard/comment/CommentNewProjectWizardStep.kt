@@ -28,7 +28,11 @@ abstract class CommentNewProjectWizardStep(parent: NewProjectWizardStep) : Abstr
   }
 
   private fun setupCommentUi(builder: Row) {
-    builder.text(comment, action = ::onHyperlinkActivated)
+    builder.text(comment, action = object: HyperlinkEventAction {
+      override fun hyperlinkActivated(e: HyperlinkEvent) {
+        onHyperlinkActivated(e)
+      }
+    })
       .applyToComponent { foreground = JBUI.CurrentTheme.ContextHelp.FOREGROUND }
   }
 }

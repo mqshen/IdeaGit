@@ -192,7 +192,8 @@ public final class ActionUtil {
         long startTime = System.nanoTime();
         runnable.run();
         long duration = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-        ActionsCollector.getInstance().recordUpdate(action, e, duration);
+        //todo
+//        ActionsCollector.getInstance().recordUpdate(action, e, duration);
       }
       presentation.putClientProperty(WOULD_BE_ENABLED_IF_NOT_DUMB_MODE, !allowed && presentation.isEnabled());
       presentation.putClientProperty(WOULD_BE_VISIBLE_IF_NOT_DUMB_MODE, !allowed && presentation.isVisible());

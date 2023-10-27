@@ -138,9 +138,9 @@ private fun CoroutineScope.postAppRegistered(app: ApplicationImpl,
       span("VirtualFilePointerManager preloading") {
         app.serviceAsync<VirtualFilePointerManager>()
       }
-      span("ProjectJdkTable preloading") {
-        app.serviceAsync<ProjectJdkTable>()
-      }
+//      span("ProjectJdkTable preloading") {
+//        app.serviceAsync<ProjectJdkTable>()
+//      }
     }
   }
 

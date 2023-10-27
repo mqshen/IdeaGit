@@ -11,13 +11,14 @@ import com.intellij.openapi.extensions.ExtensionPointName
 import com.intellij.openapi.util.ModificationTracker
 import com.intellij.util.containers.ContainerUtil
 import org.jdom.Element
+import org.jetbrains.jps.model.serialization.JpsGlobalLoader.PathVariablesSerializer
 import org.jetbrains.jps.model.serialization.PathMacroUtil
 import java.util.*
 import java.util.concurrent.atomic.AtomicLong
 
 @State(
   name = "PathMacrosImpl",
-//  storages = [Storage(value = PathVariablesSerializer.STORAGE_FILE_NAME, roamingType = RoamingType.DISABLED, usePathMacroManager = false)],
+  storages = [Storage(value = PathVariablesSerializer.STORAGE_FILE_NAME, roamingType = RoamingType.DISABLED, usePathMacroManager = false)],
   useLoadedStateAsExisting = false,
   reportStatistic = false,
 )

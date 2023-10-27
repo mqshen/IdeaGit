@@ -1,0 +1,11 @@
+<idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="/META-INF/PlatformLangPlugin.xml"/>
+
+  <module value="com.intellij.modules.idea"/>
+  <module value="com.intellij.modules.idea.community"/>
+  <module value="com.intellij.modules.java-capable"/>
+  <module value="com.intellij.modules.python-core-capable"/>
+
+  <extensions defaultExtensionNs="com.intellij">
+  </extensions>
+</idea-plugin>

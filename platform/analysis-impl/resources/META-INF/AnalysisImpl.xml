@@ -1,0 +1,16 @@
+<idea-plugin>
+  <extensionPoints>
+    <extensionPoint name="severitiesProvider"
+                    interface="com.intellij.codeInsight.daemon.impl.SeveritiesProvider"/>
+  </extensionPoints>
+
+  <extensions defaultExtensionNs="com.intellij">
+
+    <applicationService serviceInterface="com.intellij.ide.plugins.PluginUtil"
+                        serviceImplementation="com.intellij.ide.plugins.PluginUtilImpl"/>
+
+    <applicationService serviceInterface="com.intellij.psi.stubs.SerializationManagerEx"
+                        serviceImplementation="com.intellij.psi.stubs.SerializationManagerImpl" preload="true"/>
+
+  </extensions>
+</idea-plugin>

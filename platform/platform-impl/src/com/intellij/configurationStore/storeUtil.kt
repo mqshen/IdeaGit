@@ -249,7 +249,7 @@ suspend fun saveProjectsAndApp(forceSavingAllSettings: Boolean, onlyProject: Pro
   }
 }
 
-inline fun <T> runInAutoSaveDisabledMode(task: () -> T): T {
+fun <T> runInAutoSaveDisabledMode(task: () -> T): T {
   SaveAndSyncHandler.getInstance().disableAutoSave().use {
     return task()
   }

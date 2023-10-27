@@ -1,0 +1,33 @@
+<idea-plugin xmlns:xi="http://www.w3.org/2001/XInclude">
+  <actions>
+    <group id="LookupActions">
+      <!-- these must be declared before standard EnterAction and TabAction -->
+    </group>
+  </actions>
+
+  <xi:include href="/idea/PlatformActions.xml" xpointer="xpointer(/idea-plugin/*)"/>
+
+  <actions>
+    <group id="WelcomeScreen.QuickStart.Platform">
+    </group>
+
+    <group id="InspectCodeActionInPopupMenus">
+    </group>
+
+    <group id="ProblemsView.ToolWindow.SecondaryActions">
+    </group>
+
+    <group id="ProblemsView.ToolWindow.Toolbar">
+      <group id="ProblemsView.Options" icon="AllIcons.Actions.GroupBy" popup="true">
+
+      </group>
+
+      <reference ref="ExpandAll"/>
+      <reference ref="CollapseAll"/>
+    </group>
+
+    <group id="ProblemsView.ToolWindow.TreePopup">
+    </group>
+  </actions>
+
+</idea-plugin>

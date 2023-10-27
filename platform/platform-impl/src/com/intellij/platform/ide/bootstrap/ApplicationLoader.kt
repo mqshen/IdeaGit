@@ -73,6 +73,7 @@ fun initApplication(context: InitAppContext) {
 }
 
 internal suspend fun loadApp(app: ApplicationImpl,
+                             pluginSetDeferred: Deferred<Deferred<PluginSet>>,
                              appInfoDeferred: Deferred<ApplicationInfoEx>,
                              asyncScope: CoroutineScope,
                              initLafJob: Job,
@@ -82,22 +83,22 @@ internal suspend fun loadApp(app: ApplicationImpl,
                              initAwtToolkitAndEventQueueJob: Job): ApplicationStarter {
   return span("app initialization") {
     val initServiceContainerJob = launch {
-      initServiceContainer(app = app)
+      initServiceContainer(app = app, pluginSetDeferred = pluginSetDeferred)
       // ApplicationManager.getApplication may be used in ApplicationInitializedListener constructor
       ApplicationManager.setApplication(app)
     }
 
     val initTelemetryJob = launch(CoroutineName("opentelemetry configuration")) {
       initServiceContainerJob.join()
-      try {
-        TelemetryManager.setTelemetryManager(TelemetryManagerImpl(app))
-      }
-      catch (e: CancellationException) {
-        throw e
-      }
-      catch (e: Throwable) {
-        logDeferred.await().error("Can't initialize OpenTelemetry: will use default (noop) SDK impl", e)
-      }
+//      try {
+//        TelemetryManager.setTelemetryManager(TelemetryManagerImpl(app))
+//      }
+//      catch (e: CancellationException) {
+//        throw e
+//      }
+//      catch (e: Throwable) {
+//        logDeferred.await().error("Can't initialize OpenTelemetry: will use default (noop) SDK impl", e)
+//      }
     }
 
     val euaTaskDeferred: Deferred<(suspend () -> Boolean)?>? = if (AppMode.isHeadless()) {
@@ -188,14 +189,14 @@ internal suspend fun loadApp(app: ApplicationImpl,
   }
 }
 
-private suspend fun initServiceContainer(app: ApplicationImpl) {
-//  val pluginSet = span("plugin descriptor init waiting") {
-//    pluginSetDeferred.await().await()
-//  }
+private suspend fun initServiceContainer(app: ApplicationImpl, pluginSetDeferred: Deferred<Deferred<PluginSet>>) {
+  val pluginSet = span("plugin descriptor init waiting") {
+    pluginSetDeferred.await().await()
+  }
 
-//  span("app component registration") {
-//    app.registerComponents(modules = pluginSet.getEnabledModules(), app = app, precomputedExtensionModel = null, listenerCallbacks = null)
-//  }
+  span("app component registration") {
+    app.registerComponents(modules = pluginSet.getEnabledModules(), app = app, precomputedExtensionModel = null, listenerCallbacks = null)
+  }
 }
 
 private suspend fun preInitApp(app: ApplicationImpl,

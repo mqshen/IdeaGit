@@ -78,7 +78,7 @@ abstract class StateStorageBase<T : Any> : StateStorage {
   }
 }
 
-inline fun <T> runBatchUpdate(project: Project, runnable: () -> T): T {
+fun <T> runBatchUpdate(project: Project, runnable: () -> T): T {
   val publisher = project.messageBus.syncPublisher(BatchUpdateListener.TOPIC)
   publisher.onBatchUpdateStarted()
   try {

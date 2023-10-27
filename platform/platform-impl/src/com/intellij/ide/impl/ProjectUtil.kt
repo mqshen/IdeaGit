@@ -6,10 +6,7 @@ import com.intellij.configurationStore.runInAutoSaveDisabledMode
 import com.intellij.configurationStore.saveSettings
 import com.intellij.execution.wsl.WslPath.Companion.isWslUncPath
 import com.intellij.featureStatistics.fusCollectors.LifecycleUsageTriggerCollector
-import com.intellij.ide.GeneralLocalSettings
-import com.intellij.ide.GeneralSettings
-import com.intellij.ide.IdeBundle
-import com.intellij.ide.RecentProjectsManager
+import com.intellij.ide.*
 import com.intellij.ide.actions.OpenFileAction
 import com.intellij.ide.highlighter.ProjectFileType
 import com.intellij.openapi.application.*
@@ -617,9 +614,11 @@ object ProjectUtil {
       }
 
       val project = projectManager.newProjectAsync(file = file, options = options)
-      runInAutoSaveDisabledMode {
+//      runInAutoSaveDisabledMode {
+      SaveAndSyncHandler.getInstance().disableAutoSave().use {
         saveSettings(componentManager = project, forceSavingAllSettings = true)
       }
+//      }
       writeAction {
         Disposer.dispose(project)
       }

@@ -1,0 +1,7 @@
+<idea-plugin>
+  <extensionPoints>
+    <extensionPoint name="virtualFileSystem" beanClass="com.intellij.openapi.vfs.impl.VirtualFileManagerImpl$VirtualFileSystemBean" dynamic="true">
+      <with attribute="implementationClass" implements="com.intellij.openapi.vfs.VirtualFileSystem"/>
+    </extensionPoint>
+  </extensionPoints>
+</idea-plugin>

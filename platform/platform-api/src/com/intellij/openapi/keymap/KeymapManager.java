@@ -24,7 +24,7 @@ public abstract class KeymapManager {
 
   public static KeymapManager getInstance() {
     Application app = ApplicationManager.getApplication();
-    if (app == null || !LoadingState.CONFIGURATION_STORE_INITIALIZED.isOccurred()) {
+    if (app == null ) {//|| !LoadingState.CONFIGURATION_STORE_INITIALIZED.isOccurred()
       return null;
     }
 

@@ -4,11 +4,13 @@
 
 package com.intellij.platform.ide.bootstrap
 
+import com.intellij.diagnostic.LoadingState
 import com.intellij.ide.BootstrapBundle
 import com.intellij.ide.CliResult
 import com.intellij.ide.IdeBundle
 import com.intellij.ide.bootstrap.InitAppContext
 import com.intellij.ide.instrument.WriteIntentLockInstrumenter
+import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.idea.AppExitCodes
 import com.intellij.idea.AppMode
 import com.intellij.idea.LoggerFactory
@@ -30,8 +32,10 @@ import com.intellij.platform.diagnostic.telemetry.impl.span
 import com.intellij.ui.mac.initMacApplication
 import com.intellij.ui.mac.screenmenu.Menu
 import com.intellij.ui.svg.SvgCacheManager
+import com.intellij.util.EnvironmentUtil
 import com.intellij.util.containers.SLRUMap
 import com.intellij.util.io.*
+import com.intellij.util.lang.ZipFilePool
 import com.intellij.util.namedChildScope
 import com.jetbrains.JBR
 import java.nio.file.Path
@@ -48,6 +52,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.atomic.AtomicReference
+import java.util.function.BiConsumer
 import java.util.function.BiFunction
 import java.util.logging.ConsoleHandler
 import java.util.logging.Level
@@ -93,6 +98,14 @@ fun CoroutineScope.startApplication(args: List<String>,
         }
     }
 
+    val consoleLoggerJob = configureJavaUtilLogging()
+
+    launch {
+        LoadingState.setStrictMode()
+        LoadingState.errorHandler = BiConsumer { message, throwable ->
+            logger<LoadingState>().error(message, throwable)
+        }
+    }
 
     val initAwtToolkitJob = scheduleInitAwtToolkit(lockSystemDirsJob, busyThread)
     val initEventQueueJob = scheduleInitIdeEventQueue(initAwtToolkitJob, isHeadless)
@@ -103,6 +116,12 @@ fun CoroutineScope.startApplication(args: List<String>,
         launch {
             patchHtmlStyle(initLafJob)
         }
+    }
+
+    val zipFilePoolDeferred = async(Dispatchers.IO) {
+        val result = ZipFilePoolImpl()
+        ZipFilePool.POOL = result
+        result
     }
 
     launch {
@@ -123,9 +142,6 @@ fun CoroutineScope.startApplication(args: List<String>,
     }
 
 
-    val consoleLoggerJob = configureJavaUtilLogging()
-
-
     // system dirs checking must happen after locking system dirs
     val checkSystemDirJob = checkSystemDirs(lockSystemDirsJob)
 
@@ -134,8 +150,25 @@ fun CoroutineScope.startApplication(args: List<String>,
 
     scheduleSvgIconCacheInitAndPreloadPhm(logDeferred, isHeadless)
 
+    shellEnvDeferred = async {
+        // EnvironmentUtil wants logger
+        logDeferred.join()
+        span("environment loading", Dispatchers.IO) {
+            EnvironmentUtil.loadEnvironment(coroutineContext.job)
+        }
+    }
+
     scheduleLoadSystemLibsAndLogInfoAndInitMacApp(logDeferred, appInfoDeferred, initLafJob, args, mainScope)
 
+    val pluginSetDeferred = async {
+        // plugins cannot be loaded when a config import is needed, because plugins may be added after importing
+//        configImportDeferred.join()
+
+        PluginManagerCore.scheduleDescriptorLoading(coroutineScope = this@startApplication,
+            zipFilePoolDeferred = zipFilePoolDeferred,
+            mainClassLoaderDeferred = mainClassLoaderDeferred,
+            logDeferred = logDeferred)
+    }
 
 
 
@@ -157,6 +190,7 @@ fun CoroutineScope.startApplication(args: List<String>,
 
         val starter = loadApp(app = app,
             initAwtToolkitAndEventQueueJob = initEventQueueJob,
+            pluginSetDeferred = pluginSetDeferred,
             appInfoDeferred = appInfoDeferred,
             asyncScope = this@startApplication,
             initLafJob = initLafJob,
